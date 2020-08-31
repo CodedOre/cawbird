@@ -32,6 +32,25 @@
   "modules":[
     "modules/gst-plugins-bad.json",
     {
+      "name" : "libhandy",
+      "buildsystem" : "meson",
+      "config-opts" : [
+        "-Dprofiling=false",
+        "-Dintrospection=enabled",
+        "-Dgtk_doc=false",
+        "-Dtests=false",
+        "-Dexamples=false",
+        "-Dglade_catalog=disabled"
+      ],
+      "sources" : [
+        {
+          "type" : "git",
+          "url" : "https://gitlab.gnome.org/GNOME/libhandy.git",
+          "branch": "0.90.0"
+        }
+      ]
+    },
+    {
       "name":"enchant",
       "config-opts":[
         "--disable-static",

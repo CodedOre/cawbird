@@ -20,9 +20,20 @@ json_dep = dependency('json-glib-1.0')
 sql_dep  = dependency('sqlite3')
 soup_dep = dependency('libsoup-2.4')
 
+# As the stable versions of libhandy has an different indentifier, check for both variants.
+new_hdy  = dependency('libhandy-1', required : false)
+if new_hdy.found()
+    message('Stable libhandy used for project.')
+    hdy_dep = new_hdy
+else
+    warning('Alpha libhandy used for project.')
+    hdy_dep  = dependency('libhandy-0.0', version: '>=0.0.13')
+endif
+
 cb_deps = [
   glib_dep,
   gtk_dep,
+  hdy_dep,
   rest_dep,
   json_dep,
   sql_dep,
