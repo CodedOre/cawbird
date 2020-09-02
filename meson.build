@@ -27,6 +27,7 @@ if new_hdy.found()
     hdy_dep = new_hdy
 else
     warning('Alpha libhandy used for project.')
+    add_project_arguments('-DHANDY_USE_UNSTABLE_API', language: 'c')
     hdy_dep  = dependency('libhandy-0.0', version: '>=0.0.13')
 endif
 
