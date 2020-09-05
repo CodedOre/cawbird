@@ -215,6 +215,12 @@ public class Cawbird : Gtk.Application {
         }
       }
     } else {
+      // We have to init libhandy here.
+#if OLD_HANDY
+        Hdy.init (ref args);
+#else
+        Hdy.init ();
+#endif
       open_startup_windows (null, null);
     }
   }

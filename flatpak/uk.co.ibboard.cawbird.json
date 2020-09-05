@@ -46,7 +46,7 @@
         {
           "type" : "git",
           "url" : "https://gitlab.gnome.org/GNOME/libhandy.git",
-          "branch": "0.90.0"
+          "branch": "0.91.0"
         }
       ]
     },
