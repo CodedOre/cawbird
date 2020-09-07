@@ -44,10 +44,6 @@ public class MainWindow : Gtk.ApplicationWindow {
   [GtkChild]
   private Gtk.ToggleButton app_menu_button;
 
-  // private Gtk.Label title_label;
-  // private Gtk.Label last_page_label;
-  // private Gtk.Stack title_stack;
-
   public MainWidget main_widget;
   public unowned Account? account;
   private ComposeTweetWindow? compose_tweet_window = null;
@@ -123,7 +119,8 @@ public class MainWindow : Gtk.ApplicationWindow {
     load_geometry ();
   }
 
-  private void back_button_clicked_cb () {
+  [GtkCallback]
+  private void ui_action_back_button () {
     main_widget.switch_page (Page.PREVIOUS);
   }
 
