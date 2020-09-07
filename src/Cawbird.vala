@@ -215,12 +215,6 @@ public class Cawbird : Gtk.Application {
         }
       }
     } else {
-      // We have to init libhandy here.
-#if OLD_HANDY
-        Hdy.init (ref args);
-#else
-        Hdy.init ();
-#endif
       open_startup_windows (null, null);
     }
   }
@@ -258,6 +252,10 @@ public class Cawbird : Gtk.Application {
 
   public override void startup () {
     base.startup ();
+// Init libhandy-1
+#if !OLD_HANDY
+    Hdy.init ();
+#endif
     this.set_resource_base_path ("/uk/co/ibboard/cawbird");
 
     typeof (LazyMenuButton).ensure ();

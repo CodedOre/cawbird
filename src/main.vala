@@ -19,6 +19,10 @@ int main (string[] args) {
 #if VIDEO
   Gst.init (ref args);
 #endif
+// Init libhandy-0
+#if OLD_HANDY
+    Hdy.init (ref args);
+#endif
 
   //no initialisation of static fields :(
   Settings.init ();
