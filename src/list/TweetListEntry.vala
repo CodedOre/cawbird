@@ -17,6 +17,7 @@
 
 [GtkTemplate (ui = "/uk/co/ibboard/cawbird/ui/tweet-list-entry.ui")]
 public class TweetListEntry : Cb.TwitterItem, Gtk.ListBoxRow {
+
   private const GLib.ActionEntry[] action_entries = {
     {"quote", quote_activated},
     {"delete", delete_activated}
@@ -76,7 +77,7 @@ public class TweetListEntry : Cb.TwitterItem, Gtk.ListBoxRow {
       if (quoted_mm_widget != null)
         quoted_mm_widget.sensitive = !value;
 
-      name_label.set_text(tweet.get_user_name());
+      name_label.set_markup("<b>" + GLib.Markup.escape_text(tweet.get_user_name()) + "</b>  @" + tweet.get_screen_name());
       this.get_style_context ().add_class ("read-only");
       this._read_only = value;
     }
@@ -165,7 +166,7 @@ public class TweetListEntry : Cb.TwitterItem, Gtk.ListBoxRow {
     if (tweet.quoted_tweet != null) {
       this.create_quote_grid (tweet.quoted_tweet.reply_id != 0);
       var quoted_screen_name = "@" + tweet.quoted_tweet.author.screen_name;
-      quote_name.set_markup (Utils.linkify_user (tweet.quoted_tweet.author) + "  " + quoted_screen_name);
+      quote_name.set_markup (Utils.linkify_user (tweet.quoted_tweet.author, true) + "  " + quoted_screen_name);
       quote_name.tooltip_text = tweet.quoted_tweet.author.user_name + "  " + quoted_screen_name;
       if (tweet.quoted_tweet.reply_id != 0) {
         var buff = new GLib.StringBuilder ();
@@ -194,7 +195,7 @@ public class TweetListEntry : Cb.TwitterItem, Gtk.ListBoxRow {
     if (tweet.has_inline_media ()) {
       this.create_media_widget (tweet.is_flag_set (Cb.TweetState.NSFW), out this.mm_widget, out this.media_stack);
       Gtk.Widget w = media_stack != null ? ((Gtk.Widget)media_stack) : ((Gtk.Widget)mm_widget);
-      this.grid.attach (w, 1, 3, 6, 1);
+      this.grid.attach (w, 2, 3, 5, 1);
       mm_widget.restrict_height = restrict_height;
       mm_widget.set_all_media (tweet.get_medias ());
       mm_widget.media_clicked.connect (media_clicked_cb);
@@ -704,7 +705,139 @@ public class TweetListEntry : Cb.TwitterItem, Gtk.ListBoxRow {
     mm_widget.visible = (Settings.get_media_visiblity () == MediaVisibility.SHOW);
   }
 
+  public override void get_preferred_height_for_width (int width, out int min, out int nat) {
+    int margins = 0;
+    var style = this.get_style_context();
+    var style_margin = style.get_margin(0);
+    var style_padding = style.get_padding(0);
+    var style_borders = style.get_border(0);
+    margins += style_margin.left + style_margin.right;
+    margins += style_padding.left + style_padding.right;
+    margins += style_borders.left + style_borders.right;
+    GLib.Value val = GLib.Value(typeof(int));
+    grid.get_property("margin-start", ref val);
+    margins += val.get_int();
+    grid.get_property("margin-end", ref val);
+    margins += val.get_int();
+    width -= margins;
 
+    int avatar_min, avatar_nat;
+    avatar_image.get_preferred_height_for_width(width, out avatar_min, out avatar_nat);
+
+    int child_min, child_nat;
+    min = nat = 0;
+
+    int avatar_width;
+    avatar_image.get_preferred_width (out avatar_width, out child_nat);
+
+    // Name and reply label are always next to the avatar, no matter the scale
+    name_label.get_preferred_height_for_width(width - avatar_width, out child_min, out child_nat);
+    min += child_min;
+    nat += child_nat;
+    reply_label.get_preferred_height_for_width(width - avatar_width, out child_min, out child_nat);
+    min += child_min;
+    nat += child_nat;
+
+    if (width < Cawbird.RESPONSIVE_LIMIT) {
+      // In "responsive" mode the text sits under the avatar, so take whichever is taller:
+      // the avatar or the user's name and the "Replying to" line (if it was set)
+      min = int.max(avatar_min, min);
+      nat = int.max(avatar_nat, nat);
+
+      scroller.get_property ("margin-start", ref val);
+
+      if (val.get_int() == 0) {
+        // Crossing the responsive threshold, so subtract the extra margin we'll add as we allocate
+        width -= 6;
+      }
+    }
+    else {
+      // All the other widgets don't fill the column under the avatar, so reduce the width
+      // that they calculate from
+      width -= avatar_width;
+    }
+
+    scroller.get_preferred_height_for_width(width, out child_min, out child_nat);
+    min += child_min;
+    nat += child_nat;
+
+    if (mm_widget != null) {
+      mm_widget.get_preferred_height_for_width(width, out child_min, out child_nat);
+      min += child_min;
+      nat += child_nat;
+    }
+
+    if (quote_grid != null) {
+      quote_grid.get_preferred_height_for_width(width, out child_min, out child_nat);
+      min += child_min;
+      nat += child_nat;
+    }
+
+    if (rt_label.visible) {
+      int child2_min, child2_nat;
+      rt_label.get_preferred_height_for_width(width, out child_min, out child_nat);
+      rt_image.get_preferred_height_for_width(width, out child2_min, out child2_nat);
+      min += int.max(child_min, child2_min);
+      nat += int.max(child_nat, child2_nat);
+    }
+
+    min = int.max(avatar_min, min);
+    nat = int.max(avatar_nat, nat);
+
+    // Add the vertical GTK margins
+    grid.get_property("margin-top", ref val);
+    min += val.get_int();
+    nat += val.get_int();
+    grid.get_property("margin-bottom", ref val);
+    min += val.get_int();
+    nat += val.get_int();
+
+    // And any CSS values
+    var css_extra_height = style_margin.top + style_margin.bottom + style_padding.top + style_padding.bottom + style_borders.top + style_borders.bottom;
+    min += css_extra_height;
+    nat += css_extra_height;
+  }
+
+  public override void size_allocate(Gtk.Allocation allocation) {
+    if (allocation.width < Cawbird.RESPONSIVE_LIMIT) {
+      grid.child_set (avatar_image, "height", 2);
+      grid.child_set (scroller, "left-attach", 0);
+      grid.child_set (scroller, "width", 7);
+      scroller.set ("margin-start", 6);
+      grid.child_set (rt_image, "left-attach", 0);
+      grid.child_set (rt_label, "left-attach", 1);
+      if (mm_widget != null) {
+        Gtk.Widget w = media_stack != null ? ((Gtk.Widget)media_stack) : ((Gtk.Widget)mm_widget);
+        grid.child_set (w, "left-attach", 0);
+        grid.child_set (w, "width", 7);
+        w.set ("margin-start", 6);
+      }
+      if (quote_grid != null) {
+        grid.child_set (quote_grid, "left-attach", 0);
+        grid.child_set (quote_grid, "width", 7);
+        quote_grid.set ("margin-start", 6);
+      }
+    } else {
+      grid.child_set (avatar_image, "height", 3);
+      grid.child_set (scroller, "left-attach", 2);
+      grid.child_set (scroller, "width", 5);
+      scroller.set ("margin-start", 0);
+      grid.child_set (rt_image, "left-attach", 1);
+      grid.child_set (rt_label, "left-attach", 2);
+      if (mm_widget != null) {
+        Gtk.Widget w = media_stack != null ? ((Gtk.Widget)media_stack) : ((Gtk.Widget)mm_widget);
+        grid.child_set (w, "left-attach", 2);
+        grid.child_set (w, "width", 5);
+        w.set ("margin-start", 0);
+      }
+      if (quote_grid != null) {
+        grid.child_set (quote_grid, "left-attach", 2);
+        grid.child_set (quote_grid, "width", 5);
+        quote_grid.set ("margin-start", 0);
+      }
+    }
+    base.size_allocate(allocation);
+  }
 
   private bool quote_link_activated_cb (string uri) {
     if (this._read_only) {
@@ -743,6 +876,7 @@ public class TweetListEntry : Cb.TwitterItem, Gtk.ListBoxRow {
       quote_reply_label.get_style_context ().add_class ("dim-label");
       quote_reply_label.get_style_context ().add_class ("invisible-links");
       quote_reply_label.set_no_show_all (true);
+      quote_reply_label.wrap = true;
 
       quote_grid.attach (quote_reply_label, 0, 1, 3, 1);
     }
@@ -772,6 +906,6 @@ public class TweetListEntry : Cb.TwitterItem, Gtk.ListBoxRow {
     quote_grid.attach (quote_time_delta, 2, 0, 1, 1);
 
     quote_grid.show_all ();
-    this.grid.attach (quote_grid, 1, 4, 6, 1);
+    this.grid.attach (quote_grid, 2, 4, 5, 1);
   }
 }

@@ -24,7 +24,6 @@ class CompletionTextView : Gtk.TextView {
     "snippet"
   };
   private Gtk.Window completion_window;
-  private int current_match = 0;
   private string? current_word = null;
   private GLib.Cancellable? completion_cancellable = null;
 
@@ -33,8 +32,10 @@ class CompletionTextView : Gtk.TextView {
     set {
       _default_listbox = false;
       Cb.Utils.unbind_non_gobject_model (completion_list, completion_model);
+      completion_list.row_activated.disconnect(insert_user_completion);
       this.completion_list = value;
       Cb.Utils.bind_non_gobject_model (completion_list, completion_model, create_completion_row);
+      completion_list.row_activated.connect(insert_user_completion);
     }
   }
 
@@ -213,7 +214,8 @@ class CompletionTextView : Gtk.TextView {
         if (n_results == 0)
           return Gdk.EVENT_PROPAGATE;
 
-        this.current_match = (current_match + 1) % n_results;
+        var current_match = completion_list.get_selected_row().get_index();
+        current_match = (current_match + 1) % n_results;
         var row = completion_list.get_row_at_index (current_match);
         if (_default_listbox) {
           row.grab_focus ();
@@ -223,6 +225,7 @@ class CompletionTextView : Gtk.TextView {
         return Gdk.EVENT_STOP;
 
       case Gdk.Key.Up:
+        var current_match = completion_list.get_selected_row().get_index();
         current_match --;
         if (current_match < 0) current_match = n_results - 1;
         var row = completion_list.get_row_at_index (current_match);
@@ -236,14 +239,7 @@ class CompletionTextView : Gtk.TextView {
       case Gdk.Key.Return:
         if (n_results == 0)
           return Gdk.EVENT_PROPAGATE;
-        if (current_match == -1)
-          current_match = 0;
-        var row = completion_list.get_row_at_index (current_match);
-        assert (row is UserCompletionRow);
-        string compl = ((UserCompletionRow)row).get_screen_name ();
-        insert_completion (compl.substring (1));
-        current_match = -1;
-        hide_completion_window ();
+        insert_user_completion();
         return Gdk.EVENT_STOP;
 
       case Gdk.Key.Escape:
@@ -252,6 +248,18 @@ class CompletionTextView : Gtk.TextView {
 
       default:
         return Gdk.EVENT_PROPAGATE;
+    }
+  }
+
+  private void insert_user_completion () {
+    var row = completion_list.get_selected_row();
+    var list_had_focus = row.has_focus;
+    assert (row is UserCompletionRow);
+    string compl = ((UserCompletionRow)row).get_screen_name ();
+    insert_completion (compl.substring (1));
+    hide_completion_window ();
+    if (list_had_focus) {
+      this.grab_focus();
     }
   }
 
@@ -358,19 +366,9 @@ class CompletionTextView : Gtk.TextView {
     string cur_word = get_cursor_word (null, null);
     int n_chars = cur_word.char_count ();
 
-    if (n_chars == 0) {
-      hide_completion_window ();
-      return;
-    }
-
-    /* Check if the word ends with a 'special' character like ?!_ */
-    char end_char = cur_word.get (n_chars - 1);
-    bool word_has_alpha_end = (end_char.isalpha () || end_char.isdigit ()) &&
-                              end_char.isgraph () || end_char == '@';
-
-    if (!cur_word.has_prefix ("@") ||
-        !word_has_alpha_end ||
-        this.buffer.has_selection) {
+    if (n_chars < 2 || cur_word[0] != '@'
+        || !cur_word.get_char(1).isalnum()
+        || this.buffer.has_selection) {
       hide_completion_window ();
       return;
     }
@@ -383,8 +381,9 @@ class CompletionTextView : Gtk.TextView {
       return;
     }
 
-    if (cur_word != this.current_word) {
+    cur_word = "\"%s\"".printf(cur_word.replace("\\", "\\\\").replace("\"", "\\\""));
 
+    if (cur_word != this.current_word) {
       if (this.completion_cancellable != null) {
         debug ("Cancelling earlier completion call...");
         this.completion_cancellable.cancel ();
@@ -403,13 +402,13 @@ class CompletionTextView : Gtk.TextView {
       bool corpus_was_empty = (corpus.length == 0);
       if (corpus.length > 0) {
         select_completion_row (completion_list.get_row_at_index (0));
-        current_match = 0;
       }
       corpus = null; /* Make sure we won't use it again */
 
       /* Now also query users from the Twitter server, in case our local cache doesn't have anything
          worthwhile */
       this.completion_cancellable = new GLib.Cancellable ();
+      
       Cb.Utils.query_users_async.begin (account.proxy, cur_word, completion_cancellable, (obj, res) => {
         Cb.UserIdentity[] users;
         try {
@@ -424,7 +423,6 @@ class CompletionTextView : Gtk.TextView {
         completion_model.insert_items (users);
         if (users.length > 0 && corpus_was_empty) {
           select_completion_row (completion_list.get_row_at_index (0));
-          current_match = 0;
         }
       });
 
@@ -441,37 +439,36 @@ class CompletionTextView : Gtk.TextView {
     Gtk.TextIter cursor_iter;
     this.buffer.get_iter_at_mark (out cursor_iter, cursor_mark);
 
-    /* Check if the current "word" is just "@" */
-    var test_iter = Gtk.TextIter ();
-    test_iter.assign (cursor_iter);
-
+    start_iter = end_iter = cursor_iter;
 
     for (;;) {
-      Gtk.TextIter left_iter = test_iter;
-      left_iter.assign (test_iter);
-
+      Gtk.TextIter left_iter = start_iter;
       left_iter.backward_char ();
 
-      string s = this.buffer.get_text (left_iter, test_iter, false);
-      unichar c = s.get_char (0);
-      assert (s.char_count () == 1 ||
-              s.char_count () == 0);
+      unichar c = left_iter.get_char();
 
-      if (left_iter.is_start ())
-        test_iter.assign (left_iter);
-
-      if (c.isspace() || left_iter.is_start ()) {
+      if (c.isspace()) {
         break;
       }
 
-      test_iter.assign (left_iter);
+      start_iter = left_iter;
+
+      if (start_iter.is_start()) {
+        break;
+      }
     }
 
-    start_iter = test_iter;
-    start_iter.assign (test_iter);
-    end_iter = cursor_iter;
-    end_iter.assign (cursor_iter);
-    return this.buffer.get_text (test_iter, cursor_iter, false);
+    for (;;) {
+      unichar c = end_iter.get_char();
+
+      if (c == 0 || c.isspace()) {
+        break;
+      }
+
+      end_iter.forward_char ();
+    }
+
+    return this.buffer.get_text (start_iter, end_iter, false);
   }
 
   private void insert_completion (string compl) {
@@ -526,6 +523,8 @@ class UserCompletionRow : Gtk.ListBoxRow {
   public UserCompletionRow (int64 id, string user_name, string screen_name, bool verified, bool protected_account) {
     user_name_label = new Gtk.Label (user_name);
     screen_name_label = new Gtk.Label ("@" + screen_name);
+
+    this.activatable = true;
 
     var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
     user_name_label.set_valign (Gtk.Align.BASELINE);
