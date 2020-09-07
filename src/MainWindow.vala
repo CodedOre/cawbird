@@ -124,6 +124,12 @@ public class MainWindow : Gtk.ApplicationWindow {
     main_widget.switch_page (Page.PREVIOUS);
   }
 
+  [GtkCallback]
+  private void ui_adaptive_change () {
+    var child = header_squeezer.get_visible_child();
+    lower_stack_switch.set_reveal(child != upper_stack_switch);
+  }
+
   public void change_account (Account? account) {
     int64? old_user_id = null;
     if (this.account != null) {
