@@ -21,7 +21,7 @@ sql_dep  = dependency('sqlite3')
 soup_dep = dependency('libsoup-2.4')
 
 # As the stable versions of libhandy has an different indentifier, check for both variants.
-new_hdy  = dependency('libhandy-1', version: '>=0.91.0', required : false)
+new_hdy  = dependency('libhandy-1', version: '>=1.0.0', required : false)
 if new_hdy.found()
     message('Stable libhandy used for project.')
     hdy_dep = new_hdy
