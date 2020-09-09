@@ -226,7 +226,7 @@ public class Cawbird : Gtk.Application {
     if (this.settings_dialog != null)
       return;
 
-    var dialog = new SettingsDialog (this);
+    var dialog = new SettingsDialog ();
     var action = (GLib.SimpleAction)this.lookup_action ("show-settings");
     action.set_enabled (false);
     dialog.delete_event.connect (() => {

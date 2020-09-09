@@ -44,6 +44,10 @@ public class MainWindow : Gtk.ApplicationWindow {
   [GtkChild]
   private Gtk.ToggleButton app_menu_button;
 
+  // UI-Elements of AppMenu
+  [GtkChild]
+  private Gtk.PopoverMenu app_menu_popover;
+
   public MainWidget main_widget;
   public unowned Account? account;
   private ComposeTweetWindow? compose_tweet_window = null;
@@ -122,6 +126,12 @@ public class MainWindow : Gtk.ApplicationWindow {
   [GtkCallback]
   private void ui_action_back_button () {
     main_widget.switch_page (Page.PREVIOUS);
+  }
+
+  [GtkCallback]
+  private void ui_action_settings_menu_button () {
+    SettingsDialog settings_window = new SettingsDialog ();
+    settings_window.show();
   }
 
   [GtkCallback]
