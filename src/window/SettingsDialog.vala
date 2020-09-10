@@ -55,7 +55,6 @@ class SettingsDialog : Hdy.PreferencesWindow {
                           "active", SettingsBindFlags.DEFAULT);
 
     // Additional functions for InterfacePage
-    dark_theme_switch.notify["active"].connect (setting_update_dark_theme);
     Settings.get ().changed["media-visibility"].connect(setting_update_media_visibility);
     block_flag_emission = true;
     trail_hashtags_switch.active = (Cb.TransformFlags.REMOVE_TRAILING_HASHTAGS in
@@ -64,6 +63,7 @@ class SettingsDialog : Hdy.PreferencesWindow {
     block_flag_emission = false;
   }
 
+  [GtkCallback]
   private void setting_update_dark_theme () {
     Gtk.Settings.get_default ().gtk_application_prefer_dark_theme = Settings.use_dark_theme();
   }
