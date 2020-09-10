@@ -21,7 +21,7 @@ class SettingsDialog : Hdy.PreferencesWindow {
   [GtkChild]
   private Gtk.Switch dark_theme_switch;
   [GtkChild]
-  private Gtk.ComboBoxText media_visibility_box;
+  private Gtk.ComboBoxText media_visibility_combo;
   [GtkChild]
   private Gtk.Switch auto_scroll_switch;
   [GtkChild]
@@ -35,6 +35,14 @@ class SettingsDialog : Hdy.PreferencesWindow {
   [GtkChild]
   private Gtk.Switch hide_nsfw_switch;
 
+  // UI-Elements of NotificationPage
+  [GtkChild]
+  private Gtk.ComboBoxText new_tweet_combo;
+  [GtkChild]
+  private Gtk.Switch new_mention_switch;
+  [GtkChild]
+  private Gtk.Switch new_message_switch;
+
   private bool block_flag_emission = false;
 
   public SettingsDialog () {
@@ -43,7 +51,7 @@ class SettingsDialog : Hdy.PreferencesWindow {
     // Bind InterfacePage switches to settings
     Settings.get ().bind ("use-dark-theme", dark_theme_switch,
                           "active", SettingsBindFlags.DEFAULT);
-    Settings.get ().bind ("media-visibility", media_visibility_box,
+    Settings.get ().bind ("media-visibility", media_visibility_combo,
                           "active-id", SettingsBindFlags.DEFAULT);
     Settings.get ().bind ("auto-scroll-on-new-tweets", auto_scroll_switch,
                           "active", SettingsBindFlags.DEFAULT);
@@ -54,6 +62,14 @@ class SettingsDialog : Hdy.PreferencesWindow {
     Settings.get ().bind ("hide-nsfw-content", hide_nsfw_switch,
                           "active", SettingsBindFlags.DEFAULT);
 
+    // Bind NotificationPage switches to settings
+    Settings.get ().bind ("new-tweets-notify", new_tweet_combo,
+                          "active-id", SettingsBindFlags.DEFAULT);
+    Settings.get ().bind ("new-mentions-notify", new_mention_switch,
+                          "active", SettingsBindFlags.DEFAULT);
+    Settings.get ().bind ("new-dms-notify", new_message_switch,
+                          "active", SettingsBindFlags.DEFAULT);
+
     // Additional functions for InterfacePage
     Settings.get ().changed["media-visibility"].connect(setting_update_media_visibility);
     block_flag_emission = true;
@@ -62,6 +78,10 @@ class SettingsDialog : Hdy.PreferencesWindow {
     media_link_switch.active = (Cb.TransformFlags.REMOVE_MEDIA_LINKS in text_transform_flags);
     block_flag_emission = false;
   }
+
+  /*
+   * Signal Handling for InterfacePage
+   */
 
   [GtkCallback]
   private void setting_update_dark_theme () {
@@ -80,12 +100,6 @@ class SettingsDialog : Hdy.PreferencesWindow {
       media_link_switch.active = false;
     }
     block_flag_emission = false;
-  }
-
-  [GtkCallback]
-  private void setting_update_auto_scroll () {
-    print("\n\nHELLO TEST\n\n");
-    //on_new_tweets_combobox.sensitive = !auto_scroll_switch.active;
   }
 
   [GtkCallback]
@@ -110,5 +124,14 @@ class SettingsDialog : Hdy.PreferencesWindow {
     } else {
       Settings.remove_text_transform_flag (Cb.TransformFlags.REMOVE_MEDIA_LINKS);
     }
+  }
+
+  /*
+   * General Signal Handling
+   */
+
+  [GtkCallback]
+  private void update_new_tweet_access () {
+    new_tweet_combo.sensitive = !auto_scroll_switch.active;
   }
 }

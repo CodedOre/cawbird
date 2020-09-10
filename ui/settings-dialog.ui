@@ -26,6 +26,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="title" translatable="yes">Use Dark Theme</property>
+                <property name="activatable_widget">dark_theme_switch</property>
                 <child>
                   <object class="GtkSwitch" id="dark_theme_switch">
                     <property name="visible">True</property>
@@ -49,10 +50,11 @@
                 <property name="can_focus">False</property>
                 <property name="title" translatable="yes">Show Inline Media</property>
                 <child>
-                  <object class="GtkComboBoxText" id="media_visibility_box">
+                  <object class="GtkComboBoxText" id="media_visibility_combo">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="valign">center</property>
+                    <property name="active">0</property>
                     <items>
                       <item id="Show" translatable="yes">Always show</item>
                       <item id="Hide" translatable="yes">Always hide</item>
@@ -74,7 +76,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="valign">center</property>
-                    <signal name="notify::active" handler="setting_update_auto_scroll" swapped="no"/>
+                    <signal name="notify::active" handler="update_new_tweet_access" swapped="no"/>
                   </object>
                 </child>
               </object>
@@ -183,6 +185,69 @@
         <property name="can_focus">False</property>
         <property name="icon_name">preferences-system-notifications-symbolic</property>
         <property name="title" translatable="yes">Notifications</property>
+        <child>
+          <object class="HdyPreferencesGroup" id="notification_actions_group">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="title" translatable="yes">Notificate me on...</property>
+            <child>
+              <object class="HdyActionRow" id="new_tweet_row">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="title" translatable="yes">New Tweets</property>
+                <property name="activatable_widget">new_tweet_combo</property>
+                <child>
+                  <object class="GtkComboBoxText" id="new_tweet_combo">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="valign">center</property>
+                    <property name="active">0</property>
+                    <items>
+                      <item id="Never" translatable="yes">Never</item>
+                      <item id="Every" translatable="yes">Every</item>
+                      <item id="Stack 5" translatable="yes">Stack 5</item>
+                      <item id="Stack 10" translatable="yes">Stack 10</item>
+                      <item id="Stack 25" translatable="yes">Stack 25</item>
+                      <item id="Stack 50" translatable="yes">Stack 50</item>
+                    </items>
+                    <signal name="changed" handler="update_new_tweet_access" swapped="no"/>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="HdyActionRow" id="new_mention_row">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="title" translatable="yes">New Mentions</property>
+                <property name="activatable_widget">new_mention_switch</property>
+                <child>
+                  <object class="GtkSwitch" id="new_mention_switch">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="valign">center</property>
+                    <signal name="notify::active" handler="setting_update_auto_scroll" swapped="no"/>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="HdyActionRow" id="new_message_row">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="title" translatable="yes">New Messages</property>
+                <property name="activatable_widget">new_message_switch</property>
+                <child>
+                  <object class="GtkSwitch" id="new_message_switch">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
       </object>
     </child>
     <child>
