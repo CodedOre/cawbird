@@ -77,6 +77,8 @@ class SettingsDialog : Hdy.PreferencesWindow {
                                     text_transform_flags);
     media_link_switch.active = (Cb.TransformFlags.REMOVE_MEDIA_LINKS in text_transform_flags);
     block_flag_emission = false;
+
+    load_geometry();
   }
 
   /*
@@ -133,5 +135,43 @@ class SettingsDialog : Hdy.PreferencesWindow {
   [GtkCallback]
   private void update_new_tweet_access () {
     new_tweet_combo.sensitive = !auto_scroll_switch.active;
+  }
+
+  [GtkCallback]
+  private bool window_action_close () {
+    save_geometry ();
+    return Gdk.EVENT_PROPAGATE;
+  }
+
+  private void load_geometry () {
+    GLib.Variant geom = Settings.get ().get_value ("settings-geometry");
+    int x = 0,
+        y = 0,
+        w = 0,
+        h = 0;
+    x = geom.get_child_value (0).get_int32 ();
+    y = geom.get_child_value (1).get_int32 ();
+    w = geom.get_child_value (2).get_int32 ();
+    h = geom.get_child_value (3).get_int32 ();
+    if (w == 0 || h == 0)
+      return;
+
+    this.move (x, y);
+    this.set_default_size (w, h);
+  }
+
+  private void save_geometry () {
+    var builder = new GLib.VariantBuilder (GLib.VariantType.TUPLE);
+    int x = 0,
+        y = 0,
+        w = 0,
+        h = 0;
+    this.get_position (out x, out y);
+    this.get_size (out w, out h);
+    builder.add_value (new GLib.Variant.int32(x));
+    builder.add_value (new GLib.Variant.int32(y));
+    builder.add_value (new GLib.Variant.int32(w));
+    builder.add_value (new GLib.Variant.int32(h));
+    Settings.get ().set_value ("settings-geometry", builder.end ());
   }
 }
