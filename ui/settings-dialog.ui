@@ -26,9 +26,8 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="title" translatable="yes">Use Dark Theme</property>
-                <property name="activatable_widget">dark_ui_switch</property>
                 <child>
-                  <object class="GtkSwitch" id="dark_ui_switch">
+                  <object class="GtkSwitch" id="dark_theme_switch">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="valign">center</property>
@@ -44,10 +43,23 @@
             <property name="can_focus">False</property>
             <property name="title">Timeline</property>
             <child>
-              <object class="HdyComboRow" id="inline_media_row">
+              <object class="HdyActionRow" id="media_visibilty_row">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="title" translatable="yes">Show Inline Media</property>
+                <child>
+                  <object class="GtkComboBoxText" id="media_visibility_box">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="valign">center</property>
+                    <items>
+                      <item id="Show" translatable="yes">Always show</item>
+                      <item id="Hide" translatable="yes">Always hide</item>
+                      <item id="Hide in Timeline" translatable="yes">Hide in timeline</item>
+                    </items>
+                    <signal name="changed" handler="setting_update_media_visibility" swapped="no"/>
+                  </object>
+                </child>
               </object>
             </child>
             <child>
@@ -61,6 +73,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="valign">center</property>
+                    <signal name="notify::active" handler="setting_update_auto_scroll" swapped="no"/>
                   </object>
                 </child>
               </object>
@@ -123,6 +136,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="valign">center</property>
+                    <signal name="notify::active" handler="setting_update_trail_hashtags" swapped="no"/>
                   </object>
                 </child>
               </object>
@@ -138,6 +152,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="valign">center</property>
+                    <signal name="notify::active" handler="setting_update_media_links" swapped="no"/>
                   </object>
                 </child>
               </object>
