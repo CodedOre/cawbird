@@ -15,7 +15,7 @@
  *  along with cawbird.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-[GtkTemplate (ui = "/uk/co/ibboard/cawbird/ui/settings-dialog.ui")]
+[GtkTemplate (ui = "/uk/co/ibboard/cawbird/ui/window/settings-dialog.ui")]
 class SettingsDialog : Hdy.PreferencesWindow {
   // UI-Elements of InterfacePage
   [GtkChild]
@@ -42,6 +42,10 @@ class SettingsDialog : Hdy.PreferencesWindow {
   private Gtk.Switch new_mention_switch;
   [GtkChild]
   private Gtk.Switch new_message_switch;
+
+  // UI-Elements of SnippetsPage
+  [GtkChild]
+  private Hdy.PreferencesGroup snippets_list;
 
   private bool block_flag_emission = false;
 

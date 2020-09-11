@@ -15,7 +15,7 @@
  *  along with cawbird.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-[GtkTemplate (ui = "/uk/co/ibboard/cawbird/ui/main-window.ui")]
+[GtkTemplate (ui = "/uk/co/ibboard/cawbird/ui/window/main-window.ui")]
 public class MainWindow : Gtk.ApplicationWindow {
   // GLib Actions
   private const GLib.ActionEntry[] win_entries = {
