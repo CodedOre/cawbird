@@ -29,7 +29,7 @@
                 <property name="can_focus">False</property>
                 <property name="title" translatable="yes">Use Dark Theme</property>
                 <property name="activatable_widget">dark_theme_switch</property>
-                <child>
+                <child type="action">
                   <object class="GtkSwitch" id="dark_theme_switch">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
@@ -51,7 +51,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="title" translatable="yes">Show Inline Media</property>
-                <child>
+                <child type="action">
                   <object class="GtkComboBoxText" id="media_visibility_combo">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
@@ -73,7 +73,7 @@
                 <property name="can_focus">False</property>
                 <property name="title" translatable="yes">Auto Scroll on New Tweets</property>
                 <property name="activatable_widget">auto_scroll_switch</property>
-                <child>
+                <child type="action">
                   <object class="GtkSwitch" id="auto_scroll_switch">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
@@ -89,7 +89,7 @@
                 <property name="can_focus">False</property>
                 <property name="title" translatable="yes">Activate with Double-Click</property>
                 <property name="activatable_widget">double_click_switch</property>
-                <child>
+                <child type="action">
                   <object class="GtkSwitch" id="double_click_switch">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
@@ -121,7 +121,7 @@
                 <property name="can_focus">False</property>
                 <property name="title" translatable="yes">Use Round Avatars</property>
                 <property name="activatable_widget">round_avatar_switch</property>
-                <child>
+                <child type="action">
                   <object class="GtkSwitch" id="round_avatar_switch">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
@@ -136,7 +136,7 @@
                 <property name="can_focus">False</property>
                 <property name="title" translatable="yes">Hide Trailing Hashtags</property>
                 <property name="activatable_widget">trail_hashtags_switch</property>
-                <child>
+                <child type="action">
                   <object class="GtkSwitch" id="trail_hashtags_switch">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
@@ -152,7 +152,7 @@
                 <property name="can_focus">False</property>
                 <property name="title" translatable="yes">Hide Media Links</property>
                 <property name="activatable_widget">media_link_switch</property>
-                <child>
+                <child type="action">
                   <object class="GtkSwitch" id="media_link_switch">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
@@ -168,7 +168,7 @@
                 <property name="can_focus">False</property>
                 <property name="title" translatable="yes">Hide Inappropriate Content</property>
                 <property name="activatable_widget">hide_nsfw_switch</property>
-                <child>
+                <child type="action">
                   <object class="GtkSwitch" id="hide_nsfw_switch">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
@@ -198,7 +198,7 @@
                 <property name="can_focus">False</property>
                 <property name="title" translatable="yes">New Tweets</property>
                 <property name="activatable_widget">new_tweet_combo</property>
-                <child>
+                <child type="action">
                   <object class="GtkComboBoxText" id="new_tweet_combo">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
@@ -223,7 +223,7 @@
                 <property name="can_focus">False</property>
                 <property name="title" translatable="yes">New Mentions</property>
                 <property name="activatable_widget">new_mention_switch</property>
-                <child>
+                <child type="action">
                   <object class="GtkSwitch" id="new_mention_switch">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
@@ -238,7 +238,7 @@
                 <property name="can_focus">False</property>
                 <property name="title" translatable="yes">New Messages</property>
                 <property name="activatable_widget">new_message_switch</property>
-                <child>
+                <child type="action">
                   <object class="GtkSwitch" id="new_message_switch">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
@@ -275,7 +275,7 @@
                 <property name="can_focus">False</property>
                 <property name="title" translatable="yes">Add new Snippet</property>
                 <property name="activatable_widget">add_snippet_button</property>
-                <child>
+                <child type="action">
                   <object class="GtkButton" id="add_snippet_button">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
