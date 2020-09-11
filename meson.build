@@ -110,6 +110,7 @@ cawbird_lib_sources = files([
   'src/list/ListListEntry.vala',
   'src/list/NewListEntry.vala',
   'src/list/SnippetListEntry.vala',
+  'src/list/SnippetRow.vala',
   'src/list/StartConversationEntry.vala',
   'src/list/TweetListEntry.vala',
   'src/list/UserFilterEntry.vala',

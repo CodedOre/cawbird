@@ -1,5 +1,6 @@
 <gresources>
   <gresource prefix="/uk/co/ibboard/cawbird">
+    <file preprocess="xml-stripblanks">ui/list/snippet-row.ui</file>
     <file preprocess="xml-stripblanks">ui/window/main-window.ui</file>
     <file preprocess="xml-stripblanks">ui/window/settings-dialog.ui</file>
     <file preprocess="xml-stripblanks">ui/window/settings-dialog.old.ui</file>
