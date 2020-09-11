@@ -15,7 +15,11 @@
  *  along with cawbird.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#if OLD_HANDY
+[GtkTemplate (ui = "/uk/co/ibboard/cawbird/ui/window/settings-dialog.old.ui")]
+#else
 [GtkTemplate (ui = "/uk/co/ibboard/cawbird/ui/window/settings-dialog.ui")]
+#endif
 class SettingsDialog : Hdy.PreferencesWindow {
   // UI-Elements of InterfacePage
   [GtkChild]
