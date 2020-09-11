@@ -228,7 +228,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="valign">center</property>
-                    <signal name="notify::active" handler="setting_update_auto_scroll" swapped="no"/>
                   </object>
                 </child>
               </object>
@@ -264,6 +263,12 @@
             <property name="can_focus">False</property>
             <property name="description" translatable="yes">You can activate snippets by writing the keyword and pressing TAB.</property>
             <property name="title" translatable="yes">Active Snippets</property>
+          </object>
+        </child>
+        <child>
+          <object class="HdyPreferencesGroup" id="snippet_configuration_group">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <child>
               <object class="HdyActionRow" id="add_snippet_row">
                 <property name="visible">True</property>
