@@ -212,7 +212,6 @@
                       <item id="Stack 25" translatable="yes">Stack 25</item>
                       <item id="Stack 50" translatable="yes">Stack 50</item>
                     </items>
-                    <signal name="changed" handler="update_new_tweet_access" swapped="no"/>
                   </object>
                 </child>
               </object>

@@ -86,6 +86,9 @@ class SettingsDialog : Hdy.PreferencesWindow {
     media_link_switch.active = (Cb.TransformFlags.REMOVE_MEDIA_LINKS in text_transform_flags);
     block_flag_emission = false;
 
+    // Additional functions for NotificationPage
+    update_new_tweet_access ();
+
     load_geometry();
   }
 
@@ -113,6 +116,11 @@ class SettingsDialog : Hdy.PreferencesWindow {
   }
 
   [GtkCallback]
+  private void update_new_tweet_access () {
+    new_tweet_combo.sensitive = !auto_scroll_switch.active;
+  }
+
+  [GtkCallback]
   private void setting_update_trail_hashtags () {
     if (block_flag_emission)
       return;
@@ -137,13 +145,8 @@ class SettingsDialog : Hdy.PreferencesWindow {
   }
 
   /*
-   * General Signal Handling
+   * General Functions
    */
-
-  [GtkCallback]
-  private void update_new_tweet_access () {
-    new_tweet_combo.sensitive = !auto_scroll_switch.active;
-  }
 
   [GtkCallback]
   private bool window_action_close () {
