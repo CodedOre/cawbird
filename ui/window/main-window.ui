@@ -127,7 +127,7 @@
             <property name="receives_default">True</property>
             <signal name="clicked" handler="ui_action_back_button" swapped="no"/>
             <child>
-              <object class="GtkImage" id="back_button_image">
+              <object class="GtkImage" id="back_button_symbol">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="icon_name">go-previous-symbolic</property>
@@ -141,7 +141,7 @@
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
             <child>
-              <object class="GtkImage" id="compose_tweet_button_image">
+              <object class="GtkImage" id="compose_tweet_button_symbol">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="icon_name">document-edit-symbolic</property>
@@ -159,7 +159,7 @@
             <property name="receives_default">True</property>
             <property name="popover">app_menu_popover</property>
             <child>
-              <object class="GtkImage" id="app_menu_button_image">
+              <object class="GtkImage" id="app_menu_button_symbol">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="icon_name">open-menu-symbolic</property>
@@ -177,7 +177,7 @@
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
             <child>
-              <object class="GtkImage" id="search_button_image">
+              <object class="GtkImage" id="search_button_symbol">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="icon_name">system-search-symbolic</property>
