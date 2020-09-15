@@ -19,11 +19,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#if OLD_HANDY
 [GtkTemplate (ui = "/uk/co/ibboard/cawbird/ui/list/snippet-row.ui")]
-#else
-[GtkTemplate (ui = "/uk/co/ibboard/cawbird/ui/list/snippet-row.ui")]
-#endif
 class SnippetRow : Hdy.ActionRow {
   private SettingsDialog settings;
   public string keyword {
