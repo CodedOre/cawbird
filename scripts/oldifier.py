@@ -33,8 +33,8 @@ if len(sys.argv) > 4:
     exit(1)
 
 infolder = sys.argv[1]
-outfolder = sys.argv[2]
-resources = sys.argv[3]
+resources = sys.argv[2]
+outfolder = sys.argv[3]
 
 if not os.path.isdir(infolder):
     print("Input folder does not exist!")

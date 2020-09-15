@@ -204,10 +204,31 @@ cb_resources = gnome.compile_resources(
   'cawbird.gresource.xml',
 )
 
-cb_resources += gnome.compile_resources(
-  'cawbird_ui_resources',
-  'cawbird-ui.gresource.xml',
-)
+if new_hdy.found()
+  cb_resources += gnome.compile_resources(
+    'cawbird_ui_resources',
+    'cawbird-ui.gresource.xml',
+  )
+else
+  warning('Generating old UI-Resources in build dir.')
+  python = import('python').find_installation('python3')
+
+  source_ui = 'ui'
+  source_rsc = 'cawbird-ui.gresource.xml'
+  dest_ui = join_paths(meson.build_root(), 'old-ui')
+  dest_rsc = join_paths(dest_ui, 'cawbird-ui.gresource.xml')
+
+  r = run_command(python, 'scripts/oldifier.py', source_ui, source_rsc, dest_ui)
+
+  if r.returncode() != 0
+    error('Generating old UI-Resources failed!')
+  endif
+
+  cb_resources += gnome.compile_resources(
+    'cawbird_ui_resources',
+    dest_rsc,
+  )
+endif
 
 # config.h
 cdata = configuration_data()
@@ -228,6 +249,7 @@ cb_lib = static_library(
     '--target-glib=' + min_glib_version,
     '--vapidir=' + meson.source_root() + '/vapi/',
     '--gresources=' + meson.source_root() + '/cawbird.gresource.xml',
+    '--gresources=' + meson.source_root() + '/cawbird-ui.gresource.xml',
   ],
   c_args: [
     '-Werror=implicit-function-declaration'
