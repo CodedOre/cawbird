@@ -17,7 +17,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-# This script is there to modify the UI-Files for use with libhandy-0.0
+# This scripts purpose is to modify the UI-Files for use with libhandy-0.0
 
 from xml.etree.ElementTree import ElementTree
 from shutil import copyfile
@@ -103,6 +103,20 @@ for uifile in allfiles:
     print(f"\t\t{work} Changes done!")
     tree.write(f"{outfolder}/{uifile}")
 
-copyfile(resources, f"{outfolder}/{resources}")
+print("Update Resource File")
+
+rsctree = ElementTree()
+rsctree.parse(resources)
+rscroot = rsctree.getroot()
+rscnodes = rscroot.iter()
+
+for node in rscnodes:
+    if node.tag == "file":
+        for uifile in allfiles:
+            if node.text == uifile:
+                node.attrib["alias"] = node.text
+                node.text = f"{outfolder}/{node.text}"
+
+rsctree.write(f"{outfolder}/{resources}")
 
 print("Work is complete!")
