@@ -39,6 +39,18 @@ class SnippetRow : Hdy.ActionRow {
 
   [GtkCallback]
   private void ui_action_row_clicked () {
-    print("Down to deeper level!");
+#if OLD_HANDY
+#else
+    ModifySnippetWidget mod_widget = new ModifySnippetWidget(keyword, replacement);
+    mod_widget.modify_done.connect(close_modifier);
+    settings.present_subpage(mod_widget);
+#endif
+  }
+
+  public void close_modifier () {
+#if OLD_HANDY
+#else
+    settings.close_subpage();
+#endif
   }
 }
