@@ -204,6 +204,11 @@ cb_resources = gnome.compile_resources(
   'cawbird.gresource.xml',
 )
 
+cb_resources += gnome.compile_resources(
+  'cawbird_ui_resources',
+  'cawbird-ui.gresource.xml',
+)
+
 # config.h
 cdata = configuration_data()
 configure_file(
