@@ -28,11 +28,14 @@ class ModifySnippetWidget : Gtk.Box {
   [GtkChild]
   private Gtk.Button header_confirm;
 
+  private string old_key;
+
   public signal void modify_done ();
 
   public ModifySnippetWidget (string keyword = "", string replacement = "") {
     if (keyword != "") {
       keyword_entry.text = keyword;
+      old_key = keyword;
     }
     if (replacement != "") {
       replacement_entry.text = replacement;
@@ -49,10 +52,33 @@ class ModifySnippetWidget : Gtk.Box {
 
   [GtkCallback]
   private void ui_action_entry_changed () {
-    if (keyword_entry.text == "" || replacement_entry.text == "") {
+    if (keyword_entry.text == "") {
+      keyword_entry.secondary_icon_name = "dialog-warning-symbolic";
+      keyword_entry.secondary_icon_tooltip_text = _("Keyword can't be empty");
+      header_confirm.set_sensitive(false);
+    }
+    else if (replacement_entry.text == "") {
+      replacement_entry.secondary_icon_name = "dialog-warning-symbolic";
+      replacement_entry.secondary_icon_tooltip_text = _("Replacement can't be empty");
+      header_confirm.set_sensitive(false);
+    }
+    else if (keyword_entry.text.contains (" ")
+          || keyword_entry.text.contains ("\t")) {
+      keyword_entry.secondary_icon_name = "dialog-warning-symbolic";
+      keyword_entry.secondary_icon_tooltip_text = _("Keyword may not contain whitespace");
+      header_confirm.set_sensitive(false);
+    }
+    else if (Cawbird.snippet_manager.get_snippet (keyword_entry.text) != null
+          && this.old_key != keyword_entry.text) {
+      keyword_entry.secondary_icon_name = "dialog-warning-symbolic";
+      keyword_entry.secondary_icon_tooltip_text = _("Snippet already exists");
       header_confirm.set_sensitive(false);
     }
     else {
+      keyword_entry.secondary_icon_name = "";
+      keyword_entry.secondary_icon_tooltip_text = "";
+      replacement_entry.secondary_icon_name = "";
+      replacement_entry.secondary_icon_tooltip_text = "";
       header_confirm.set_sensitive(true);
     }
   }

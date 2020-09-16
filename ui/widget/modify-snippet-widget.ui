@@ -54,6 +54,8 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="valign">center</property>
+            <property name="margin_start">12</property>
+            <property name="margin_end">12</property>
             <property name="selection_mode">none</property>
             <child>
               <object class="HdyActionRow" id="keyword_row">
@@ -69,6 +71,7 @@
                     <property name="can_focus">True</property>
                     <property name="valign">center</property>
                     <property name="truncate_multiline">True</property>
+                    <signal name="changed" handler="ui_action_entry_changed" swapped="no"/>
                   </object>
                 </child>
               </object>
@@ -87,6 +90,7 @@
                     <property name="can_focus">True</property>
                     <property name="valign">center</property>
                     <property name="truncate_multiline">True</property>
+                    <signal name="changed" handler="ui_action_entry_changed" swapped="no"/>
                   </object>
                 </child>
               </object>
