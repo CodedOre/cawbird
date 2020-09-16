@@ -32,7 +32,7 @@ class ModifySnippetWidget : Gtk.Box {
 
   private string old_key;
 
-  public signal void modify_done (string? new_keyword = null, string? new_replacement = null);
+  public signal void modify_done (string? new_keyword = null, string? new_replacement = null, bool remove = false);
 
   public ModifySnippetWidget (string? keyword = null, string? replacement = null) {
     old_key = keyword;
@@ -104,6 +104,8 @@ class ModifySnippetWidget : Gtk.Box {
 
   [GtkCallback]
   private void ui_action_delete_button () {
-
+    assert (this.old_key != null);
+    Cawbird.snippet_manager.remove_snippet (this.old_key);
+    modify_done(null, null, true);
   }
 }
