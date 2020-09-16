@@ -45,7 +45,7 @@ class ModifySnippetWidget : Gtk.Box {
     if (replacement != null) {
       replacement_entry.text = replacement;
     }
-    if (keyword != "" && replacement != "") {
+    if (keyword != null && replacement != null) {
       header_confirm.set_sensitive(true);
     }
   }
@@ -71,35 +71,35 @@ class ModifySnippetWidget : Gtk.Box {
 
   [GtkCallback]
   private void ui_action_entry_changed () {
+    bool allow_confirm = true;
     if (keyword_entry.text == "") {
       keyword_entry.secondary_icon_name = "dialog-warning-symbolic";
       keyword_entry.secondary_icon_tooltip_text = _("Keyword can't be empty");
-      header_confirm.set_sensitive(false);
+      allow_confirm = false;
     }
-    else if (replacement_entry.text == "") {
+    if (replacement_entry.text == "") {
       replacement_entry.secondary_icon_name = "dialog-warning-symbolic";
       replacement_entry.secondary_icon_tooltip_text = _("Replacement can't be empty");
-      header_confirm.set_sensitive(false);
     }
-    else if (keyword_entry.text.contains (" ")
-          || keyword_entry.text.contains ("\t")) {
+    if (keyword_entry.text.contains (" ")
+     || keyword_entry.text.contains ("\t")) {
       keyword_entry.secondary_icon_name = "dialog-warning-symbolic";
       keyword_entry.secondary_icon_tooltip_text = _("Keyword may not contain whitespace");
-      header_confirm.set_sensitive(false);
+      allow_confirm = false;
     }
-    else if (Cawbird.snippet_manager.get_snippet (keyword_entry.text) != null
-          && this.old_key != keyword_entry.text) {
+    if (Cawbird.snippet_manager.get_snippet (keyword_entry.text) != null
+     && this.old_key != keyword_entry.text) {
       keyword_entry.secondary_icon_name = "dialog-warning-symbolic";
       keyword_entry.secondary_icon_tooltip_text = _("Snippet already exists");
-      header_confirm.set_sensitive(false);
+      allow_confirm = false;
     }
-    else {
+    if (allow_confirm) {
       keyword_entry.secondary_icon_name = "";
       keyword_entry.secondary_icon_tooltip_text = "";
       replacement_entry.secondary_icon_name = "";
       replacement_entry.secondary_icon_tooltip_text = "";
-      header_confirm.set_sensitive(true);
     }
+    header_confirm.set_sensitive(allow_confirm);
   }
 
   [GtkCallback]
