@@ -4,7 +4,6 @@
     <file preprocess="xml-stripblanks">ui/widget/modify-snippet-widget.ui</file>
     <file preprocess="xml-stripblanks">ui/window/main-window.ui</file>
     <file preprocess="xml-stripblanks">ui/window/settings-dialog.ui</file>
-    <file preprocess="xml-stripblanks">ui/window/settings-dialog.old.ui</file>
     <file preprocess="xml-stripblanks">ui/account-create-widget.ui</file>
     <file preprocess="xml-stripblanks">ui/compose-window.ui</file>
     <file preprocess="xml-stripblanks">ui/image-description-window.ui</file>
