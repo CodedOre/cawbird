@@ -80,6 +80,7 @@ class ModifySnippetWidget : Gtk.Box {
     if (replacement_entry.text == "") {
       replacement_entry.secondary_icon_name = "dialog-warning-symbolic";
       replacement_entry.secondary_icon_tooltip_text = _("Replacement can't be empty");
+      allow_confirm = false;
     }
     if (keyword_entry.text.contains (" ")
      || keyword_entry.text.contains ("\t")) {
