@@ -30,14 +30,14 @@ class ModifySnippetWidget : Gtk.Box {
 
   private string old_key;
 
-  public signal void modify_done ();
+  public signal void modify_done (string new_keyword = null, string new_replacement = null);
 
-  public ModifySnippetWidget (string keyword = "", string replacement = "") {
-    if (keyword != "") {
+  public ModifySnippetWidget (string keyword = null, string replacement = null) {
+    old_key = keyword;
+    if (keyword != null) {
       keyword_entry.text = keyword;
-      old_key = keyword;
     }
-    if (replacement != "") {
+    if (replacement != null) {
       replacement_entry.text = replacement;
     }
     if (keyword != "" && replacement != "") {
@@ -48,6 +48,20 @@ class ModifySnippetWidget : Gtk.Box {
   [GtkCallback]
   private void ui_action_header_cancel () {
     modify_done();
+  }
+
+  [GtkCallback]
+  private void ui_action_header_confirm () {
+    string new_keyword     = this.keyword_entry.text;
+    string new_replacement = this.replacement_entry.text;
+
+    if (this.old_key != null) {
+      Cawbird.snippet_manager.set_snippet (old_key, new_keyword, new_replacement);
+    } else {
+      Cawbird.snippet_manager.insert_snippet (new_keyword, new_replacement);
+    }
+
+    modify_done(new_keyword, new_replacement);
   }
 
   [GtkCallback]

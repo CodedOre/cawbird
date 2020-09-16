@@ -29,6 +29,7 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
+            <signal name="clicked" handler="ui_action_header_confirm" swapped="no"/>
             <style>
               <class name="suggested-action"/>
             </style>
