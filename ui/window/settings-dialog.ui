@@ -281,6 +281,7 @@
                     <property name="receives_default">False</property>
                     <property name="halign">center</property>
                     <property name="valign">center</property>
+                    <signal name="clicked" handler="ui_action_add_snippet" swapped="no"/>
                     <child>
                       <object class="GtkImage" id="add_snippet_image">
                         <property name="visible">True</property>

@@ -90,8 +90,10 @@ class SettingsDialog : Hdy.PreferencesWindow {
     update_new_tweet_access ();
 
     // Populate SnippetsPage with snippets
-    SnippetRow test_row1 = new SnippetRow("test", "I am just a Test!", this);
-    snippets_list.add(test_row1);
+    Cawbird.snippet_manager.query_snippets ((keyword, replacement) => {
+      SnippetRow row = new SnippetRow((string) keyword, (string) replacement, this);
+      snippets_list.add(row);
+    });
 
     load_geometry();
   }
@@ -146,6 +148,31 @@ class SettingsDialog : Hdy.PreferencesWindow {
     } else {
       Settings.remove_text_transform_flag (Cb.TransformFlags.REMOVE_MEDIA_LINKS);
     }
+  }
+
+  /*
+   * Signal Handling for SnippetsPage
+   */
+
+  [GtkCallback]
+  private void ui_action_add_snippet () {
+#if OLD_HANDY
+#else
+    ModifySnippetWidget mod_widget = new ModifySnippetWidget();
+    mod_widget.modify_done.connect(close_snippet_modifier);
+    this.present_subpage(mod_widget);
+#endif
+  }
+
+  public void close_snippet_modifier (string? new_keyword = null, string? new_replacement = null) {
+    if (new_keyword != null && new_replacement != null) {
+      SnippetRow row = new SnippetRow(new_keyword, new_replacement, this);
+      snippets_list.add(row);
+    }
+#if OLD_HANDY
+#else
+    this.close_subpage();
+#endif
   }
 
   /*
