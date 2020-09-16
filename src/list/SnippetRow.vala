@@ -47,7 +47,7 @@ class SnippetRow : Hdy.ActionRow {
 #endif
   }
 
-  public void close_modifier (string new_keyword = null, string new_replacement = null) {
+  public void close_modifier (string? new_keyword = null, string? new_replacement = null) {
     if (new_keyword != null) {
       this.set_subtitle(new_keyword);
     }

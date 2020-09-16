@@ -27,15 +27,20 @@ class ModifySnippetWidget : Gtk.Box {
   private Gtk.Entry replacement_entry;
   [GtkChild]
   private Gtk.Button header_confirm;
+  [GtkChild]
+  private Hdy.ActionRow delete_row;
 
   private string old_key;
 
-  public signal void modify_done (string new_keyword = null, string new_replacement = null);
+  public signal void modify_done (string? new_keyword = null, string? new_replacement = null);
 
-  public ModifySnippetWidget (string keyword = null, string replacement = null) {
+  public ModifySnippetWidget (string? keyword = null, string? replacement = null) {
     old_key = keyword;
     if (keyword != null) {
       keyword_entry.text = keyword;
+    }
+    else {
+      delete_row.set_visible(false);
     }
     if (replacement != null) {
       replacement_entry.text = replacement;
@@ -95,5 +100,10 @@ class ModifySnippetWidget : Gtk.Box {
       replacement_entry.secondary_icon_tooltip_text = "";
       header_confirm.set_sensitive(true);
     }
+  }
+
+  [GtkCallback]
+  private void ui_action_delete_button () {
+
   }
 }
