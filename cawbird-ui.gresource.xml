@@ -26,7 +26,6 @@
     <file preprocess="xml-stripblanks">ui/user-filter-entry.ui</file>
     <file preprocess="xml-stripblanks">ui/account-dialog.ui</file>
     <file preprocess="xml-stripblanks">ui/media-dialog.ui</file>
-    <file preprocess="xml-stripblanks">ui/modify-snippet-dialog.ui</file>
     <file preprocess="xml-stripblanks">ui/shortcuts-window.ui</file>
     <file preprocess="xml-stripblanks">ui/cb-emoji-chooser.ui</file>
   </gresource>
