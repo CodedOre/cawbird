@@ -120,6 +120,14 @@ for uifile in allfiles:
                     linearadd.text = "400"
                     uiobj.insert(0,linearadd)
                     work += 1
+            # Modify style of GtkListBox
+            if uiobj.attrib["class"] == "GtkListBox":
+                for uipart in list(uiobj):
+                    if uipart.tag == "style":
+                        for uistyle in list(uipart):
+                            if uistyle.attrib["name"] == "content":
+                                uistyle.attrib["name"] = "frame"
+                                work += 1
         if uiobj.tag == "template":
             # Add type="action" to childs of HdyActionRow
             if uiobj.attrib["parent"] == "HdyActionRow":
