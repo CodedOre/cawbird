@@ -20,7 +20,11 @@
  */
 
 [GtkTemplate (ui = "/uk/co/ibboard/cawbird/ui/widget/modify-snippet-widget.ui")]
+#if OLD_HANDY
+class ModifySnippetWidget : Gtk.Window {
+#else
 class ModifySnippetWidget : Gtk.Box {
+#endif
   [GtkChild]
   private Gtk.Entry keyword_entry;
   [GtkChild]

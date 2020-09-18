@@ -156,10 +156,10 @@ class SettingsDialog : Hdy.PreferencesWindow {
 
   [GtkCallback]
   private void ui_action_add_snippet () {
-#if OLD_HANDY
-#else
     ModifySnippetWidget mod_widget = new ModifySnippetWidget();
     mod_widget.modify_done.connect(close_snippet_modifier);
+#if OLD_HANDY
+#else
     this.present_subpage(mod_widget);
 #endif
   }

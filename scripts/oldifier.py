@@ -19,7 +19,7 @@
 
 # This scripts purpose is to modify the UI-Files for use with libhandy-0.0
 
-from xml.etree.ElementTree import ElementTree
+from xml.etree.ElementTree import ElementTree, Element
 from shutil import copyfile
 import sys, os.path, mimetypes
 
@@ -83,6 +83,7 @@ for uifile in allfiles:
     allnodes = root.iter()
 
     for uiobj in allnodes:
+        # Generic Adaptions
         if uiobj.tag == "object":
             # Add type="action" to childs of HdyActionRow
             if uiobj.attrib["class"] == "HdyActionRow":
@@ -91,6 +92,34 @@ for uifile in allfiles:
                         if not "type" in uipart.attrib:
                             uipart.attrib["type"] = "action"
                             work += 1
+            # Rename HdyClamp to HdyColumn
+            if uiobj.attrib["class"] == "HdyClamp":
+                uiobj.attrib["class"] = "HdyColumn"
+                work += 1
+                maxsizechange = False
+                linearchange  = False
+                for uipart in list(uiobj):
+                    if uipart.tag == "property":
+                        if "maximum-size" in uipart.attrib.values():
+                            uipart.attrib["name"] = "maximum-width"
+                            maxsizechange = True
+                            work += 1
+                        if "tightening-threshold" in uipart.attrib.values():
+                            uipart.attrib["name"] = "linear-growth-width"
+                            linearchange  = True
+                            work += 1
+                if not maxsizechange:
+                    maxsizeadd = Element("property")
+                    maxsizeadd.attrib["name"] = "maximum-width"
+                    maxsizeadd.text = "600"
+                    uiobj.append(maxsizeadd)
+                    work += 1
+                if not linearchange:
+                    linearadd = Element("property")
+                    linearadd.attrib["name"] = "linear-growth-width"
+                    linearadd.text = "400"
+                    uiobj.append(linearadd)
+                    work += 1
         if uiobj.tag == "template":
             # Add type="action" to childs of HdyActionRow
             if uiobj.attrib["parent"] == "HdyActionRow":
@@ -98,6 +127,23 @@ for uifile in allfiles:
                     if uipart.tag == "child":
                         if not "type" in uipart.attrib:
                             uipart.attrib["type"] = "action"
+                            work += 1
+
+        # File-Specific Adaptions
+        if uifile == "ui/widget/modify-snippet-widget.ui":
+            # Specific adaptions for ModifySnippetWidget
+            if uiobj.tag == "template":
+                uiobj.attrib["parent"] = "GtkWindow"
+                for uipart in list(uiobj):
+                    if uipart.tag == "property":
+                        if uipart.attrib["name"] == "orientation":
+                            uiobj.remove(uipart)
+                            work += 1
+            if uiobj.tag == "child":
+                for uipart in list(uiobj):
+                    if uipart.tag == "object":
+                        if uipart.attrib["id"] == "dialog_header":
+                            uiobj.attrib["type"] = "titlebar"
                             work += 1
 
     print(f"\t\t{work} Changes done!")
