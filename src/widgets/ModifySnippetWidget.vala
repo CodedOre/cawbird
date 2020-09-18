@@ -52,11 +52,17 @@ class ModifySnippetWidget : Gtk.Box {
     if (keyword != null && replacement != null) {
       header_confirm.set_sensitive(true);
     }
+#if OLD_HANDY
+    this.set_modal(true);
+#endif
   }
 
   [GtkCallback]
   private void ui_action_header_cancel () {
     modify_done();
+#if OLD_HANDY
+    this.destroy();
+#endif
   }
 
   [GtkCallback]
@@ -71,6 +77,9 @@ class ModifySnippetWidget : Gtk.Box {
     }
 
     modify_done(new_keyword, new_replacement);
+#if OLD_HANDY
+    this.destroy();
+#endif
   }
 
   [GtkCallback]
@@ -112,5 +121,8 @@ class ModifySnippetWidget : Gtk.Box {
     assert (this.old_key != null);
     Cawbird.snippet_manager.remove_snippet (this.old_key);
     modify_done(null, null, true);
+#if OLD_HANDY
+    this.destroy();
+#endif
   }
 }

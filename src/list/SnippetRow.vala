@@ -39,10 +39,12 @@ class SnippetRow : Hdy.ActionRow {
 
   [GtkCallback]
   private void ui_action_row_clicked () {
-#if OLD_HANDY
-#else
     ModifySnippetWidget mod_widget = new ModifySnippetWidget(keyword, replacement);
     mod_widget.modify_done.connect(close_modifier);
+#if OLD_HANDY
+    settings.set_modal(false);
+    mod_widget.set_transient_for(settings);
+#else
     settings.present_subpage(mod_widget);
 #endif
   }
@@ -58,6 +60,7 @@ class SnippetRow : Hdy.ActionRow {
       this.set_title(new_replacement);
     }
 #if OLD_HANDY
+    settings.set_modal(true);
 #else
     settings.close_subpage();
 #endif

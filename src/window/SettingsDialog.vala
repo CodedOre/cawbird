@@ -159,6 +159,8 @@ class SettingsDialog : Hdy.PreferencesWindow {
     ModifySnippetWidget mod_widget = new ModifySnippetWidget();
     mod_widget.modify_done.connect(close_snippet_modifier);
 #if OLD_HANDY
+    this.set_modal(false);
+    mod_widget.set_transient_for(this);
 #else
     this.present_subpage(mod_widget);
 #endif
@@ -170,6 +172,7 @@ class SettingsDialog : Hdy.PreferencesWindow {
       snippets_list.add(row);
     }
 #if OLD_HANDY
+    this.set_modal(true);
 #else
     this.close_subpage();
 #endif
