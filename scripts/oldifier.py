@@ -112,13 +112,13 @@ for uifile in allfiles:
                     maxsizeadd = Element("property")
                     maxsizeadd.attrib["name"] = "maximum-width"
                     maxsizeadd.text = "600"
-                    uiobj.append(maxsizeadd)
+                    uiobj.insert(0,maxsizeadd)
                     work += 1
                 if not linearchange:
                     linearadd = Element("property")
                     linearadd.attrib["name"] = "linear-growth-width"
                     linearadd.text = "400"
-                    uiobj.append(linearadd)
+                    uiobj.insert(0,linearadd)
                     work += 1
         if uiobj.tag == "template":
             # Add type="action" to childs of HdyActionRow
