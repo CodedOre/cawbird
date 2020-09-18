@@ -6,10 +6,10 @@
   <template class="SettingsDialog" parent="HdyPreferencesWindow">
     <property name="width_request">360</property>
     <property name="height_request">450</property>
+    <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Cawbird - Settings</property>
     <property name="window_position">center-on-parent</property>
-    <property name="skip_taskbar_hint">True</property>
     <signal name="delete-event" handler="window_action_close" swapped="no"/>
     <child>
       <object class="HdyPreferencesPage" id="interface_page">

@@ -135,7 +135,6 @@ public class MainWindow : Gtk.ApplicationWindow {
   [GtkCallback]
   private void ui_action_settings_menu_button () {
     SettingsDialog settings_window = new SettingsDialog ();
-    settings_window.show();
   }
 
   [GtkCallback]
