@@ -100,11 +100,11 @@ for uifile in allfiles:
                 linearchange  = False
                 for uipart in list(uiobj):
                     if uipart.tag == "property":
-                        if "maximum-size" in uipart.attrib.values():
+                        if "maximum_size" in uipart.attrib.values():
                             uipart.attrib["name"] = "maximum-width"
                             maxsizechange = True
                             work += 1
-                        if "tightening-threshold" in uipart.attrib.values():
+                        if "tightening_threshold" in uipart.attrib.values():
                             uipart.attrib["name"] = "linear-growth-width"
                             linearchange  = True
                             work += 1
@@ -136,6 +136,8 @@ for uifile in allfiles:
                         if not "type" in uipart.attrib:
                             uipart.attrib["type"] = "action"
                             work += 1
+            if uiobj.attrib["parent"] == "HdyWindow":
+                uiobj.attrib["parent"] = "GtkWindow"
 
         # File-Specific Adaptions
         if uifile == "ui/widget/modify-snippet-widget.ui":
