@@ -30,10 +30,7 @@ public class Cawbird : Gtk.Application {
   private bool started_as_service = false;
 
   const GLib.ActionEntry[] app_entries = {
-    {"show-settings",     show_settings_activated          },
-    {"show-shortcuts",    show_shortcuts_activated         },
     {"quit",              quit_application                 },
-    {"show-about-dialog", about_activated                  },
     {"show-dm-thread",    show_dm_thread,           "(xx)" },
     {"show-window",       show_window,              "x"    },
     {"mark-read",         mark_read_activated,      "(xx)" },
@@ -218,37 +215,6 @@ public class Cawbird : Gtk.Application {
     } else {
       open_startup_windows (null, null);
     }
-  }
-
-  private void show_settings_activated () {
-    /* We don't set the settings dialog transient to
-       any window because we already save its size */
-    if (this.settings_dialog != null)
-      return;
-
-    var dialog = new SettingsDialog ();
-    var action = (GLib.SimpleAction)this.lookup_action ("show-settings");
-    action.set_enabled (false);
-    dialog.delete_event.connect (() => {
-      action.set_enabled (true);
-      this.settings_dialog = null;
-      return Gdk.EVENT_PROPAGATE;
-    });
-    dialog.show ();
-  }
-
-  private void about_activated () {
-    var active_window = get_active_window ();
-    var ad = new AboutDialog ();
-    ad.modal = true;
-    ad.set_transient_for (active_window);
-    ad.show_all ();
-  }
-
-  private void show_shortcuts_activated () {
-    var builder = new Gtk.Builder.from_resource ("/uk/co/ibboard/cawbird/ui/shortcuts-window.ui");
-    var shortcuts_window = (Gtk.Window) builder.get_object ("shortcuts_window");
-    shortcuts_window.show ();
   }
 
   public override void startup () {
