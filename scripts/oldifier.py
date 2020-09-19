@@ -138,6 +138,18 @@ for uifile in allfiles:
                             work += 1
             if uiobj.attrib["parent"] == "HdyWindow":
                 uiobj.attrib["parent"] = "GtkWindow"
+                for uichild in list(uiobj):
+                    if uichild.tag == "child":
+                        for uibox in list(uichild):
+                            for uipart in list(uibox):
+                                if uipart.tag == "child":
+                                    for uihead in list(uipart):
+                                        if uihead.tag == "object":
+                                            if uihead.attrib["id"] == "window_header":
+                                                uibox.remove(uipart)
+                                                uiobj.append(uipart)
+                                                uipart.attrib["type"] = "titlebar"
+                                                work += 1
 
         # File-Specific Adaptions
         if uifile == "ui/widget/modify-snippet-widget.ui":

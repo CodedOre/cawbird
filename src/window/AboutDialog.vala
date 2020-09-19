@@ -21,7 +21,11 @@
 
 
 [GtkTemplate (ui = "/uk/co/ibboard/cawbird/ui/window/about-dialog.ui")]
+#if OLD_HANDY
+class AboutDialog : Gtk.Window {
+#else
 class AboutDialog : Hdy.Window {
+#endif
   // UI-Elements of AboutDialog
   [GtkChild]
   private Hdy.Squeezer header_squeezer;
