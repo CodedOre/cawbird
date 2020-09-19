@@ -51,6 +51,7 @@ class SettingsDialog : Hdy.PreferencesWindow {
   [GtkChild]
   private Hdy.PreferencesGroup snippets_list;
 
+  // Non-UI-Elements of SettingsDialog
   private bool block_flag_emission = false;
 
   public SettingsDialog () {

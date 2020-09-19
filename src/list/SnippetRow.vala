@@ -21,6 +21,7 @@
 
 [GtkTemplate (ui = "/uk/co/ibboard/cawbird/ui/list/snippet-row.ui")]
 class SnippetRow : Hdy.ActionRow {
+  // Non-UI-Elements of SnippetRow
   private SettingsDialog settings;
   public string keyword {
     get { return this.get_subtitle(); }

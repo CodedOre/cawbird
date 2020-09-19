@@ -25,6 +25,7 @@ class ModifySnippetWidget : Gtk.Window {
 #else
 class ModifySnippetWidget : Gtk.Box {
 #endif
+  // UI-Elements of ModifySnippetWidget
   [GtkChild]
   private Gtk.Entry keyword_entry;
   [GtkChild]
@@ -34,8 +35,10 @@ class ModifySnippetWidget : Gtk.Box {
   [GtkChild]
   private Hdy.ActionRow delete_row;
 
+  // Non-UI-Elements of ModifySnippetWidget
   private string old_key;
 
+  // Signals of ModifySnippetWidget
   public signal void modify_done (string? new_keyword = null, string? new_replacement = null, bool remove = false);
 
   public ModifySnippetWidget (string? keyword = null, string? replacement = null) {

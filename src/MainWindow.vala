@@ -52,6 +52,7 @@ public class MainWindow : Gtk.ApplicationWindow {
   [GtkChild]
   private Gtk.PopoverMenu app_menu_popover;
 
+  // Non-UI-Elements of MainWindow
   public MainWidget main_widget;
   public unowned Account? account;
   private ComposeTweetWindow? compose_tweet_window = null;
