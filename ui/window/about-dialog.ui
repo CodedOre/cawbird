@@ -26,10 +26,12 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="homogeneous">True</property>
+                <signal name="notify::visible-child" handler="ui_adaptive_change" swapped="no"/>
                 <child>
                   <object class="HdyViewSwitcher" id="upper_stack_switch">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="policy">wide</property>
                     <property name="stack">content_stack</property>
                   </object>
                 </child>
@@ -132,7 +134,6 @@
                         <property name="margin_top">20</property>
                         <property name="homogeneous">True</property>
                         <property name="transition_type">crossfade</property>
-                        <signal name="notify::visible-child" handler="ui_adaptive_change" swapped="no"/>
                         <child>
                           <object class="GtkGrid" id="links_group_large">
                             <property name="visible">True</property>
