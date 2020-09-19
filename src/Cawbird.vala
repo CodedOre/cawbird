@@ -25,7 +25,6 @@ public class Cawbird : Gtk.Application {
   public signal void account_removed (Account acc);
   public signal void account_window_changed (int64? old_id, int64 new_id);
 
-  private SettingsDialog? settings_dialog = null;
   private GLib.GenericArray<Account> active_accounts;
   private bool started_as_service = false;
 

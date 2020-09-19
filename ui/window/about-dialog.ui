@@ -165,7 +165,7 @@
                                   <object class="GtkLabel" id="app_name_info_large">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">cawbird</property>
+                                    <property name="label">cawbird</property>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -203,37 +203,12 @@
                                   <object class="GtkLabel" id="version_info_large">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">1.2.0</property>
+                                    <property name="label">1.2.0</property>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
                                     <property name="fill">True</property>
                                     <property name="position">1</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkButton" id="copy_info_button_large">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="receives_default">True</property>
-                                    <property name="tooltip_text" translatable="yes">Copy technical details to clipboard.</property>
-                                    <property name="halign">center</property>
-                                    <property name="valign">center</property>
-                                    <child>
-                                      <object class="GtkImage" id="copy_info_symbol_large">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
-                                        <property name="halign">center</property>
-                                        <property name="valign">center</property>
-                                        <property name="icon_name">preferences-system-details-symbolic</property>
-                                      </object>
-                                    </child>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="pack_type">end</property>
-                                    <property name="position">2</property>
                                   </packing>
                                 </child>
                               </object>
@@ -307,98 +282,63 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkBox" id="app_info_group_small">
+                              <object class="GtkGrid" id="app_info_group_small">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="margin_top">20</property>
+                                <property name="row_spacing">5</property>
+                                <property name="column_spacing">12</property>
                                 <child>
-                                  <object class="GtkGrid" id="app_details_group_small">
+                                  <object class="GtkLabel" id="app_name_label_small">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="row_spacing">5</property>
-                                    <property name="column_spacing">12</property>
-                                    <child>
-                                      <object class="GtkLabel" id="app_name_label_small">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
-                                        <property name="halign">start</property>
-                                        <property name="label" translatable="yes">Application name</property>
-                                        <style>
-                                          <class name="dim-label"/>
-                                        </style>
-                                      </object>
-                                      <packing>
-                                        <property name="left_attach">0</property>
-                                        <property name="top_attach">0</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <object class="GtkLabel" id="version_label_small">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
-                                        <property name="halign">start</property>
-                                        <property name="label" translatable="yes">Version</property>
-                                        <style>
-                                          <class name="dim-label"/>
-                                        </style>
-                                      </object>
-                                      <packing>
-                                        <property name="left_attach">0</property>
-                                        <property name="top_attach">1</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <object class="GtkLabel" id="app_name_info_small">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
-                                        <property name="halign">start</property>
-                                        <property name="label" translatable="yes">cawbird</property>
-                                      </object>
-                                      <packing>
-                                        <property name="left_attach">1</property>
-                                        <property name="top_attach">0</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <object class="GtkLabel" id="version_info_small">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
-                                        <property name="halign">start</property>
-                                        <property name="label" translatable="yes">1.2.0</property>
-                                      </object>
-                                      <packing>
-                                        <property name="left_attach">1</property>
-                                        <property name="top_attach">1</property>
-                                      </packing>
-                                    </child>
+                                    <property name="halign">start</property>
+                                    <property name="label" translatable="yes">Application name</property>
+                                    <style>
+                                      <class name="dim-label"/>
+                                    </style>
                                   </object>
                                   <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">0</property>
+                                    <property name="left_attach">0</property>
+                                    <property name="top_attach">0</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkButton" id="copy_info_button_small">
+                                  <object class="GtkLabel" id="version_label_small">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="receives_default">True</property>
-                                    <property name="tooltip_text" translatable="yes">Copy technical details to clipboard.</property>
-                                    <property name="halign">center</property>
-                                    <property name="valign">center</property>
-                                    <child>
-                                      <object class="GtkImage" id="copy_info_symbol_small">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
-                                        <property name="icon_name">preferences-system-details-symbolic</property>
-                                      </object>
-                                    </child>
+                                    <property name="can_focus">False</property>
+                                    <property name="halign">start</property>
+                                    <property name="label" translatable="yes">Version</property>
+                                    <style>
+                                      <class name="dim-label"/>
+                                    </style>
                                   </object>
                                   <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="pack_type">end</property>
-                                    <property name="position">1</property>
+                                    <property name="left_attach">0</property>
+                                    <property name="top_attach">1</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="app_name_info_small">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="halign">start</property>
+                                    <property name="label">cawbird</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">1</property>
+                                    <property name="top_attach">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="version_info_small">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="halign">start</property>
+                                    <property name="label">1.2.0</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">1</property>
+                                    <property name="top_attach">1</property>
                                   </packing>
                                 </child>
                               </object>
@@ -464,7 +404,7 @@
                             <property name="can_focus">False</property>
                             <property name="label">&lt;a href="mailto:cawbird@ibboard.co.uk"&gt;IBBoard&lt;/a&gt; (Cawbird)
 &lt;a href="mailto:fred99schenk@icloud.com"&gt;Frederick Schenk&lt;/a&gt; (UI Rewrite)
-&lt;a href="mail@baedert.org"&gt;Timm Bäder&lt;/a&gt; (Cawbird)</property>
+&lt;a href="mail@baedert.org"&gt;Timm Bäder&lt;/a&gt; (Corebird)</property>
                             <property name="use_markup">True</property>
                             <property name="justify">center</property>
                           </object>
