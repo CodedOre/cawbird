@@ -226,6 +226,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="margin_bottom">20</property>
+                                <signal name="clicked" handler="ui_action_website_button" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">0</property>
@@ -240,6 +241,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="margin_bottom">20</property>
+                                <signal name="clicked" handler="ui_action_issue_button" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -261,6 +263,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
+                                <signal name="clicked" handler="ui_action_website_button" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -275,6 +278,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
+                                <signal name="clicked" handler="ui_action_issue_button" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="expand">False</property>

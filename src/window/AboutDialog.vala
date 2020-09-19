@@ -30,6 +30,20 @@ class AboutDialog : Hdy.Window {
   [GtkChild]
   private Hdy.ViewSwitcherBar lower_stack_switch;
 
+  // Non-UI-Elements of AboutDialog
+  private string website_link = "https://ibboard.co.uk/cawbird/";
+  private string issues_link = "https://github.com/IBBoard/cawbird/issues";
+
+  [GtkCallback]
+  private void ui_action_website_button () {
+    Gtk.show_uri_on_window(this, website_link, Gdk.CURRENT_TIME);
+  }
+
+  [GtkCallback]
+  private void ui_action_issue_button () {
+    Gtk.show_uri_on_window(this, issues_link, Gdk.CURRENT_TIME);
+  }
+
   [GtkCallback]
   private void ui_adaptive_change () {
     var child = header_squeezer.get_visible_child();
