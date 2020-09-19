@@ -342,6 +342,7 @@
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
             <property name="text" translatable="yes">About Cawbird</property>
+            <signal name="clicked" handler="ui_action_about_menu_button" swapped="no"/>
           </object>
           <packing>
             <property name="expand">False</property>
