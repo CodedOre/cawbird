@@ -22,4 +22,24 @@
 
 [GtkTemplate (ui = "/uk/co/ibboard/cawbird/ui/window/about-dialog.ui")]
 class AboutDialog : Hdy.Window {
+  // UI-Elements of AboutDialog
+  [GtkChild]
+  private Hdy.Squeezer header_squeezer;
+  [GtkChild]
+  private Hdy.ViewSwitcher upper_stack_switch;
+  [GtkChild]
+  private Gtk.Label window_title;
+  [GtkChild]
+  private Hdy.Squeezer links_squeezer;
+  [GtkChild]
+  private Hdy.ViewSwitcherBar lower_stack_switch;
+  [GtkChild]
+  private Gtk.Grid links_group_large;
+
+  [GtkCallback]
+  private void ui_adaptive_change () {
+    var child = links_squeezer.get_visible_child();
+    lower_stack_switch.set_reveal(child != links_group_large);
+    header_squeezer.set_child_enabled(upper_stack_switch, child == links_group_large);
+  }
 }
