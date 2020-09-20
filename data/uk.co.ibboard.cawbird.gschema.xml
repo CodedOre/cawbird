@@ -16,7 +16,7 @@
   </enum>
 
   <schema id="uk.co.ibboard.cawbird"
-      path="/uk.co.ibboard.cawbird/"
+      path="/uk/co/ibboard/cawbird/"
       gettext-domain="cawbird">
 
     <key name="use-dark-theme" type="b">
@@ -79,14 +79,6 @@
       <default>"&lt;Control&gt;K"</default>
       <summary>Accelerator to show the account list (popover)</summary>
     </key>
-    <key name="window-geometry" type="a{s(iiii)}">
-      <default>{}</default>
-      <summary></summary>
-    </key>
-    <key name="settings-geometry" type="(iiii)">
-      <default>(0,0,500,300)</default>
-      <summary>Size and position of the settings dialog</summary>
-    </key>
     <key type="s" name="consumer-key">
       <default>"Vf9torDW2ZOw32DfhUtI9csL8"</default>
       <summary>The application's oauth consumer key.</summary>
@@ -113,6 +105,30 @@
     <key name="media-visibility" enum="uk.co.ibboard.cawbird.media-visibility">
       <default>"Show"</default>
       <summary>When to show media attached to tweets</summary>
+    </key>
+  </schema>
+
+  <schema id="uk.co.ibboard.cawbird.window.settings"
+          path="/uk/co/ibboard/cawbird/window/settings/">
+    <key name="window-pos" type="(ii)">
+      <default>(0,0)</default>
+      <summary>The position of the settings dialog</summary>
+    </key>
+    <key name="window-size" type="(ii)">
+      <default>(750,500)</default>
+      <summary>The size of the settings dialog</summary>
+    </key>
+  </schema>
+
+  <schema id="uk.co.ibboard.cawbird.window.main-window"
+          path="/uk/co/ibboard/cawbird/window/main-window/">
+    <key name="window-pos" type="a{s(ii)}">
+      <default>{}</default>
+      <summary>The position of the MainWindow</summary>
+    </key>
+    <key name="window-size" type="a{s(ii)}">
+      <default>{}</default>
+      <summary>The size of the MainWindow</summary>
     </key>
   </schema>
 </schemalist>

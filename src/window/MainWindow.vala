@@ -53,6 +53,7 @@ public class MainWindow : Gtk.ApplicationWindow {
   private Gtk.PopoverMenu app_menu_popover;
 
   // Non-UI-Elements of MainWindow
+  private GLib.Settings window_settings;
   public MainWidget main_widget;
   public unowned Account? account;
   private ComposeTweetWindow? compose_tweet_window = null;
@@ -65,6 +66,7 @@ public class MainWindow : Gtk.ApplicationWindow {
   }
 
   public MainWindow (Gtk.Application app, Account? account = null) {
+    this.window_settings = new GLib.Settings ("uk.co.ibboard.cawbird.window.main-window");
     var group = new Gtk.WindowGroup ();
     group.add_window (this);
 
@@ -148,6 +150,45 @@ public class MainWindow : Gtk.ApplicationWindow {
   private void ui_adaptive_change () {
     var child = header_squeezer.get_visible_child();
     lower_stack_switch.set_reveal(child != upper_stack_switch);
+  }
+
+  [GtkCallback]
+  private bool window_action_close (Gdk.EventAny event) {
+
+    if (main_widget != null)
+      main_widget.stop ();
+
+    if (account == null)
+      return Gdk.EVENT_PROPAGATE;
+
+    unowned GLib.List<Gtk.Window> ws = this.application.get_windows ();
+    debug("Windows: %u", ws.length ());
+
+    string[] startup_accounts = Settings.get ().get_strv ("startup-accounts");
+    if (startup_accounts.length == 1 && startup_accounts[0] == "")
+      startup_accounts.resize (0);
+
+    save_geometry ();
+
+    if (startup_accounts.length > 0)
+      return Gdk.EVENT_PROPAGATE;
+
+    int n_main_windows = 0;
+    foreach (Gtk.Window win in ws)
+      if (win is MainWindow &&
+          ((MainWindow) win).account != null &&
+          ((MainWindow) win).account.screen_name != Account.DUMMY)
+        n_main_windows ++;
+
+
+    if (n_main_windows == 1) {
+      // This is the last window so we save this one anyways...
+      string[] new_startup_accounts = new string[1];
+      new_startup_accounts[0] = ((MainWindow)ws.nth_data (0)).account.screen_name;
+      Settings.get ().set_strv ("startup-accounts", new_startup_accounts);
+      debug ("Saving the account %s", ((MainWindow)ws.nth_data (0)).account.screen_name);
+    }
+    return Gdk.EVENT_PROPAGATE;
   }
 
   public void change_account (Account? account) {
@@ -337,44 +378,6 @@ public class MainWindow : Gtk.ApplicationWindow {
   private void account_popover_closed_cb () {
   }
 
-  private bool window_delete_cb (Gdk.EventAny evt) {
-    if (main_widget != null)
-      main_widget.stop ();
-
-    if (account == null)
-      return Gdk.EVENT_PROPAGATE;
-
-    unowned GLib.List<Gtk.Window> ws = this.application.get_windows ();
-    debug("Windows: %u", ws.length ());
-
-    string[] startup_accounts = Settings.get ().get_strv ("startup-accounts");
-    if (startup_accounts.length == 1 && startup_accounts[0] == "")
-      startup_accounts.resize (0);
-
-    save_geometry ();
-
-    if (startup_accounts.length > 0)
-      return Gdk.EVENT_PROPAGATE;
-
-    int n_main_windows = 0;
-    foreach (Gtk.Window win in ws)
-      if (win is MainWindow &&
-          ((MainWindow) win).account != null &&
-          ((MainWindow) win).account.screen_name != Account.DUMMY)
-        n_main_windows ++;
-
-
-    if (n_main_windows == 1) {
-      // This is the last window so we save this one anyways...
-      string[] new_startup_accounts = new string[1];
-      new_startup_accounts[0] = ((MainWindow)ws.nth_data (0)).account.screen_name;
-      Settings.get ().set_strv ("startup-accounts", new_startup_accounts);
-      debug ("Saving the account %s", ((MainWindow)ws.nth_data (0)).account.screen_name);
-    }
-    return Gdk.EVENT_PROPAGATE;
-  }
-
-
   private void account_info_changed (string        screen_name,
                                      string        name,
                                      Cairo.Surface small_avatar,
@@ -391,22 +394,25 @@ public class MainWindow : Gtk.ApplicationWindow {
       debug ("Could not load geometry, account == null");
       return;
     }
-    GLib.Variant win_geom = Settings.get ().get_value ("window-geometry");
-    int x = 0,
-        y = 0,
-        w = 0,
-        h = 0;
 
-    if (!win_geom.lookup (account.screen_name, "(iiii)", &x, &y, &w, &h)) {
+    int x, y, width, height;
+    GLib.Variant win_pos = window_settings.get_value ("window-pos");
+    GLib.Variant win_size = window_settings.get_value ("window-size");
+
+    if (!win_pos.lookup (account.screen_name, "(ii)", out x, out y)) {
+      warning ("Couldn't load window geometry for screen_name `%s'", account.screen_name);
+      return;
+    }
+    if (!win_size.lookup (account.screen_name, "(ii)", out width, out height)) {
       warning ("Couldn't load window geometry for screen_name `%s'", account.screen_name);
       return;
     }
 
-    if (w == 0 || h == 0)
+    if (width == 0 || height == 0)
       return;
 
-    move (x, y);
-    this.resize (w, h);
+    this.move (x, y);
+    this.resize (width, height);
   }
 
   /**
@@ -416,29 +422,44 @@ public class MainWindow : Gtk.ApplicationWindow {
     if (account == null || account.screen_name == Account.DUMMY)
       return;
 
-    GLib.Variant win_geom = Settings.get ().get_value ("window-geometry");
-    GLib.Variant new_geom;
-    GLib.VariantBuilder builder = new GLib.VariantBuilder (new GLib.VariantType("a{s(iiii)}"));
-    var iter = win_geom.iterator ();
+    GLib.Variant win_pos = window_settings.get_value ("window-pos");
+    GLib.Variant win_size = window_settings.get_value ("window-size");
+    GLib.Variant new_pos;
+    GLib.Variant new_size;
+
+    GLib.VariantBuilder pos_builder = new GLib.VariantBuilder (new GLib.VariantType("a{s(ii)}"));
+    GLib.VariantBuilder size_builder = new GLib.VariantBuilder (new GLib.VariantType("a{s(ii)}"));
+
+    var pos_iter = win_pos.iterator ();
+    var size_iter = win_size.iterator ();
+
     string? key = null;
-    int x = 0,
-        y = 0,
-        w = 0,
-        h = 0;
-    while (iter.next ("{s(iiii)}", &key, &x, &y, &w, &h)) {
+    int x, y, w, h;
+    while (pos_iter.next ("{s(ii)}", out key, out x, out y)) {
       if (key != account.screen_name) {
-        builder.add ("{s(iiii)}", key, x, y, w, h);
+        pos_builder.add ("{s(ii)}", key, x, y);
       }
       key = null; // Otherwise we leak key
     }
+    key = null;
+    while (size_iter.next ("{s(ii)}", out key, out w, out h)) {
+      if (key != account.screen_name) {
+        size_builder.add ("{s(ii)}", key, w, h);
+      }
+      key = null; // Otherwise we leak key
+    }
+
     /* Finally, add this window */
     this.get_position (out x, out y);
     this.get_size (out w, out h);
-    builder.add ("{s(iiii)}", account.screen_name, x, y, w, h);
-    new_geom = builder.end ();
+    pos_builder.add ("{s(ii)}", account.screen_name, x, y);
+    size_builder.add ("{s(ii)}", account.screen_name, w, h);
+    new_pos = pos_builder.end ();
+    new_size = size_builder.end ();
     debug ("Saving geomentry for %s: %d,%d,%d,%d", account.screen_name, x, y, w, h);
 
-    Settings.get ().set_value ("window-geometry", new_geom);
+    window_settings.set_value ("window-pos", new_pos);
+    window_settings.set_value ("window-size", new_size);
   }
 
   private int account_sort_func (Gtk.ListBoxRow a,

@@ -53,9 +53,11 @@ class SettingsDialog : Hdy.PreferencesWindow {
 
   // Non-UI-Elements of SettingsDialog
   private bool block_flag_emission = false;
+  private GLib.Settings window_settings;
 
   public SettingsDialog () {
     var text_transform_flags = Settings.get_text_transform_flags ();
+    this.window_settings = new GLib.Settings ("uk.co.ibboard.cawbird.window.settings");
 
     // Bind InterfacePage switches to settings
     Settings.get ().bind ("use-dark-theme", dark_theme_switch,
@@ -190,34 +192,18 @@ class SettingsDialog : Hdy.PreferencesWindow {
   }
 
   private void load_geometry () {
-    GLib.Variant geom = Settings.get ().get_value ("settings-geometry");
-    int x = 0,
-        y = 0,
-        w = 0,
-        h = 0;
-    x = geom.get_child_value (0).get_int32 ();
-    y = geom.get_child_value (1).get_int32 ();
-    w = geom.get_child_value (2).get_int32 ();
-    h = geom.get_child_value (3).get_int32 ();
-    if (w == 0 || h == 0)
-      return;
-
+    int x, y, width, height;
+    window_settings.get ("window-pos", "(ii)", out x, out y);
+    window_settings.get ("window-size", "(ii)", out width, out height);
     this.move (x, y);
-    this.resize (w, h);
+    this.resize (width, height);
   }
 
   private void save_geometry () {
-    var builder = new GLib.VariantBuilder (GLib.VariantType.TUPLE);
-    int x = 0,
-        y = 0,
-        w = 0,
-        h = 0;
+    int x, y, width, height;
+    this.get_size (out width, out height);
     this.get_position (out x, out y);
-    this.get_size (out w, out h);
-    builder.add_value (new GLib.Variant.int32(x));
-    builder.add_value (new GLib.Variant.int32(y));
-    builder.add_value (new GLib.Variant.int32(w));
-    builder.add_value (new GLib.Variant.int32(h));
-    Settings.get ().set_value ("settings-geometry", builder.end ());
+    window_settings.set ("window-pos", "(ii)", x, y);
+    window_settings.set ("window-size", "(ii)", width, height);
   }
 }
