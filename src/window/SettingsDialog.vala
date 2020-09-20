@@ -203,7 +203,7 @@ class SettingsDialog : Hdy.PreferencesWindow {
       return;
 
     this.move (x, y);
-    this.set_default_size (w, h);
+    this.resize (w, h);
   }
 
   private void save_geometry () {

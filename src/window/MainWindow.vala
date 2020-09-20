@@ -406,7 +406,7 @@ public class MainWindow : Gtk.ApplicationWindow {
       return;
 
     move (x, y);
-    this.set_default_size (w, h);
+    this.resize (w, h);
   }
 
   /**
