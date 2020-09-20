@@ -40,8 +40,14 @@ class ModifySnippetWidget : Gtk.Box {
 
   // Signals of ModifySnippetWidget
   public signal void modify_done (string? new_keyword = null, string? new_replacement = null, bool remove = false);
+#if OLD_HANDY
+  private GLib.Settings window_settings;
+#endif
 
   public ModifySnippetWidget (string? keyword = null, string? replacement = null) {
+#if OLD_HANDY
+    this.window_settings = new GLib.Settings ("uk.co.ibboard.cawbird.window.dialog");
+#endif
     old_key = keyword;
     if (keyword != null) {
       keyword_entry.text = keyword;
@@ -56,6 +62,7 @@ class ModifySnippetWidget : Gtk.Box {
       header_confirm.set_sensitive(true);
     }
 #if OLD_HANDY
+    load_geometry();
     this.set_modal(true);
 #endif
   }
@@ -64,6 +71,7 @@ class ModifySnippetWidget : Gtk.Box {
   private void ui_action_header_cancel () {
     modify_done();
 #if OLD_HANDY
+    save_geometry();
     this.destroy();
 #endif
   }
@@ -81,6 +89,7 @@ class ModifySnippetWidget : Gtk.Box {
 
     modify_done(new_keyword, new_replacement);
 #if OLD_HANDY
+    save_geometry();
     this.destroy();
 #endif
   }
@@ -125,7 +134,22 @@ class ModifySnippetWidget : Gtk.Box {
     Cawbird.snippet_manager.remove_snippet (this.old_key);
     modify_done(null, null, true);
 #if OLD_HANDY
+    save_geometry();
     this.destroy();
 #endif
   }
+
+#if OLD_HANDY
+  private void load_geometry () {
+    int x, y, width, height;
+    window_settings.get ("window-size", "(ii)", out width, out height);
+    this.resize (width, height);
+  }
+
+  private void save_geometry () {
+    int x, y, width, height;
+    this.get_size (out width, out height);
+    window_settings.set ("window-size", "(ii)", width, height);
+  }
+#endif
 }

@@ -52,12 +52,12 @@ class SettingsDialog : Hdy.PreferencesWindow {
   private Hdy.PreferencesGroup snippets_list;
 
   // Non-UI-Elements of SettingsDialog
-  private bool block_flag_emission = false;
   private GLib.Settings window_settings;
+  private bool block_flag_emission = false;
 
   public SettingsDialog () {
-    var text_transform_flags = Settings.get_text_transform_flags ();
     this.window_settings = new GLib.Settings ("uk.co.ibboard.cawbird.window.settings");
+    var text_transform_flags = Settings.get_text_transform_flags ();
 
     // Bind InterfacePage switches to settings
     Settings.get ().bind ("use-dark-theme", dark_theme_switch,

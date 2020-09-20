@@ -35,8 +35,14 @@ class AboutDialog : Hdy.Window {
   private Hdy.ViewSwitcherBar lower_stack_switch;
 
   // Non-UI-Elements of AboutDialog
+  private GLib.Settings window_settings;
   private string website_link = "https://ibboard.co.uk/cawbird/";
   private string issues_link = "https://github.com/IBBoard/cawbird/issues";
+
+  public AboutDialog () {
+    this.window_settings = new GLib.Settings ("uk.co.ibboard.cawbird.window.dialog");
+    load_geometry();
+  }
 
   [GtkCallback]
   private void ui_action_website_button () {
@@ -52,5 +58,23 @@ class AboutDialog : Hdy.Window {
   private void ui_adaptive_change () {
     var child = header_squeezer.get_visible_child();
     lower_stack_switch.set_reveal(child != upper_stack_switch);
+  }
+
+  [GtkCallback]
+  private bool window_action_close () {
+    save_geometry();
+    return Gdk.EVENT_PROPAGATE;
+  }
+
+  private void load_geometry () {
+    int x, y, width, height;
+    window_settings.get ("window-size", "(ii)", out width, out height);
+    this.resize (width, height);
+  }
+
+  private void save_geometry () {
+    int x, y, width, height;
+    this.get_size (out width, out height);
+    window_settings.set ("window-size", "(ii)", width, height);
   }
 }

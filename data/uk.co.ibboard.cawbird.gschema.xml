@@ -108,6 +108,18 @@
     </key>
   </schema>
 
+  <schema id="uk.co.ibboard.cawbird.window.main-window"
+          path="/uk/co/ibboard/cawbird/window/main-window/">
+    <key name="window-pos" type="a{s(ii)}">
+      <default>{}</default>
+      <summary>The position of the MainWindow</summary>
+    </key>
+    <key name="window-size" type="a{s(ii)}">
+      <default>{}</default>
+      <summary>The size of the MainWindow</summary>
+    </key>
+  </schema>
+
   <schema id="uk.co.ibboard.cawbird.window.settings"
           path="/uk/co/ibboard/cawbird/window/settings/">
     <key name="window-pos" type="(ii)">
@@ -120,15 +132,11 @@
     </key>
   </schema>
 
-  <schema id="uk.co.ibboard.cawbird.window.main-window"
-          path="/uk/co/ibboard/cawbird/window/main-window/">
-    <key name="window-pos" type="a{s(ii)}">
-      <default>{}</default>
-      <summary>The position of the MainWindow</summary>
-    </key>
-    <key name="window-size" type="a{s(ii)}">
-      <default>{}</default>
-      <summary>The size of the MainWindow</summary>
+  <schema id="uk.co.ibboard.cawbird.window.dialog"
+          path="/uk/co/ibboard/cawbird/window/dialog/">
+    <key name="window-size" type="(ii)">
+      <default>(500,300)</default>
+      <summary>The size of dialog windows</summary>
     </key>
   </schema>
 </schemalist>
