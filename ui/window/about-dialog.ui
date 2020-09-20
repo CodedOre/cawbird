@@ -203,7 +203,7 @@
                                   <object class="GtkLabel" id="version_info_large">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label">1.2.0</property>
+                                    <property name="label">handyport-alpha</property>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -338,7 +338,7 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="halign">start</property>
-                                    <property name="label">1.2.0</property>
+                                    <property name="label">handyport-alpha</property>
                                   </object>
                                   <packing>
                                     <property name="left_attach">1</property>
