@@ -260,7 +260,7 @@ class ProfilePage : ScrollWidget, IPage, Cb.MessageReceiver {
         loading_stack.visible_child = loading_error_label;
       } else if (e.domain == Rest.ProxyError.quark() && e.code == new Rest.ProxyError.SSL ("workaround").code) {
         debug ("Reloading user profile on SSL failure");
-        load_profile_data (user_id);
+        load_profile_data.begin (user_id);
       } else {
         warning (e.message);
       }
@@ -362,9 +362,6 @@ class ProfilePage : ScrollWidget, IPage, Cb.MessageReceiver {
       urls.foreach_element ((arr, i, node) => {
         var ent = node.get_object ();
         string expanded_url = ent.get_string_member ("expanded_url");
-        /* We do *not* escape ampersands as &amp; here, since we will later do that on the entire
-           description when setting the text of our description_label. Contrary to normal tweets,
-           profile descriptions don't come with pre-escaped ampersands */
         Json.Array indices = ent.get_array_member ("indices");
         text_urls[i] = Cb.TextEntity(){
           from = (uint)indices.get_int_element (0),
@@ -387,19 +384,19 @@ class ProfilePage : ScrollWidget, IPage, Cb.MessageReceiver {
           text_urls[i] = Cb.TextEntity () {
             from = (uint)e.start_character_index,
             to   = (uint)(e.start_character_index + e.length_in_characters),
-            target = e.start->ndup(e.length_in_bytes),
-            original_text = e.start->ndup(e.length_in_bytes),
-            display_text = e.start->ndup(e.length_in_bytes),
-            tooltip_text = e.start->ndup(e.length_in_bytes)
+            target = e.start->substring(0, (long)e.length_in_bytes),
+            original_text = e.start->substring(0, (long)e.length_in_bytes),
+            display_text = e.start->substring(0, (long)e.length_in_bytes),
+            tooltip_text = e.start->substring(0, (long)e.length_in_bytes)
           };
         } else if (e.type == Tl.EntityType.MENTION) {
           text_urls[i] = Cb.TextEntity () {
             from = (uint)e.start_character_index,
             to   = (uint)(e.start_character_index + e.length_in_characters),
             target = "@0/%.*s".printf (e.length_in_bytes, e.start),
-            original_text = e.start->ndup(e.length_in_bytes),
-            display_text = e.start->ndup(e.length_in_bytes),
-            tooltip_text = e.start->ndup(e.length_in_bytes)
+            original_text = e.start->substring(0, (long)e.length_in_bytes),
+            display_text = e.start->substring(0, (long)e.length_in_bytes),
+            tooltip_text = e.start->substring(0, (long)e.length_in_bytes)
           };
         }
 
@@ -424,18 +421,15 @@ class ProfilePage : ScrollWidget, IPage, Cb.MessageReceiver {
     var _screen_name = "@" + screen_name;
     screen_name_label.set_label (_screen_name);
     screen_name_label.tooltip_text = _screen_name;
-    string desc = description;
-    if (text_urls != null) {
-      TweetUtils.sort_entities (ref text_urls);
-      desc = Cb.TextTransform.text (description,
-                                    text_urls,
-                                    0,
-                                    0,
-                                    0);
-    }
+    TweetUtils.sort_entities (ref text_urls);
+    string desc = Cb.TextTransform.text (description,
+                                         text_urls,
+                                         0,
+                                         0,
+                                         0);
 
     this.follower_count = followers;
-    description_label.label = "<big>%s</big>".printf (desc.replace ("&", "&amp;"));
+    description_label.label = "<big>%s</big>".printf (desc);
     tweets_label.label = "%'d".printf(tweets);
     tweets_button.get_accessible().set_name(ngettext("%d tweet", "%d tweets", tweets).printf(tweets));
     following_label.label = "%'d".printf(following);
@@ -504,7 +498,7 @@ class ProfilePage : ScrollWidget, IPage, Cb.MessageReceiver {
 
       if (e.domain == Rest.ProxyError.quark() && e.code == new Rest.ProxyError.SSL ("workaround").code) {
         debug ("Reloading user timeline on SSL failure");
-        load_tweets ();
+        load_tweets.begin ();
       }
 
       return;

@@ -37,8 +37,8 @@ struct _CbMediaImageWidget
   double drag_start_hvalue;
   double drag_start_vvalue;
 
-  gulong hadj_changed_id;
-  gulong vadj_changed_id;
+  CbMedia *media;
+  gulong hires_progress_id;
 };
 typedef struct _CbMediaImageWidget CbMediaImageWidget;
 
