@@ -147,6 +147,11 @@ public class MainWindow : Gtk.ApplicationWindow {
   }
 
   [GtkCallback]
+  private void ui_action_more_accounts_submenu () {
+    this.app_menu_popover.open_submenu("more-accounts");
+  }
+
+  [GtkCallback]
   private void ui_adaptive_change () {
     var child = header_squeezer.get_visible_child();
     lower_stack_switch.set_reveal(child != upper_stack_switch);
