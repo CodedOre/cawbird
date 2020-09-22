@@ -52,10 +52,15 @@ public class MainWindow : Gtk.ApplicationWindow {
   [GtkChild]
   private Gtk.PopoverMenu app_menu_popover;
   [GtkChild]
+  private Gtk.ListBox main_account_list;
+  [GtkChild]
+  private Gtk.ListBox account_details_row_holder;
+  [GtkChild]
   private Gtk.ListBoxRow open_more_accounts_submenu_row;
 
   // Non-UI-Elements of MainWindow
   private GLib.Settings window_settings;
+  private string current_menu_page;
   public MainWidget main_widget;
   public unowned Account? account;
   private ComposeTweetWindow? compose_tweet_window = null;
@@ -122,6 +127,10 @@ public class MainWindow : Gtk.ApplicationWindow {
         }
     });*/
 
+    UserRow test_row = new UserRow ("Random User", "@RandomUser");
+    test_row.level_down.connect(open_account_detail_page);
+    main_account_list.insert(test_row, 0);
+
     this.add_action_entries (win_entries, this);
 
     this.thumb_button_gesture = new Gtk.GestureMultiPress (this);
@@ -150,21 +159,32 @@ public class MainWindow : Gtk.ApplicationWindow {
 
   [GtkCallback]
   private void ui_action_main_account_list (Gtk.ListBoxRow row) {
+    print("\n\nMore Details!");
     if (row == open_more_accounts_submenu_row) {
       this.app_menu_popover.open_submenu("more-accounts");
     }
     else {
-      ui_action_account_list_select(row);
+      current_menu_page = "main";
     }
   }
 
   [GtkCallback]
   private void ui_action_account_list_select (Gtk.ListBoxRow row) {
+    current_menu_page = "more-accounts";
+  }
+
+  private void open_account_detail_page (UserRow row) {
+    UserRow detail_row = new UserRow (row.user_name, row.user_account, row.is_active, true);
+    foreach (Gtk.Widget element in account_details_row_holder.get_children ()) {
+      account_details_row_holder.remove (element);
+    }
+    account_details_row_holder.add(detail_row);
+    this.app_menu_popover.open_submenu("account-detail");
   }
 
   [GtkCallback]
-  private void ui_action_account_details_back () {
-
+  private void ui_action_account_details_back (Gtk.ListBoxRow row) {
+    this.app_menu_popover.open_submenu(current_menu_page);
   }
 
   [GtkCallback]

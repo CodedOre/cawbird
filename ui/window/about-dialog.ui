@@ -111,7 +111,7 @@
                           <object class="GtkLabel" id="about_subtitle">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">Developed by IBBoard</property>
+                            <property name="label" translatable="yes">A Twitter Client forked from Corebird.</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
