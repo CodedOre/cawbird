@@ -51,6 +51,8 @@ public class MainWindow : Gtk.ApplicationWindow {
   // UI-Elements of AppMenu
   [GtkChild]
   private Gtk.PopoverMenu app_menu_popover;
+  [GtkChild]
+  private Gtk.ListBoxRow open_more_accounts_submenu_row;
 
   // Non-UI-Elements of MainWindow
   private GLib.Settings window_settings;
@@ -147,8 +149,22 @@ public class MainWindow : Gtk.ApplicationWindow {
   }
 
   [GtkCallback]
-  private void ui_action_more_accounts_submenu () {
-    this.app_menu_popover.open_submenu("more-accounts");
+  private void ui_action_main_account_list (Gtk.ListBoxRow row) {
+    if (row == open_more_accounts_submenu_row) {
+      this.app_menu_popover.open_submenu("more-accounts");
+    }
+    else {
+      ui_action_account_list_select(row);
+    }
+  }
+
+  [GtkCallback]
+  private void ui_action_account_list_select (Gtk.ListBoxRow row) {
+  }
+
+  [GtkCallback]
+  private void ui_action_account_details_back () {
+
   }
 
   [GtkCallback]

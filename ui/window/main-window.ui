@@ -209,25 +209,15 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="selection_mode">none</property>
+            <signal name="row-activated" handler="ui_action_main_account_list" swapped="no"/>
             <child>
               <object class="GtkListBoxRow" id="open_more_accounts_submenu_row">
                 <property name="can_focus">False</property>
                 <child>
-                  <object class="GtkButton" id="open_more_accounts_submenu_button">
+                  <object class="GtkImage" id="open_more_accounts_submenu_symbol">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="receives_default">False</property>
-                    <signal name="clicked" handler="ui_action_more_accounts_submenu" swapped="no"/>
-                    <child>
-                      <object class="GtkImage" id="open_more_accounts_submenu_symbol">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="icon_name">view-more-horizontal-symbolic</property>
-                      </object>
-                    </child>
-                    <style>
-                      <class name="flat"/>
-                    </style>
+                    <property name="icon_name">view-more-horizontal-symbolic</property>
                   </object>
                 </child>
               </object>
@@ -325,6 +315,7 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="selection_mode">none</property>
+            <signal name="row-activated" handler="ui_action_account_list_select" swapped="no"/>
             <style>
               <class name="content"/>
             </style>
@@ -347,9 +338,14 @@
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
         <child>
-          <object class="GtkBox" id="account_details_row_holder">
+          <object class="GtkListBox" id="account_details_row_holder">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="selection_mode">none</property>
+            <signal name="row-activated" handler="ui_action_account_details_back" swapped="no"/>
+            <style>
+              <class name="content"/>
+            </style>
           </object>
           <packing>
             <property name="expand">False</property>
