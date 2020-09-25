@@ -37,7 +37,7 @@ class UserRow : Hdy.ActionRow {
     get { return this.get_title(); }
     set { this.set_title(value); }
   }
-  private string user_id {
+  private string screen_name {
     get { return this.get_subtitle(); }
     set { this.set_subtitle(value); }
   }
@@ -48,10 +48,13 @@ class UserRow : Hdy.ActionRow {
   public UserRow.from_account (Account acc, bool active = false, bool lowlevel = false) {
     // Add account data
     this.account = acc;
-    this.user_name = acc.name;
-    this.user_id = "@" + acc.screen_name;
+    this.user_name = account.name;
+    this.screen_name = "@" + account.screen_name;
     this.is_active = active;
     this.lower_level = lowlevel;
+
+    // Connect update signal
+    acc.info_changed.connect (update_account);
 
     // Set symbols visibility
     if (is_active) {
@@ -65,22 +68,7 @@ class UserRow : Hdy.ActionRow {
   }
 
   public UserRow.from_row (UserRow row, bool active = false, bool lowlevel = false) {
-    // Add account data
-    this.account = row.account;
-    this.user_name = account.name;
-    this.user_id = "@" + account.screen_name;
-    this.is_active = active;
-    this.lower_level = lowlevel;
-
-    // Set symbols visibility
-    if (is_active) {
-      user_active_symbol.show();
-    }
-    if (lower_level) {
-      lower_level_symbol.show();
-    } else {
-      level_down_button.show();
-    }
+    this.from_account(row.account, active, lowlevel);
   }
 
   public void update_active (bool active) {
@@ -90,6 +78,11 @@ class UserRow : Hdy.ActionRow {
     } else {
       user_active_symbol.hide();
     }
+  }
+
+  private void update_account (string screen_name, string name, Cairo.Surface nop, Cairo.Surface avatar) {
+    this.screen_name = "@" + screen_name;
+    this.user_name = name;
   }
 
   [GtkCallback]
