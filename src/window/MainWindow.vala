@@ -98,7 +98,7 @@ public class MainWindow : Gtk.ApplicationWindow {
         row = new UserRow.from_account (acc);
       }
       row.level_down.connect(open_account_detail_page);
-      main_account_list.insert(row, 0);
+      main_account_list.insert(row, -1);
     }
 
     /* TODO: Reimplement
@@ -161,7 +161,6 @@ public class MainWindow : Gtk.ApplicationWindow {
 
   [GtkCallback]
   private void ui_action_main_account_list (Gtk.ListBoxRow row) {
-    print("\n\nMore Details!");
     if (row == open_more_accounts_submenu_row) {
       this.app_menu_popover.open_submenu("more-accounts");
     }
