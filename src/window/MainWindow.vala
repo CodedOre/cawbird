@@ -87,12 +87,18 @@ public class MainWindow : Gtk.ApplicationWindow {
 
     for (uint i = 0; i < Account.get_n (); i ++) {
       var acc = Account.get_nth (i);
-      if (acc.screen_name == Account.DUMMY)
+      if (acc.screen_name == Account.DUMMY) {
           continue;
-      var e = new UserListEntry.from_account (acc);
-      e.show_settings = true;
-      e.action_clicked.connect (() => {
-      });
+      }
+      UserRow row;
+      if (acc == account) {
+        row = new UserRow.from_account (acc, true);
+      }
+      else {
+        row = new UserRow.from_account (acc);
+      }
+      row.level_down.connect(open_account_detail_page);
+      main_account_list.insert(row, 0);
     }
 
     /* TODO: Reimplement
@@ -126,10 +132,6 @@ public class MainWindow : Gtk.ApplicationWindow {
           break;
         }
     });*/
-
-    UserRow test_row = new UserRow ("Random User", "@RandomUser");
-    test_row.level_down.connect(open_account_detail_page);
-    main_account_list.insert(test_row, 0);
 
     this.add_action_entries (win_entries, this);
 
@@ -174,7 +176,7 @@ public class MainWindow : Gtk.ApplicationWindow {
   }
 
   private void open_account_detail_page (UserRow row) {
-    UserRow detail_row = new UserRow (row.user_name, row.user_account, row.is_active, true);
+    UserRow detail_row = new UserRow.from_row (row, false, true);
     foreach (Gtk.Widget element in account_details_row_holder.get_children ()) {
       account_details_row_holder.remove (element);
     }

@@ -30,25 +30,43 @@ class UserRow : Hdy.ActionRow {
   private Gtk.Image lower_level_symbol;
 
   // Non-UI-Elements of SnippetRow
-  public string user_name {
+  public Account account;
+  public bool is_active;
+  public bool lower_level;
+  private string user_name {
     get { return this.get_title(); }
     set { this.set_title(value); }
   }
-  public string user_account {
+  private string user_id {
     get { return this.get_subtitle(); }
     set { this.set_subtitle(value); }
   }
-  public bool is_active;
-  public bool lower_level;
 
   // Signals of UserRow
   public signal void level_down ();
 
-  public UserRow (string name, string account, bool active = false, bool lowlevel = false) {
-    user_name = name;
-    user_account = account;
-    is_active = active;
-    lower_level = lowlevel;
+  public UserRow.from_account (Account acc, bool active = false, bool lowlevel = false) {
+    this.account = acc;
+    this.user_name = acc.name;
+    this.user_id = "@" + acc.screen_name;
+    this.is_active = active;
+    this.lower_level = lowlevel;
+    if (is_active) {
+      user_active_symbol.show();
+    }
+    if (lower_level) {
+      lower_level_symbol.show();
+    } else {
+      level_down_button.show();
+    }
+  }
+
+  public UserRow.from_row (UserRow row, bool active = false, bool lowlevel = false) {
+    this.account = row.account;
+    this.user_name = account.name;
+    this.user_id = "@" + account.screen_name;
+    this.is_active = active;
+    this.lower_level = lowlevel;
     if (is_active) {
       user_active_symbol.show();
     }
