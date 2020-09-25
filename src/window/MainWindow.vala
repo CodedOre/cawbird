@@ -148,6 +148,7 @@ public class MainWindow : Gtk.ApplicationWindow {
   private void ui_action_about_menu_button () {
     AboutDialog about_window = new AboutDialog ();
     about_window.set_transient_for(this);
+    about_window.show();
   }
 
   [GtkCallback]
