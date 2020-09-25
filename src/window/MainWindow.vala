@@ -55,12 +55,9 @@ public class MainWindow : Gtk.ApplicationWindow {
   private Gtk.ListBox main_account_list;
   [GtkChild]
   private Gtk.ListBox account_details_row_holder;
-  [GtkChild]
-  private Gtk.ListBoxRow open_more_accounts_submenu_row;
 
   // Non-UI-Elements of MainWindow
   private GLib.Settings window_settings;
-  private string current_menu_page;
   public MainWidget main_widget;
   public unowned Account? account;
   private ComposeTweetWindow? compose_tweet_window = null;
@@ -161,17 +158,6 @@ public class MainWindow : Gtk.ApplicationWindow {
 
   [GtkCallback]
   private void ui_action_main_account_list (Gtk.ListBoxRow row) {
-    if (row == open_more_accounts_submenu_row) {
-      this.app_menu_popover.open_submenu("more-accounts");
-    }
-    else {
-      current_menu_page = "main";
-    }
-  }
-
-  [GtkCallback]
-  private void ui_action_account_list_select (Gtk.ListBoxRow row) {
-    current_menu_page = "more-accounts";
   }
 
   private void open_account_detail_page (UserRow row) {
@@ -185,7 +171,7 @@ public class MainWindow : Gtk.ApplicationWindow {
 
   [GtkCallback]
   private void ui_action_account_details_back (Gtk.ListBoxRow row) {
-    this.app_menu_popover.open_submenu(current_menu_page);
+    this.app_menu_popover.open_submenu("main");
   }
 
   [GtkCallback]
