@@ -57,9 +57,9 @@ public class MainWindow : Gtk.ApplicationWindow {
   private Gtk.ListBox account_details_row_holder;
 
   // Non-UI-Elements of MainWindow
-  private GLib.Settings window_settings;
   public MainWidget main_widget;
   public unowned Account? account;
+  private GLib.Settings window_settings;
   private ComposeTweetWindow? compose_tweet_window = null;
   private Gtk.GestureMultiPress thumb_button_gesture;
 
@@ -80,23 +80,17 @@ public class MainWindow : Gtk.ApplicationWindow {
     });
 #endif
 
-    change_account (account);
-
     for (uint i = 0; i < Account.get_n (); i ++) {
       var acc = Account.get_nth (i);
       if (acc.screen_name == Account.DUMMY) {
           continue;
       }
-      UserRow row;
-      if (acc == account) {
-        row = new UserRow.from_account (acc, true);
-      }
-      else {
-        row = new UserRow.from_account (acc);
-      }
+      UserRow row = new UserRow.from_account (acc);
       row.level_down.connect(open_account_detail_page);
       main_account_list.add(row);
     }
+
+    change_account (account);
 
     /* TODO: Reimplement
     ((Cawbird)app).account_added.connect ((new_acc) => {
@@ -263,24 +257,23 @@ public class MainWindow : Gtk.ApplicationWindow {
       main_widget.switch_page (0);
       this.set_window_title (main_widget.get_page (0).get_title ());
 
+      foreach (Gtk.Widget element in main_account_list.get_children ()) {
+        if (element is UserRow) {
+          UserRow row = (UserRow)element;
+          if (row.account == account) {
+            row.update_active(true);
+          } else {
+            row.update_active(false);
+          }
+        }
+      }
+
       account.info_changed.connect (account_info_changed);
       this.set_title ("Cawbird - @%s".printf (account.screen_name));
 
       cb.account_window_changed (old_user_id, account.id);
-
-      if (!Gtk.Settings.get_default ().gtk_shell_shows_app_menu) {
-        if (app_menu_button == null) {
-          app_menu_button = new Gtk.MenuButton ();
-          app_menu_button.image = new Gtk.Image.from_icon_name ("emblem-system-symbolic", Gtk.IconSize.MENU);
-          app_menu_button.get_style_context ().add_class ("image-button");
-          app_menu_button.show_all ();
-        } else
-          app_menu_button.show ();
-      }
     } else {
       /* "Special case" when creating a new account */
-      if (app_menu_button != null)
-        app_menu_button.hide ();
 
       Account acc_;
       if (account == null)

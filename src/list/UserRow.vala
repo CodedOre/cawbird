@@ -59,9 +59,6 @@ class UserRow : Hdy.ActionRow {
     acc.info_changed.connect (update_account);
 
     // Set symbols visibility
-    if (is_active) {
-      user_active_symbol.show();
-    }
     if (lower_level) {
       lower_level_symbol.show();
     } else {
@@ -76,9 +73,9 @@ class UserRow : Hdy.ActionRow {
   public void update_active (bool active) {
     is_active = active;
     if (is_active) {
-      user_active_symbol.show();
+      user_active_symbol.icon_name = "object-select-symbolic";
     } else {
-      user_active_symbol.hide();
+      user_active_symbol.icon_name = "";
     }
   }
 

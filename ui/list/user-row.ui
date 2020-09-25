@@ -10,6 +10,8 @@
     <property name="activatable">True</property>
     <child>
       <object class="GtkImage" id="user_active_symbol">
+        <property name="visible">True</property>
+        <property name="width_request">20</property>
         <property name="can_focus">False</property>
         <property name="icon_name">object-select-symbolic</property>
       </object>
