@@ -32,6 +32,7 @@ class UserRow : Hdy.ActionRow {
   // Non-UI-Elements of SnippetRow
   public Account account;
   public bool is_active;
+  public int64 user_id;
   public bool lower_level;
   private string user_name {
     get { return this.get_title(); }
@@ -48,6 +49,7 @@ class UserRow : Hdy.ActionRow {
   public UserRow.from_account (Account acc, bool active = false, bool lowlevel = false) {
     // Add account data
     this.account = acc;
+    this.user_id = account.id;
     this.user_name = account.name;
     this.screen_name = "@" + account.screen_name;
     this.is_active = active;

@@ -95,7 +95,7 @@ public class MainWindow : Gtk.ApplicationWindow {
         row = new UserRow.from_account (acc);
       }
       row.level_down.connect(open_account_detail_page);
-      main_account_list.insert(row, -1);
+      main_account_list.add(row);
     }
 
     /* TODO: Reimplement
@@ -158,6 +158,25 @@ public class MainWindow : Gtk.ApplicationWindow {
 
   [GtkCallback]
   private void ui_action_main_account_list (Gtk.ListBoxRow row) {
+    UserRow e = (UserRow)row;
+    int64 user_id = e.user_id;
+    Cawbird cb = (Cawbird)this.get_application ();
+
+    MainWindow? account_window = null;
+    if (user_id == this.account.id ||
+        cb.is_window_open_for_user_id (user_id, out account_window)) {
+
+      if (account_window != null)
+        account_window.present ();
+
+      return;
+    }
+
+    Account? acc = Account.query_account_by_id (user_id);
+    if (acc != null) {
+      change_account (acc);
+    } else
+      warning ("account == null");
   }
 
   private void open_account_detail_page (UserRow row) {
@@ -285,35 +304,6 @@ public class MainWindow : Gtk.ApplicationWindow {
       this.add (create_widget);
     }
 
-  }
-
-  private void account_row_activated_cb (Gtk.ListBoxRow row) {
-    if (row is AddListEntry) {
-      Account dummy_acc = new Account (0, Account.DUMMY, "name");
-      var window = new MainWindow (application, dummy_acc);
-      get_application ().add_window (window);
-      window.show_all ();
-      return;
-    }
-    var e = (UserListEntry)row;
-    int64 user_id = e.user_id;
-    Cawbird cb = (Cawbird)this.get_application ();
-
-    MainWindow? account_window = null;
-    if (user_id == this.account.id ||
-        cb.is_window_open_for_user_id (user_id, out account_window)) {
-
-      if (account_window != null)
-        account_window.present ();
-
-      return;
-    }
-
-    Account? acc = Account.query_account_by_id (user_id);
-    if (acc != null) {
-      change_account (acc);
-    } else
-      warning ("account == null");
   }
 
   private void thumb_button_pressed_cb (Gtk.GestureMultiPress gesture,
