@@ -67,13 +67,13 @@ class AboutDialog : Hdy.Window {
   }
 
   private void load_geometry () {
-    int x, y, width, height;
+    int width, height;
     window_settings.get ("window-size", "(ii)", out width, out height);
     this.resize (width, height);
   }
 
   private void save_geometry () {
-    int x, y, width, height;
+    int width, height;
     this.get_size (out width, out height);
     window_settings.set ("window-size", "(ii)", width, height);
   }

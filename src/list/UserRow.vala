@@ -46,11 +46,14 @@ class UserRow : Hdy.ActionRow {
   public signal void level_down ();
 
   public UserRow.from_account (Account acc, bool active = false, bool lowlevel = false) {
+    // Add account data
     this.account = acc;
     this.user_name = acc.name;
     this.user_id = "@" + acc.screen_name;
     this.is_active = active;
     this.lower_level = lowlevel;
+
+    // Set symbols visibility
     if (is_active) {
       user_active_symbol.show();
     }
@@ -62,11 +65,14 @@ class UserRow : Hdy.ActionRow {
   }
 
   public UserRow.from_row (UserRow row, bool active = false, bool lowlevel = false) {
+    // Add account data
     this.account = row.account;
     this.user_name = account.name;
     this.user_id = "@" + account.screen_name;
     this.is_active = active;
     this.lower_level = lowlevel;
+
+    // Set symbols visibility
     if (is_active) {
       user_active_symbol.show();
     }
