@@ -162,11 +162,12 @@ class SettingsDialog : Hdy.PreferencesWindow {
     ModifySnippetWidget mod_widget = new ModifySnippetWidget();
     mod_widget.modify_done.connect(close_snippet_modifier);
 #if OLD_HANDY
-    this.set_modal(false);
+    mod_widget.set_modal(true);
     mod_widget.set_transient_for(this);
 #else
     this.present_subpage(mod_widget);
 #endif
+    mod_widget.show();
   }
 
   public void close_snippet_modifier (string? new_keyword = null, string? new_replacement = null) {
@@ -174,9 +175,7 @@ class SettingsDialog : Hdy.PreferencesWindow {
       SnippetRow row = new SnippetRow(new_keyword, new_replacement, this);
       snippets_list.add(row);
     }
-#if OLD_HANDY
-    this.set_modal(true);
-#else
+#if !OLD_HANDY
     this.close_subpage();
 #endif
   }
