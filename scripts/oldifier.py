@@ -89,14 +89,21 @@ for uifile in allfiles:
             if uiobj.attrib["lib"] == "libhandy":
                 if uiobj.attrib["version"] == "1.0":
                     uiobj.attrib["version"] == "0.0"
+                    work += 1
         if uiobj.tag == "object":
             # Add type="action" to childs of HdyActionRow
             if uiobj.attrib["class"] == "HdyActionRow":
+                uipartlist = []
                 for uipart in list(uiobj):
                     if uipart.tag == "child":
                         if not "type" in uipart.attrib:
                             uipart.attrib["type"] = "action"
+                            uipartlist.insert(-1, uipart)
+                            uiobj.remove(uipart)
                             work += 1
+                for uipart in uipartlist:
+                    uiobj.append(uipart)
+                    work += 1
             # Rename HdyClamp to HdyColumn
             if uiobj.attrib["class"] == "HdyClamp":
                 uiobj.attrib["class"] = "HdyColumn"
@@ -136,11 +143,17 @@ for uifile in allfiles:
         if uiobj.tag == "template":
             # Add type="action" to childs of HdyActionRow
             if uiobj.attrib["parent"] == "HdyActionRow":
+                uipartlist = []
                 for uipart in list(uiobj):
                     if uipart.tag == "child":
                         if not "type" in uipart.attrib:
                             uipart.attrib["type"] = "action"
+                            uipartlist.insert(-1, uipart)
+                            uiobj.remove(uipart)
                             work += 1
+                for uipart in uipartlist:
+                    uiobj.append(uipart)
+                    work += 1
             if uiobj.attrib["parent"] == "HdyWindow":
                 uiobj.attrib["parent"] = "GtkWindow"
                 for uichild in list(uiobj):
