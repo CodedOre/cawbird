@@ -34,11 +34,11 @@ class UserRow : Hdy.ActionRow {
   public bool is_active;
   public int64 user_id;
   public bool lower_level;
-  private string user_name {
+  public string user_name {
     get { return this.get_title(); }
     set { this.set_title(value); }
   }
-  private string screen_name {
+  public string screen_name {
     get { return this.get_subtitle(); }
     set { this.set_subtitle(value); }
   }

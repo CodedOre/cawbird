@@ -323,11 +323,12 @@
           </packing>
         </child>
         <child>
-          <object class="GtkModelButton" id="account_in_new_tab_button">
+          <object class="GtkModelButton" id="account_in_new_window_button">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
-            <property name="text" translatable="yes">Open in new Tab</property>
+            <property name="text" translatable="yes">Open in new Window</property>
+            <signal name="clicked" handler="ui_action_account_in_new_window" swapped="no"/>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -341,6 +342,7 @@
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
             <property name="text" translatable="yes">View Profile</property>
+            <signal name="clicked" handler="ui_action_view_profile" swapped="no"/>
           </object>
           <packing>
             <property name="expand">False</property>

@@ -26,8 +26,6 @@ public class MainWindow : Gtk.ApplicationWindow {
     {"compose-tweet",       show_hide_compose_window},
     {"toggle-topbar",       Settings.toggle_topbar_visible},
     {"switch-page",         simple_switch_page, "i"},
-    {"show-account-dialog", show_account_dialog},
-    {"show-account-list",   show_account_list},
     {"previous",            previous},
     {"next",                next}
   };
@@ -186,6 +184,33 @@ public class MainWindow : Gtk.ApplicationWindow {
   [GtkCallback]
   private void ui_action_account_details_back (Gtk.ListBoxRow row) {
     this.app_menu_popover.open_submenu("main");
+  }
+
+  [GtkCallback]
+  private void ui_action_account_in_new_window () {
+    Gtk.ListBoxRow detail_row = account_details_row_holder.get_row_at_index(0);
+    if (detail_row == null) {
+      return;
+    }
+    UserRow row = (UserRow) detail_row;
+    Account account = row.account;
+    var cb = (Cawbird) GLib.Application.get_default ();
+    var window = new MainWindow (cb, account);
+    cb.add_window (window);
+    window.show();
+  }
+
+  [GtkCallback]
+  private void ui_action_view_profile () {
+    Gtk.ListBoxRow detail_row = account_details_row_holder.get_row_at_index(0);
+    if (detail_row == null) {
+      return;
+    }
+    UserRow row = (UserRow) detail_row;
+    var bundle = new Cb.Bundle ();
+    bundle.put_int64 (ProfilePage.KEY_USER_ID, row.user_id);
+    bundle.put_string (ProfilePage.KEY_SCREEN_NAME, row.screen_name);
+    this.main_widget.switch_page (Page.PROFILE, bundle);
   }
 
   [GtkCallback]
@@ -362,32 +387,8 @@ public class MainWindow : Gtk.ApplicationWindow {
     main_widget.switch_page (Page.NEXT);
   }
 
-  /* result of the show-account-dialog GAction */
-  private void show_account_dialog () {
-    if (this.account == null ||
-        this.account.screen_name == Account.DUMMY)
-      return;
-
-    var dialog = new AccountDialog (this.account);
-    dialog.set_transient_for (this);
-    dialog.modal = true;
-    dialog.show ();
-  }
-
-  /* for show-account-list GAction */
-  private void show_account_list () {
-    if (this.account != null && this.account.screen_name != Account.DUMMY) {
-    }
-  }
-
   public IPage get_page (int page_id) {
     return main_widget.get_page (page_id);
-  }
-
-  private void account_button_clicked_cb () {
-  }
-
-  private void account_popover_closed_cb () {
   }
 
   private void account_info_changed (string        screen_name,
