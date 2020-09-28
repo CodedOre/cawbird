@@ -87,6 +87,9 @@ public class MainWindow : Gtk.ApplicationWindow {
       row.level_down.connect(open_account_detail_page);
       main_account_list.add(row);
     }
+#if OLD_HANDY
+    main_account_list.set_header_func(default_header_func);
+#endif
 
     change_account (account);
 

@@ -34,6 +34,10 @@ class ModifySnippetWidget : Gtk.Box {
   private Gtk.Button header_confirm;
   [GtkChild]
   private Hdy.ActionRow delete_row;
+#if OLD_HANDY
+  [GtkChild]
+  private Gtk.ListBox modifier_list;
+#endif
 
   // Non-UI-Elements of ModifySnippetWidget
   private string old_key;
@@ -47,6 +51,7 @@ class ModifySnippetWidget : Gtk.Box {
   public ModifySnippetWidget (string? keyword = null, string? replacement = null) {
 #if OLD_HANDY
     this.window_settings = new GLib.Settings ("uk.co.ibboard.cawbird.window.dialog");
+    modifier_list.set_header_func(default_header_func);
 #endif
     old_key = keyword;
     if (keyword != null) {
