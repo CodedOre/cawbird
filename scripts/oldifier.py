@@ -84,6 +84,11 @@ for uifile in allfiles:
 
     for uiobj in allnodes:
         # Generic Adaptions
+        if uiobj.tag == "requires":
+            # Change Dependency to libhandy-0
+            if uiobj.attrib["lib"] == "libhandy":
+                if uiobj.attrib["version"] == "1.0":
+                    uiobj.attrib["version"] == "0.0"
         if uiobj.tag == "object":
             # Add type="action" to childs of HdyActionRow
             if uiobj.attrib["class"] == "HdyActionRow":
@@ -153,7 +158,7 @@ for uifile in allfiles:
 
         # File-Specific Adaptions
         if uifile == "ui/widget/modify-snippet-widget.ui":
-            # Specific adaptions for ModifySnippetWidget
+            # Make GtkBox to a Window
             if uiobj.tag == "template":
                 uiobj.attrib["parent"] = "GtkWindow"
                 for uipart in list(uiobj):
@@ -161,6 +166,7 @@ for uifile in allfiles:
                         if uipart.attrib["name"] == "orientation":
                             uiobj.remove(uipart)
                             work += 1
+            # Make the dialog_header the titlebar
             if uiobj.tag == "child":
                 for uipart in list(uiobj):
                     if uipart.tag == "object":
