@@ -2,6 +2,7 @@
   <gresource prefix="/uk/co/ibboard/cawbird">
     <file preprocess="xml-stripblanks">ui/list/snippet-row.ui</file>
     <file preprocess="xml-stripblanks">ui/list/user-row.ui</file>
+    <file preprocess="xml-stripblanks">ui/widget/create-account-widget.ui</file>
     <file preprocess="xml-stripblanks">ui/widget/modify-snippet-widget.ui</file>
     <file preprocess="xml-stripblanks">ui/window/about-dialog.ui</file>
     <file preprocess="xml-stripblanks">ui/window/main-window.ui</file>
