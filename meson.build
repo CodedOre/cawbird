@@ -136,6 +136,7 @@ cawbird_lib_sources = files([
   'src/widgets/ChildSizedScroller.vala',
   'src/widgets/CompletionTextView.vala',
   'src/widgets/ComposeImageManager.vala',
+  'src/widgets/CreateAccountWidget.vala',
   'src/widgets/CropWidget.vala',
   'src/widgets/DMPlaceholderBox.vala',
   'src/widgets/DoubleTapButton.vala',

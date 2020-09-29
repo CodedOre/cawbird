@@ -47,6 +47,10 @@ class SettingsDialog : Hdy.PreferencesWindow {
   [GtkChild]
   private Gtk.Switch new_message_switch;
 
+  // UI-Elements of AccountsPage
+  [GtkChild]
+  private Hdy.PreferencesGroup accounts_list;
+
   // UI-Elements of SnippetsPage
   [GtkChild]
   private Hdy.PreferencesGroup snippets_list;
@@ -151,6 +155,28 @@ class SettingsDialog : Hdy.PreferencesWindow {
     } else {
       Settings.remove_text_transform_flag (Cb.TransformFlags.REMOVE_MEDIA_LINKS);
     }
+  }
+
+  /*
+   * Signal Handling for AccountsPage
+   */
+  [GtkCallback]
+  private void ui_action_add_account () {
+    CreateAccountWidget add_widget = new CreateAccountWidget ();
+    add_widget.widget_closed.connect(close_account_creator);
+#if OLD_HANDY
+    add_widget.set_modal(true);
+    add_widget.set_transient_for(this);
+#else
+    this.present_subpage(add_widget);
+#endif
+    add_widget.show();
+  }
+
+  private void close_account_creator () {
+#if !OLD_HANDY
+    this.close_subpage();
+#endif
   }
 
   /*
