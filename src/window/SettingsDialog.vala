@@ -57,10 +57,12 @@ class SettingsDialog : Hdy.PreferencesWindow {
 
   // Non-UI-Elements of SettingsDialog
   private GLib.Settings window_settings;
+  private unowned Cawbird cawbird;
   private bool block_flag_emission = false;
 
-  public SettingsDialog () {
+  public SettingsDialog (Cawbird cawbird) {
     this.window_settings = new GLib.Settings ("uk.co.ibboard.cawbird.window.settings");
+    this.cawbird = cawbird;
     var text_transform_flags = Settings.get_text_transform_flags ();
 
     // Bind InterfacePage switches to settings
@@ -162,7 +164,7 @@ class SettingsDialog : Hdy.PreferencesWindow {
    */
   [GtkCallback]
   private void ui_action_add_account () {
-    CreateAccountWidget add_widget = new CreateAccountWidget ();
+    CreateAccountWidget add_widget = new CreateAccountWidget (cawbird);
     add_widget.widget_closed.connect(close_account_creator);
 #if OLD_HANDY
     add_widget.set_modal(true);

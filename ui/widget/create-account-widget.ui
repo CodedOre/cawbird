@@ -30,6 +30,7 @@
             <property name="sensitive">False</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
+            <signal name="clicked" handler="ui_action_header_confirm" swapped="no"/>
             <style>
               <class name="suggested-action"/>
             </style>
@@ -222,6 +223,7 @@
                             <property name="can_focus">True</property>
                             <property name="max_length">7</property>
                             <property name="input_purpose">number</property>
+                            <signal name="changed" handler="ui_action_pin_entry" swapped="no"/>
                           </object>
                           <packing>
                             <property name="expand">True</property>

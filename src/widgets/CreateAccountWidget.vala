@@ -29,6 +29,8 @@ class CreateAccountWidget : Gtk.Box {
   [GtkChild]
   private Hdy.Carousel content_carousel;
   [GtkChild]
+  private Gtk.Button header_confirm;
+  [GtkChild]
   private Gtk.Button header_cancel;
   [GtkChild]
   private Hdy.Clamp overview_page;
@@ -37,12 +39,15 @@ class CreateAccountWidget : Gtk.Box {
   [GtkChild]
   private Gtk.Button pin_retry_button;
   [GtkChild]
+  private Gtk.Entry pin_entry;
+  [GtkChild]
   private Gtk.Revealer notification_revealer;
   [GtkChild]
   private Gtk.Label notification_label;
 
   // Non-UI-Elements of CreateAccountWidget
   private Account acc;
+  private unowned Cawbird cawbird;
 #if OLD_HANDY
   private GLib.Settings window_settings;
 #endif
@@ -51,9 +56,9 @@ class CreateAccountWidget : Gtk.Box {
   public signal void widget_closed (Account? account = null);
   private signal void auth_progress ();
 
-  public CreateAccountWidget () {
+  public CreateAccountWidget (Cawbird cawbird) {
     this.acc = new Account (0, Account.DUMMY, "name");
-
+    this.cawbird = cawbird;
   }
 
   [GtkCallback]
@@ -85,6 +90,17 @@ class CreateAccountWidget : Gtk.Box {
     });
   }
 
+  [GtkCallback]
+  private void ui_action_pin_entry () {
+    int entry_size = pin_entry.get_text_length();
+    int entry_max = pin_entry.get_max_length();
+    if (entry_size == entry_max) {
+      header_confirm.set_sensitive(true);
+    } else {
+      header_confirm.set_sensitive(false);
+    }
+  }
+
   private void reveal_notification (string notification) {
     notification_label.set_label(_(notification));
     notification_revealer.set_reveal_child(true);
@@ -109,6 +125,84 @@ class CreateAccountWidget : Gtk.Box {
     }
   }
 
+  [GtkCallback]
+  private void ui_action_header_confirm () {
+    set_edit_sensitive (false);
+    this.do_confirm.begin ();
+  }
+
+  private void set_edit_sensitive (bool sensitive) {
+    header_confirm.set_sensitive(sensitive);
+    header_cancel.set_sensitive(sensitive);
+    pin_entry.set_sensitive(sensitive);
+    pin_retry_button.set_sensitive(sensitive);
+    if (sensitive) {
+      pin_entry.set_text("");
+    }
+  }
+
+  private void confirm_cb (Rest.OAuthProxy proxy, Error? error, Object? weak_object) {
+    if (error != null) {
+      critical (error.message);
+      // We just assume that it was the wrong code
+      reveal_notification (_("Wrong PIN"));
+      set_edit_sensitive (true);
+      return;
+    }
+
+    var call = acc.proxy.new_call ();
+    call.set_function ("1.1/account/settings.json");
+    call.set_method ("GET");
+
+
+    Cb.Utils.load_threaded_async.begin (call, null, (obj, res) => {
+      Json.Node? root_node;
+      try {
+        root_node = Cb.Utils.load_threaded_async.end(res);
+      } catch (GLib.Error e) {
+        warning ("Could not get json data: %s", e.message);
+        return;
+      }
+
+      Json.Object root = root_node.get_object ();
+      string screen_name = root.get_string_member ("screen_name");
+      debug ("Checking for %s", screen_name);
+      Account? existing_account = Account.query_account (screen_name);
+      if (existing_account != null) {
+        critical ("Account is already in use");
+        reveal_notification (_("Account already in use"));
+        set_edit_sensitive (true);
+        return;
+      }
+
+      acc.query_user_info_by_screen_name.begin (screen_name, (obj, res) => {
+        acc.query_user_info_by_screen_name.end(res);
+        debug ("user info call");
+        acc.init_database ();
+        acc.save_info();
+        acc.db.insert ("common")
+              .val ("token", acc.proxy.token)
+              .val ("token_secret", acc.proxy.token_secret)
+              .run ();
+        acc.suppress_notifications();
+        acc.init_proxy (true, true);
+        cawbird.account_added (acc);
+        result_received ();
+      });
+    });
+  }
+
+  private async void do_confirm () {
+    try {
+      if (!acc.proxy.access_token_async ("oauth/access_token", pin_entry.get_text(), confirm_cb, this)) {
+        reveal_notification(_("Failed to retrieve access token"));
+      }
+    } catch (GLib.Error e) {
+      reveal_notification(e.message);
+      critical (e.message);
+    }
+  }
+
   private void pin_request_cb (Rest.OAuthProxy proxy, Error? error, Object? weak_object) {
     if (error != null) {
       reveal_notification(error.message);
@@ -129,7 +223,7 @@ class CreateAccountWidget : Gtk.Box {
     auth_progress();
   }
 
-  public void open_pin_request_site () {
+  private void open_pin_request_site () {
     acc.init_proxy (false, true);
     try {
       if (!acc.proxy.request_token_async ("oauth/request_token", "oob", pin_request_cb, this)) {
@@ -139,6 +233,14 @@ class CreateAccountWidget : Gtk.Box {
       reveal_notification(e.message);
       critical (e.message);
     }
+  }
+
+  private void result_received () {
+    widget_closed(acc);
+#if OLD_HANDY
+    save_geometry();
+    this.destroy();
+#endif
   }
 
 #if OLD_HANDY
