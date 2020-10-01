@@ -49,7 +49,7 @@ class SettingsDialog : Hdy.PreferencesWindow {
 
   // UI-Elements of AccountsPage
   [GtkChild]
-  private Hdy.PreferencesGroup accounts_list;
+  private Gtk.ListBox accounts_list;
 
   // UI-Elements of SnippetsPage
   [GtkChild]
@@ -98,6 +98,32 @@ class SettingsDialog : Hdy.PreferencesWindow {
     // Additional functions for NotificationPage
     update_new_tweet_access ();
 
+    // Populate AccountsPage with accounts
+    accounts_list.set_sort_func (account_sort_func);
+    for (uint i = 0; i < Account.get_n (); i ++) {
+      var acc = Account.get_nth (i);
+      if (acc.screen_name == Account.DUMMY) {
+          continue;
+      }
+      UserRow row = new UserRow.from_account (acc);
+      accounts_list.add(row);
+    }
+
+    cawbird.account_added.connect ((new_acc) => {
+      UserRow row = new UserRow.from_account(new_acc);
+      accounts_list.add(row);
+    });
+
+    cawbird.account_removed.connect ((acc) => {
+      var entries = accounts_list.get_children ();
+      foreach (Gtk.Widget urow in entries)
+        if (urow is UserRow &&
+            acc.screen_name == ((UserRow)urow).screen_name) {
+          accounts_list.remove (urow);
+          break;
+        }
+    });
+
     // Populate SnippetsPage with snippets
     Cawbird.snippet_manager.query_snippets ((keyword, replacement) => {
       SnippetRow row = new SnippetRow((string) keyword, (string) replacement, this);
@@ -108,7 +134,7 @@ class SettingsDialog : Hdy.PreferencesWindow {
   }
 
   /*
-   * Signal Handling for InterfacePage
+   * Functions for InterfacePage
    */
 
   [GtkCallback]
@@ -160,7 +186,7 @@ class SettingsDialog : Hdy.PreferencesWindow {
   }
 
   /*
-   * Signal Handling for AccountsPage
+   * Functions for AccountsPage
    */
   [GtkCallback]
   private void ui_action_add_account () {
@@ -184,8 +210,13 @@ class SettingsDialog : Hdy.PreferencesWindow {
 #endif
   }
 
+  private int account_sort_func (Gtk.ListBoxRow a,
+                                 Gtk.ListBoxRow b) {
+    return ((UserRow)a).screen_name.ascii_casecmp (((UserRow)b).screen_name);
+  }
+
   /*
-   * Signal Handling for SnippetsPage
+   * Functions for SnippetsPage
    */
 
   [GtkCallback]

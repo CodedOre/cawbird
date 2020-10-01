@@ -96,6 +96,7 @@ public class MainWindow : Gtk.ApplicationWindow {
 
     ((Cawbird)app).account_added.connect ((new_acc) => {
       UserRow row = new UserRow.from_account(new_acc);
+      row.level_down.connect(open_account_detail_page);
       main_account_list.add(row);
     });
 
