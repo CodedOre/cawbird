@@ -10,8 +10,8 @@
     <property name="activatable">True</property>
     <child>
       <object class="GtkImage" id="user_active_symbol">
-        <property name="visible">True</property>
         <property name="width_request">20</property>
+        <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="icon_name">object-select-symbolic</property>
       </object>
@@ -22,7 +22,7 @@
         <property name="receives_default">False</property>
         <property name="halign">center</property>
         <property name="valign">center</property>
-        <signal name="clicked" handler="ui_action_level_down_button" swapped="no"/>
+        <signal name="clicked" handler="ui_action_level_down" swapped="no"/>
         <child>
           <object class="GtkImage" id="level_down_symbol">
             <property name="visible">True</property>

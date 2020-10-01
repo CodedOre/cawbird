@@ -86,7 +86,7 @@ class UserRow : Hdy.ActionRow {
   }
 
   [GtkCallback]
-  private void ui_action_level_down_button () {
+  private void ui_action_level_down () {
     level_down();
   }
 }
