@@ -28,6 +28,12 @@ class CreateAccountWidget : Gtk.Box {
   // UI-Elements of CreateAccountWidget
   [GtkChild]
   private Hdy.Carousel content_carousel;
+  [GtkChild]
+  private Gtk.Button header_cancel;
+  [GtkChild]
+  private Hdy.Clamp overview_page;
+  [GtkChild]
+  private Hdy.Clamp pin_page;
 
   // Non-UI-Elements of CreateAccountWidget
 #if OLD_HANDY
@@ -42,12 +48,23 @@ class CreateAccountWidget : Gtk.Box {
   }
 
   [GtkCallback]
+  private void ui_action_request_pin () {
+    content_carousel.scroll_to(pin_page);
+    header_cancel.set_label(_("Back"));
+  }
+
+  [GtkCallback]
   private void ui_action_header_cancel () {
-    widget_closed();
+    if (content_carousel.get_position() == 1) {
+      content_carousel.scroll_to(overview_page);
+      header_cancel.set_label(_("Cancel"));
+    } else {
+      widget_closed();
 #if OLD_HANDY
-    save_geometry();
-    this.destroy();
+      save_geometry();
+      this.destroy();
 #endif
+    }
   }
 
 #if OLD_HANDY
