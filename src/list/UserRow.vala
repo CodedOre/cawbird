@@ -59,6 +59,7 @@ class UserRow : Hdy.ActionRow {
     acc.info_changed.connect (update_account);
 
     // Set symbols visibility
+    update_active (is_active);
     if (lower_level) {
       lower_level_symbol.show();
     } else {
