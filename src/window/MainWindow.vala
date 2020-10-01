@@ -87,16 +87,16 @@ public class MainWindow : Gtk.ApplicationWindow {
       if (acc.screen_name == Account.DUMMY) {
           continue;
       }
-      UserRow row = new UserRow.from_account (acc);
-      row.level_down.connect(open_account_detail_page);
+      UserRow row = new UserRow.from_account (acc, MAIN_LIST);
+      row.button_action.connect(open_account_detail_page);
       main_account_list.add(row);
     }
 
     change_account (account);
 
     ((Cawbird)app).account_added.connect ((new_acc) => {
-      UserRow row = new UserRow.from_account(new_acc);
-      row.level_down.connect(open_account_detail_page);
+      UserRow row = new UserRow.from_account(new_acc, MAIN_LIST);
+      row.button_action.connect(open_account_detail_page);
       main_account_list.add(row);
     });
 
@@ -162,7 +162,7 @@ public class MainWindow : Gtk.ApplicationWindow {
   }
 
   private void open_account_detail_page (UserRow row) {
-    UserRow detail_row = new UserRow.from_row (row, false, true);
+    UserRow detail_row = new UserRow.from_row (row, MAIN_DETAIL);
     foreach (Gtk.Widget element in account_details_row_holder.get_children ()) {
       account_details_row_holder.remove (element);
     }

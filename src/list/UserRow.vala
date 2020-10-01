@@ -27,13 +27,13 @@ class UserRow : Hdy.ActionRow {
   [GtkChild]
   private Gtk.Button level_down_button;
   [GtkChild]
+  private Gtk.Button edit_account_button;
+  [GtkChild]
   private Gtk.Image lower_level_symbol;
 
   // Non-UI-Elements of SnippetRow
   public Account account;
-  public bool is_active;
   public int64 user_id;
-  public bool lower_level;
   public string user_name {
     get { return this.get_title(); }
     set { this.set_title(value); }
@@ -43,41 +43,63 @@ class UserRow : Hdy.ActionRow {
     set { this.set_subtitle(value); }
   }
 
-  // Signals of UserRow
-  public signal void level_down ();
+  // Variants of UserRow
+  public enum row_variant {
+    CLEAR,
+    MAIN_LIST,
+    MAIN_DETAIL,
+    SETTINGS
+  }
+  public bool is_active {
+    set {
+      if (value) {
+        user_active_symbol.icon_name = "object-select-symbolic";
+      } else {
+        user_active_symbol.icon_name = "";
+      }
+    }
+  }
 
-  public UserRow.from_account (Account acc, bool active = false, bool lowlevel = false) {
+  // Signals of UserRow
+  public signal void button_action ();
+
+  public UserRow.from_account (Account acc, row_variant mode = CLEAR) {
     // Add account data
     this.account = acc;
     this.user_id = account.id;
     this.user_name = account.name;
     this.screen_name = "@" + account.screen_name;
-    this.is_active = active;
-    this.lower_level = lowlevel;
+    this.is_active = false;
 
     // Connect update signal
     acc.info_changed.connect (update_account);
 
-    // Set symbols visibility
-    update_active (is_active);
-    if (lower_level) {
-      lower_level_symbol.show();
-    } else {
-      level_down_button.show();
+    // Set up wanted behavior according to the mode
+    switch (mode) {
+      case CLEAR:
+        break;
+      case MAIN_LIST:
+        user_active_symbol.show();
+        level_down_button.show();
+        break;
+      case MAIN_DETAIL:
+        lower_level_symbol.show();
+        break;
+      case SETTINGS:
+        this.set_activatable_widget(edit_account_button);
+        edit_account_button.show();
+        break;
+      default:
+        throw new GLib.OptionError.BAD_VALUE("No know UserRow variant");
     }
   }
 
-  public UserRow.from_row (UserRow row, bool active = false, bool lowlevel = false) {
-    this.from_account(row.account, active, lowlevel);
+  public UserRow.from_row (UserRow row, row_variant mode = CLEAR) {
+    this.from_account(row.account, mode);
   }
 
   public void update_active (bool active) {
     is_active = active;
-    if (is_active) {
-      user_active_symbol.icon_name = "object-select-symbolic";
-    } else {
-      user_active_symbol.icon_name = "";
-    }
   }
 
   private void update_account (string screen_name, string name, Cairo.Surface nop, Cairo.Surface avatar) {
@@ -86,7 +108,7 @@ class UserRow : Hdy.ActionRow {
   }
 
   [GtkCallback]
-  private void ui_action_level_down () {
-    level_down();
+  private void ui_action_button_press () {
+    button_action();
   }
 }

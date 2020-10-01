@@ -105,12 +105,12 @@ class SettingsDialog : Hdy.PreferencesWindow {
       if (acc.screen_name == Account.DUMMY) {
           continue;
       }
-      UserRow row = new UserRow.from_account (acc);
+      UserRow row = new UserRow.from_account (acc, SETTINGS);
       accounts_list.add(row);
     }
 
     cawbird.account_added.connect ((new_acc) => {
-      UserRow row = new UserRow.from_account(new_acc);
+      UserRow row = new UserRow.from_account(new_acc, SETTINGS);
       accounts_list.add(row);
     });
 
