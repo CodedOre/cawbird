@@ -47,7 +47,7 @@ class AboutDialog : Hdy.Window {
   [GtkCallback]
   private void ui_action_website_button () {
     try {
-      Gtk.show_uri_on_window(this, website_link, Gdk.CURRENT_TIME);
+      GLib.AppInfo.launch_default_for_uri(website_link, null);
     } catch (GLib.Error e) {
       error("Could not call \"%s\" because of the following error: %s", website_link, e.message);
     }
@@ -56,7 +56,7 @@ class AboutDialog : Hdy.Window {
   [GtkCallback]
   private void ui_action_issue_button () {
     try {
-      Gtk.show_uri_on_window(this, issues_link, Gdk.CURRENT_TIME);
+      GLib.AppInfo.launch_default_for_uri(issues_link, null);
     } catch (GLib.Error e) {
       error("Could not call \"%s\" because of the following error: %s", website_link, e.message);
     }
