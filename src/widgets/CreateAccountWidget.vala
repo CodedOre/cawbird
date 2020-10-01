@@ -41,13 +41,13 @@ class CreateAccountWidget : Gtk.Box {
 
   // Non-UI-Elements of CreateAccountWidget
   private Account acc;
-  private bool auth_progress;
 #if OLD_HANDY
   private GLib.Settings window_settings;
 #endif
 
   // Signals of CreateAccountWidget
   public signal void widget_closed (Account? account = null);
+  private signal void auth_progress ();
 
   public CreateAccountWidget () {
     this.acc = new Account (0, Account.DUMMY, "name");
@@ -56,12 +56,11 @@ class CreateAccountWidget : Gtk.Box {
 
   [GtkCallback]
   private void ui_action_request_pin () {
-    auth_progress = false;
     open_pin_request_site ();
-    if (auth_progress) {
+    this.auth_progress.connect(() => {
       content_carousel.scroll_to(pin_page);
       header_cancel.set_label(_("Back"));
-    }
+    });
   }
 
   [GtkCallback]
@@ -116,7 +115,7 @@ class CreateAccountWidget : Gtk.Box {
       critical ("Could not open %s", uri);
       critical (e.message);
     }
-    auth_progress = true;
+    auth_progress();
   }
 
   public void open_pin_request_site () {
