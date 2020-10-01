@@ -235,6 +235,7 @@
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <property name="tooltip_text" translatable="yes">Request a new PIN.</property>
+                            <signal name="clicked" handler="ui_action_pin_retry" swapped="no"/>
                             <child>
                               <object class="GtkImage" id="pin_retry_symbol">
                                 <property name="visible">True</property>

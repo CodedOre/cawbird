@@ -35,6 +35,8 @@ class CreateAccountWidget : Gtk.Box {
   [GtkChild]
   private Hdy.Clamp pin_page;
   [GtkChild]
+  private Gtk.Button pin_retry_button;
+  [GtkChild]
   private Gtk.Revealer notification_revealer;
   [GtkChild]
   private Gtk.Label notification_label;
@@ -72,6 +74,15 @@ class CreateAccountWidget : Gtk.Box {
       reveal_notification (_("Could not open %s").printf ("<a href=\"" + uri + "\">" + uri + "</a>"));
       error("Could not call \"%s\" because of the following error: %s", uri, e.message);
     }
+  }
+
+  [GtkCallback]
+  private void ui_action_pin_retry () {
+    pin_retry_button.set_sensitive(false);
+    open_pin_request_site ();
+    this.auth_progress.connect(() => {
+      pin_retry_button.set_sensitive(true);
+    });
   }
 
   private void reveal_notification (string notification) {
