@@ -27,11 +27,11 @@ class CreateAccountWidget : Gtk.Box {
 #endif
   // UI-Elements of CreateAccountWidget
   [GtkChild]
-  private Hdy.Carousel content_carousel;
-  [GtkChild]
   private Gtk.Button header_confirm;
   [GtkChild]
   private Gtk.Button header_cancel;
+  [GtkChild]
+  private Hdy.Carousel content_carousel;
   [GtkChild]
   private Hdy.Clamp overview_page;
   [GtkChild]
@@ -61,6 +61,10 @@ class CreateAccountWidget : Gtk.Box {
     this.cawbird = cawbird;
   }
 
+  /*
+   * UI-Functions for OverviewPage
+   */
+
   [GtkCallback]
   private void ui_action_request_pin () {
     open_pin_request_site ();
@@ -81,6 +85,10 @@ class CreateAccountWidget : Gtk.Box {
     }
   }
 
+  /*
+   * UI-Functions for PinPage
+   */
+
   [GtkCallback]
   private void ui_action_pin_retry () {
     pin_retry_button.set_sensitive(false);
@@ -100,6 +108,10 @@ class CreateAccountWidget : Gtk.Box {
       header_confirm.set_sensitive(false);
     }
   }
+
+  /*
+   * UI-Functions for General Elements (Header and Notification)
+   */
 
   private void reveal_notification (string notification) {
     notification_label.set_label(_(notification));
@@ -140,6 +152,46 @@ class CreateAccountWidget : Gtk.Box {
       pin_entry.set_text("");
     }
   }
+
+  /*
+   * Background Functions for Calling AuthPage
+   */
+
+  private void pin_request_cb (Rest.OAuthProxy proxy, Error? error, Object? weak_object) {
+    if (error != null) {
+      reveal_notification(error.message);
+      critical (error.message);
+      return;
+    }
+
+    string uri = "http://twitter.com/oauth/authorize?oauth_token=" + acc.proxy.get_token();
+    debug ("Trying to open %s", uri);
+
+    try {
+      GLib.AppInfo.launch_default_for_uri (uri, null);
+    } catch (GLib.Error e) {
+      reveal_notification (_("Could not open %s").printf ("<a href=\"" + uri + "\">" + uri + "</a>"));
+      critical ("Could not open %s", uri);
+      critical (e.message);
+    }
+    auth_progress();
+  }
+
+  private void open_pin_request_site () {
+    acc.init_proxy (false, true);
+    try {
+      if (!acc.proxy.request_token_async ("oauth/request_token", "oob", pin_request_cb, this)) {
+        reveal_notification(_("Failed to retrieve request token"));
+      }
+    } catch(GLib.Error e) {
+      reveal_notification(e.message);
+      critical (e.message);
+    }
+  }
+
+  /*
+   * Background Functions for Confirming PIN
+   */
 
   private void confirm_cb (Rest.OAuthProxy proxy, Error? error, Object? weak_object) {
     if (error != null) {
@@ -203,37 +255,9 @@ class CreateAccountWidget : Gtk.Box {
     }
   }
 
-  private void pin_request_cb (Rest.OAuthProxy proxy, Error? error, Object? weak_object) {
-    if (error != null) {
-      reveal_notification(error.message);
-      critical (error.message);
-      return;
-    }
-
-    string uri = "http://twitter.com/oauth/authorize?oauth_token=" + acc.proxy.get_token();
-    debug ("Trying to open %s", uri);
-
-    try {
-      GLib.AppInfo.launch_default_for_uri (uri, null);
-    } catch (GLib.Error e) {
-      reveal_notification (_("Could not open %s").printf ("<a href=\"" + uri + "\">" + uri + "</a>"));
-      critical ("Could not open %s", uri);
-      critical (e.message);
-    }
-    auth_progress();
-  }
-
-  private void open_pin_request_site () {
-    acc.init_proxy (false, true);
-    try {
-      if (!acc.proxy.request_token_async ("oauth/request_token", "oob", pin_request_cb, this)) {
-        reveal_notification(_("Failed to retrieve request token"));
-      }
-    } catch(GLib.Error e) {
-      reveal_notification(e.message);
-      critical (e.message);
-    }
-  }
+  /*
+   * Generic Window Functions
+   */
 
   private void result_received () {
     widget_closed(acc);
