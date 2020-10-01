@@ -78,6 +78,10 @@ public class MainWindow : Gtk.ApplicationWindow {
     });
 #endif
 
+#if OLD_HANDY
+    main_account_list.set_header_func(default_header_func);
+#endif
+    main_account_list.set_sort_func (account_sort_func);
     for (uint i = 0; i < Account.get_n (); i ++) {
       var acc = Account.get_nth (i);
       if (acc.screen_name == Account.DUMMY) {
@@ -87,43 +91,23 @@ public class MainWindow : Gtk.ApplicationWindow {
       row.level_down.connect(open_account_detail_page);
       main_account_list.add(row);
     }
-#if OLD_HANDY
-    main_account_list.set_header_func(default_header_func);
-#endif
 
     change_account (account);
 
-    /* TODO: Reimplement
     ((Cawbird)app).account_added.connect ((new_acc) => {
-      // var entries = account_list.get_children ();
-      foreach (Gtk.Widget ule in entries)
-        if (ule is UserListEntry &&
-            new_acc.screen_name == ((UserListEntry)ule).screen_name)
-          return;
+      UserRow row = new UserRow.from_account(new_acc);
+      main_account_list.add(row);
+    });
 
-      var ule = new UserListEntry.from_account (new_acc);
-      ule.show_settings = true;
-      ule.action_clicked.connect (() => {
-#if GTK322
-        account_popover.popdown ();
-#else
-        account_popover.hide ();
-#endif
-      });
-      // account_list.add (ule);
-      ule.show ();
-    });*/
-
-    /* TODO: Reimplement
     ((Cawbird)app).account_removed.connect ((acc) => {
-      // var entries = account_list.get_children ();
-      foreach (Gtk.Widget ule in entries)
-        if (ule is UserListEntry &&
-            acc.screen_name == ((UserListEntry)ule).screen_name) {
-          account_list.remove (ule);
+      var entries = main_account_list.get_children ();
+      foreach (Gtk.Widget urow in entries)
+        if (urow is UserRow &&
+            acc.screen_name == ((UserRow)urow).screen_name) {
+          main_account_list.remove (urow);
           break;
         }
-    });*/
+    });
 
     this.add_action_entries (win_entries, this);
 
@@ -481,10 +465,7 @@ public class MainWindow : Gtk.ApplicationWindow {
 
   private int account_sort_func (Gtk.ListBoxRow a,
                                  Gtk.ListBoxRow b) {
-    if (a is AddListEntry)
-      return 1;
-
-    return ((UserListEntry)a).screen_name.ascii_casecmp (((UserListEntry)b).screen_name);
+    return ((UserRow)a).screen_name.ascii_casecmp (((UserRow)b).screen_name);
   }
 
   public void rerun_filters () {
