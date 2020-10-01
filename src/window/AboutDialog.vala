@@ -46,12 +46,20 @@ class AboutDialog : Hdy.Window {
 
   [GtkCallback]
   private void ui_action_website_button () {
-    Gtk.show_uri_on_window(this, website_link, Gdk.CURRENT_TIME);
+    try {
+      Gtk.show_uri_on_window(this, website_link, Gdk.CURRENT_TIME);
+    } catch (GLib.Error e) {
+      error("Could not call \"%s\" because of the following error: %s", website_link, e.message);
+    }
   }
 
   [GtkCallback]
   private void ui_action_issue_button () {
-    Gtk.show_uri_on_window(this, issues_link, Gdk.CURRENT_TIME);
+    try {
+      Gtk.show_uri_on_window(this, issues_link, Gdk.CURRENT_TIME);
+    } catch (GLib.Error e) {
+      error("Could not call \"%s\" because of the following error: %s", website_link, e.message);
+    }
   }
 
   [GtkCallback]
