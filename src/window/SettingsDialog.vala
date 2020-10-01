@@ -173,7 +173,10 @@ class SettingsDialog : Hdy.PreferencesWindow {
     add_widget.show();
   }
 
-  private void close_account_creator () {
+  private void close_account_creator (Account? acc = null) {
+    if (acc != null) {
+      Account.add_account (acc);
+    }
 #if !OLD_HANDY
     this.close_subpage();
 #endif

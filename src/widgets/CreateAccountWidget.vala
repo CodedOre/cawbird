@@ -36,14 +36,16 @@ class CreateAccountWidget : Gtk.Box {
   private Hdy.Clamp pin_page;
 
   // Non-UI-Elements of CreateAccountWidget
+  private Account acc;
 #if OLD_HANDY
   private GLib.Settings window_settings;
 #endif
 
   // Signals of CreateAccountWidget
-  public signal void widget_closed ();
+  public signal void widget_closed (Account? account = null);
 
   public CreateAccountWidget () {
+    this.acc = new Account (0, Account.DUMMY, "name");
 
   }
 
