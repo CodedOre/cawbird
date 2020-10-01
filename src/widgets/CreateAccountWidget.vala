@@ -41,6 +41,7 @@ class CreateAccountWidget : Gtk.Box {
 
   // Non-UI-Elements of CreateAccountWidget
   private Account acc;
+  private bool auth_progress;
 #if OLD_HANDY
   private GLib.Settings window_settings;
 #endif
@@ -55,8 +56,23 @@ class CreateAccountWidget : Gtk.Box {
 
   [GtkCallback]
   private void ui_action_request_pin () {
-    content_carousel.scroll_to(pin_page);
-    header_cancel.set_label(_("Back"));
+    auth_progress = false;
+    open_pin_request_site ();
+    if (auth_progress) {
+      content_carousel.scroll_to(pin_page);
+      header_cancel.set_label(_("Back"));
+    }
+  }
+
+  [GtkCallback]
+  private void ui_action_create_account () {
+    string uri = "https://twitter.com/signup";
+    try {
+      GLib.AppInfo.launch_default_for_uri(uri, null);
+    } catch (GLib.Error e) {
+      reveal_notification (_("Could not open %s").printf ("<a href=\"" + uri + "\">" + uri + "</a>"));
+      error("Could not call \"%s\" because of the following error: %s", uri, e.message);
+    }
   }
 
   private void reveal_notification (string notification) {
@@ -80,6 +96,38 @@ class CreateAccountWidget : Gtk.Box {
       save_geometry();
       this.destroy();
 #endif
+    }
+  }
+
+  private void pin_request_cb (Rest.OAuthProxy proxy, Error? error, Object? weak_object) {
+    if (error != null) {
+      reveal_notification(error.message);
+      critical (error.message);
+      return;
+    }
+
+    string uri = "http://twitter.com/oauth/authorize?oauth_token=" + acc.proxy.get_token();
+    debug ("Trying to open %s", uri);
+
+    try {
+      GLib.AppInfo.launch_default_for_uri (uri, null);
+    } catch (GLib.Error e) {
+      reveal_notification (_("Could not open %s").printf ("<a href=\"" + uri + "\">" + uri + "</a>"));
+      critical ("Could not open %s", uri);
+      critical (e.message);
+    }
+    auth_progress = true;
+  }
+
+  public void open_pin_request_site () {
+    acc.init_proxy (false, true);
+    try {
+      if (!acc.proxy.request_token_async ("oauth/request_token", "oob", pin_request_cb, this)) {
+        reveal_notification(_("Failed to retrieve request token"));
+      }
+    } catch(GLib.Error e) {
+      reveal_notification(e.message);
+      critical (e.message);
     }
   }
 
