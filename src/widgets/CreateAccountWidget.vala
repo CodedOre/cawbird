@@ -34,6 +34,10 @@ class CreateAccountWidget : Gtk.Box {
   private Hdy.Clamp overview_page;
   [GtkChild]
   private Hdy.Clamp pin_page;
+  [GtkChild]
+  private Gtk.Revealer notification_revealer;
+  [GtkChild]
+  private Gtk.Label notification_label;
 
   // Non-UI-Elements of CreateAccountWidget
   private Account acc;
@@ -53,6 +57,16 @@ class CreateAccountWidget : Gtk.Box {
   private void ui_action_request_pin () {
     content_carousel.scroll_to(pin_page);
     header_cancel.set_label(_("Back"));
+  }
+
+  private void reveal_notification (string notification) {
+    notification_label.set_label(_(notification));
+    notification_revealer.set_reveal_child(true);
+  }
+
+  [GtkCallback]
+  private void ui_action_notification_close () {
+    notification_revealer.set_reveal_child(false);
   }
 
   [GtkCallback]
