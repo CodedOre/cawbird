@@ -20,11 +20,7 @@
  */
 
 [GtkTemplate (ui = "/uk/co/ibboard/cawbird/ui/widget/create-account-widget.ui")]
-#if OLD_HANDY
-class CreateAccountWidget : Gtk.Window {
-#else
 class CreateAccountWidget : Gtk.Box {
-#endif
   // UI-Elements of CreateAccountWidget
   [GtkChild]
   private Gtk.Button header_confirm;
@@ -48,9 +44,6 @@ class CreateAccountWidget : Gtk.Box {
   // Non-UI-Elements of CreateAccountWidget
   private Account acc;
   private unowned Cawbird cawbird;
-#if OLD_HANDY
-  private GLib.Settings window_settings;
-#endif
 
   // Signals of CreateAccountWidget
   public signal void widget_closed (Account? account = null);
@@ -130,10 +123,6 @@ class CreateAccountWidget : Gtk.Box {
       header_cancel.set_label(_("Cancel"));
     } else {
       widget_closed();
-#if OLD_HANDY
-      save_geometry();
-      this.destroy();
-#endif
     }
   }
 
@@ -239,7 +228,7 @@ class CreateAccountWidget : Gtk.Box {
         acc.suppress_notifications();
         acc.init_proxy (true, true);
         cawbird.account_added (acc);
-        result_received ();
+        widget_closed(acc);
       });
     });
   }
@@ -254,30 +243,4 @@ class CreateAccountWidget : Gtk.Box {
       critical (e.message);
     }
   }
-
-  /*
-   * Generic Window Functions
-   */
-
-  private void result_received () {
-    widget_closed(acc);
-#if OLD_HANDY
-    save_geometry();
-    this.destroy();
-#endif
-  }
-
-#if OLD_HANDY
-  private void load_geometry () {
-    int x, y, width, height;
-    window_settings.get ("window-size", "(ii)", out width, out height);
-    this.resize (width, height);
-  }
-
-  private void save_geometry () {
-    int x, y, width, height;
-    this.get_size (out width, out height);
-    window_settings.set ("window-size", "(ii)", width, height);
-  }
-#endif
 }
