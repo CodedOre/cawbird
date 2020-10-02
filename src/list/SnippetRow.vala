@@ -48,6 +48,7 @@ class SnippetRow : Hdy.ActionRow {
 #else
     settings.present_subpage(mod_widget);
 #endif
+    mod_widget.show();
   }
 
   public void close_modifier (string? new_keyword = null, string? new_replacement = null, bool remove = false) {
