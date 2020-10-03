@@ -78,9 +78,6 @@ public class MainWindow : Gtk.ApplicationWindow {
     });
 #endif
 
-#if OLD_HANDY
-    main_account_list.set_header_func(default_header_func);
-#endif
     main_account_list.set_sort_func (account_sort_func);
     for (uint i = 0; i < Account.get_n (); i ++) {
       var acc = Account.get_nth (i);

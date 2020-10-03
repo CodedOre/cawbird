@@ -219,9 +219,7 @@ public class Cawbird : Gtk.Application {
   public override void startup () {
     base.startup ();
 // Init libhandy-1
-#if !OLD_HANDY
     Hdy.init ();
-#endif
     this.set_resource_base_path ("/uk/co/ibboard/cawbird");
 
     typeof (LazyMenuButton).ensure ();

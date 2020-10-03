@@ -19,18 +19,7 @@ rest_dep = dependency('rest-0.7')
 json_dep = dependency('json-glib-1.0')
 sql_dep  = dependency('sqlite3')
 soup_dep = dependency('libsoup-2.4')
-
-# As the stable versions of libhandy has an different indentifier, check for both variants.
-new_hdy  = dependency('libhandy-1', version: '>=1.0.0', required : false)
-if new_hdy.found()
-    message('Stable libhandy used for project.')
-    hdy_dep = new_hdy
-else
-    warning('Alpha libhandy used for project.')
-    add_project_arguments('-DHANDY_USE_UNSTABLE_API', language: 'c')
-    add_project_arguments('-D', 'OLD_HANDY', language: 'vala')
-    hdy_dep  = dependency('libhandy-0.0', version: '>=0.0.13')
-endif
+hdy_dep  = dependency('libhandy-1', version: '>=1.0.0')
 
 cb_deps = [
   glib_dep,
@@ -205,32 +194,10 @@ cb_resources = gnome.compile_resources(
   'cawbird_resources',
   'cawbird.gresource.xml',
 )
-
-if new_hdy.found()
-  cb_resources += gnome.compile_resources(
-    'cawbird_ui_resources',
-    'cawbird-ui.gresource.xml',
-  )
-else
-  warning('Generating old UI-Resources in build dir.')
-  python = import('python').find_installation('python3')
-
-  source_ui = 'ui'
-  source_rsc = 'cawbird-ui.gresource.xml'
-  dest_ui = join_paths(meson.build_root(), 'old-ui')
-  dest_rsc = join_paths(dest_ui, 'cawbird-ui.gresource.xml')
-
-  r = run_command(python, 'scripts/oldifier.py', source_ui, source_rsc, dest_ui)
-
-  if r.returncode() != 0
-    error('Generating old UI-Resources failed!')
-  endif
-
-  cb_resources += gnome.compile_resources(
-    'cawbird_ui_resources',
-    dest_rsc,
-  )
-endif
+cb_resources += gnome.compile_resources(
+  'cawbird_ui_resources',
+  'cawbird-ui.gresource.xml',
+)
 
 # config.h
 cdata = configuration_data()

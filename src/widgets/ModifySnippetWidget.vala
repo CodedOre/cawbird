@@ -20,11 +20,7 @@
  */
 
 [GtkTemplate (ui = "/uk/co/ibboard/cawbird/ui/widget/modify-snippet-widget.ui")]
-#if OLD_HANDY
-class ModifySnippetWidget : Gtk.Window {
-#else
 class ModifySnippetWidget : Gtk.Box {
-#endif
   // UI-Elements of ModifySnippetWidget
   [GtkChild]
   private Gtk.Entry keyword_entry;
@@ -34,25 +30,14 @@ class ModifySnippetWidget : Gtk.Box {
   private Gtk.Button header_confirm;
   [GtkChild]
   private Hdy.ActionRow delete_row;
-#if OLD_HANDY
-  [GtkChild]
-  private Gtk.ListBox modifier_list;
-#endif
 
   // Non-UI-Elements of ModifySnippetWidget
   private string old_key;
-#if OLD_HANDY
-  private GLib.Settings window_settings;
-#endif
 
   // Signals of ModifySnippetWidget
   public signal void modify_done (string? new_keyword = null, string? new_replacement = null, bool remove = false);
 
   public ModifySnippetWidget (string? keyword = null, string? replacement = null) {
-#if OLD_HANDY
-    this.window_settings = new GLib.Settings ("uk.co.ibboard.cawbird.window.dialog");
-    modifier_list.set_header_func(default_header_func);
-#endif
     old_key = keyword;
     if (keyword != null) {
       keyword_entry.text = keyword;
@@ -66,19 +51,11 @@ class ModifySnippetWidget : Gtk.Box {
     if (keyword != null && replacement != null) {
       header_confirm.set_sensitive(true);
     }
-#if OLD_HANDY
-    load_geometry();
-    this.set_modal(true);
-#endif
   }
 
   [GtkCallback]
   private void ui_action_header_cancel () {
     modify_done();
-#if OLD_HANDY
-    save_geometry();
-    this.destroy();
-#endif
   }
 
   [GtkCallback]
@@ -93,10 +70,6 @@ class ModifySnippetWidget : Gtk.Box {
     }
 
     modify_done(new_keyword, new_replacement);
-#if OLD_HANDY
-    save_geometry();
-    this.destroy();
-#endif
   }
 
   [GtkCallback]
@@ -138,23 +111,5 @@ class ModifySnippetWidget : Gtk.Box {
     assert (this.old_key != null);
     Cawbird.snippet_manager.remove_snippet (this.old_key);
     modify_done(null, null, true);
-#if OLD_HANDY
-    save_geometry();
-    this.destroy();
-#endif
   }
-
-#if OLD_HANDY
-  private void load_geometry () {
-    int x, y, width, height;
-    window_settings.get ("window-size", "(ii)", out width, out height);
-    this.resize (width, height);
-  }
-
-  private void save_geometry () {
-    int x, y, width, height;
-    this.get_size (out width, out height);
-    window_settings.set ("window-size", "(ii)", width, height);
-  }
-#endif
 }

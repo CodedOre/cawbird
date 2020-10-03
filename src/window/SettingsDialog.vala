@@ -192,22 +192,14 @@ class SettingsDialog : Hdy.PreferencesWindow {
   private void ui_action_add_account () {
     CreateAccountWidget add_widget = new CreateAccountWidget (cawbird);
     add_widget.widget_closed.connect(close_account_creator);
-#if OLD_HANDY
-    add_widget.set_modal(true);
-    add_widget.set_transient_for(this);
-#else
     this.present_subpage(add_widget);
-#endif
-    add_widget.show();
   }
 
   private void close_account_creator (Account? acc = null) {
     if (acc != null) {
       Account.add_account (acc);
     }
-#if !OLD_HANDY
     this.close_subpage();
-#endif
   }
 
   private int account_sort_func (Gtk.ListBoxRow a,
@@ -223,13 +215,7 @@ class SettingsDialog : Hdy.PreferencesWindow {
   private void ui_action_add_snippet () {
     ModifySnippetWidget mod_widget = new ModifySnippetWidget();
     mod_widget.modify_done.connect(close_snippet_modifier);
-#if OLD_HANDY
-    mod_widget.set_modal(true);
-    mod_widget.set_transient_for(this);
-#else
     this.present_subpage(mod_widget);
-#endif
-    mod_widget.show();
   }
 
   public void close_snippet_modifier (string? new_keyword = null, string? new_replacement = null) {
@@ -237,9 +223,7 @@ class SettingsDialog : Hdy.PreferencesWindow {
       SnippetRow row = new SnippetRow(new_keyword, new_replacement, this);
       snippets_list.add(row);
     }
-#if !OLD_HANDY
     this.close_subpage();
-#endif
   }
 
   /*
