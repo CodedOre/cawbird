@@ -30,6 +30,8 @@ class UserRow : Hdy.ActionRow {
   private Gtk.Button edit_account_button;
   [GtkChild]
   private Gtk.Image lower_level_symbol;
+  [GtkChild]
+  private AvatarWidget user_avatar;
 
   // Non-UI-Elements of SnippetRow
   public Account account;
@@ -41,6 +43,12 @@ class UserRow : Hdy.ActionRow {
   public string screen_name {
     get { return this.get_subtitle(); }
     set { this.set_subtitle(value); }
+  }
+  public string avatar_url {
+    set { real_set_avatar (value); }
+  }
+  public Cairo.Surface avatar_surface {
+    set { user_avatar.surface = value; }
   }
 
   // Variants of UserRow
@@ -68,11 +76,15 @@ class UserRow : Hdy.ActionRow {
     this.account = acc;
     this.user_id = account.id;
     this.user_name = account.name;
+    this.avatar_surface = acc.avatar;
     this.screen_name = "@" + account.screen_name;
     this.is_active = false;
 
     // Connect update signal
     acc.info_changed.connect (update_account);
+    acc.notify["avatar"].connect (() => {
+      this.avatar_surface = this.account.avatar;
+    });
 
     // Set up wanted behavior according to the mode
     switch (mode) {
@@ -100,6 +112,10 @@ class UserRow : Hdy.ActionRow {
 
   public void update_active (bool active) {
     is_active = active;
+  }
+
+  private void real_set_avatar (string avatar_url) {
+    Twitter.get ().get_avatar.begin (user_id, avatar_url, user_avatar, 48 * this.get_scale_factor ());
   }
 
   private void update_account (string screen_name, string name, Cairo.Surface nop, Cairo.Surface avatar) {

@@ -8,6 +8,20 @@
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="activatable">True</property>
+    <child type="prefix">
+      <object class="AvatarWidget" id="user_avatar">
+        <property name="width_request">36</property>
+        <property name="height_request">36</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="halign">center</property>
+        <property name="valign">center</property>
+        <property name="margin_start">4</property>
+        <property name="margin_end">4</property>
+        <property name="margin_top">4</property>
+        <property name="margin_bottom">4</property>
+      </object>
+    </child>
     <child>
       <object class="GtkImage" id="user_active_symbol">
         <property name="width_request">20</property>
