@@ -58,6 +58,8 @@
       <object class="GtkStack" id="content_stack">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="margin_start">12</property>
+        <property name="margin_end">12</property>
         <child>
           <object class="GtkBox" id="details_page">
             <property name="visible">True</property>
@@ -137,12 +139,12 @@
               <object class="GtkBox" id="filters_box">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="valign">center</property>
                 <property name="orientation">vertical</property>
                 <child>
                   <object class="HdyPreferencesGroup" id="blocked_users_group">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="margin_top">20</property>
                     <property name="title" translatable="yes">Blocked Users</property>
                   </object>
                   <packing>
@@ -190,6 +192,7 @@
                   <object class="HdyPreferencesGroup" id="blocked_words_group">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="margin_top">20</property>
                     <property name="description" translatable="yes">You can block Words using Regular Expressions</property>
                     <property name="title" translatable="yes">Blocked Expressions</property>
                   </object>
