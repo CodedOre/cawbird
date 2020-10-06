@@ -53,7 +53,7 @@ class SettingsDialog : Hdy.PreferencesWindow {
 
   // UI-Elements of SnippetsPage
   [GtkChild]
-  private Hdy.PreferencesGroup snippets_list;
+  private Gtk.ListBox snippets_list;
 
   // Non-UI-Elements of SettingsDialog
   private GLib.Settings window_settings;

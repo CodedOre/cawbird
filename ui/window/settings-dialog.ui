@@ -312,11 +312,21 @@
         <property name="icon_name">folder-templates-symbolic</property>
         <property name="title" translatable="yes">Snippets</property>
         <child>
-          <object class="HdyPreferencesGroup" id="snippets_list">
+          <object class="HdyPreferencesGroup" id="snippets_group">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="description" translatable="yes">You can activate snippets by writing the keyword and pressing TAB.</property>
             <property name="title" translatable="yes">Active Snippets</property>
+            <child>
+              <object class="GtkListBox" id="snippets_list">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="selection_mode">none</property>
+                <style>
+                  <class name="content"/>
+                </style>
+              </object>
+            </child>
           </object>
         </child>
         <child>
