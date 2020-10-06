@@ -134,7 +134,107 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
-              <placeholder/>
+              <object class="GtkBox" id="filters_box">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="valign">center</property>
+                <property name="orientation">vertical</property>
+                <child>
+                  <object class="HdyPreferencesGroup" id="blocked_users_group">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="title" translatable="yes">Blocked Users</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="HdyPreferencesGroup" id="block_new_user_group">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="HdyActionRow" id="block_new_user_row">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="title" translatable="yes">Block additional User</property>
+                        <property name="activatable_widget">block_new_user_button</property>
+                        <child>
+                          <object class="GtkButton" id="block_new_user_button">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="halign">center</property>
+                            <property name="valign">center</property>
+                            <child>
+                              <object class="GtkImage" id="block_new_user_symbol">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="icon_name">list-add-symbolic</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="HdyPreferencesGroup" id="blocked_words_group">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="description" translatable="yes">You can block Words using Regular Expressions</property>
+                    <property name="title" translatable="yes">Blocked Expressions</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="HdyPreferencesGroup" id="block_new_word_group">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="HdyActionRow" id="block_new_word_row">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="title" translatable="yes">Block additional Expression</property>
+                        <property name="activatable_widget">block_new_word_button</property>
+                        <child>
+                          <object class="GtkButton" id="block_new_word_button">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="receives_default">False</property>
+                            <property name="halign">center</property>
+                            <property name="valign">center</property>
+                            <child>
+                              <object class="GtkImage" id="block_new_word_symbol">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="icon_name">list-add-symbolic</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">3</property>
+                  </packing>
+                </child>
+              </object>
             </child>
           </object>
           <packing>
@@ -286,10 +386,7 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="stack">content_stack</property>
-        <property name="reveal"
-                    bind-source="header_title"
-                    bind-property="title-visible"
-                    bind-flags="sync-create"/>
+        <property name="reveal" bind-source="header_title" bind-property="title-visible" bind-flags="sync-create">False</property>
       </object>
       <packing>
         <property name="expand">False</property>
