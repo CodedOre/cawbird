@@ -106,11 +106,13 @@ class SettingsDialog : Hdy.PreferencesWindow {
           continue;
       }
       UserRow row = new UserRow.from_account (acc, SETTINGS);
+      row.button_action.connect(open_account_modifier);
       accounts_list.add(row);
     }
 
     cawbird.account_added.connect ((new_acc) => {
       UserRow row = new UserRow.from_account(new_acc, SETTINGS);
+      row.button_action.connect(open_account_modifier);
       accounts_list.add(row);
     });
 
@@ -207,6 +209,16 @@ class SettingsDialog : Hdy.PreferencesWindow {
     return ((UserRow)a).screen_name.ascii_casecmp (((UserRow)b).screen_name);
   }
 
+  private void open_account_modifier () {
+    ModifyAccountWidget mod_widget = new ModifyAccountWidget ();
+    mod_widget.modify_done.connect(close_account_modifier);
+    this.present_subpage(mod_widget);
+  }
+
+  private void close_account_modifier () {
+    this.close_subpage();
+  }
+
   /*
    * Functions for SnippetsPage
    */
@@ -218,7 +230,7 @@ class SettingsDialog : Hdy.PreferencesWindow {
     this.present_subpage(mod_widget);
   }
 
-  public void close_snippet_modifier (string? new_keyword = null, string? new_replacement = null) {
+  private void close_snippet_modifier (string? new_keyword = null, string? new_replacement = null) {
     if (new_keyword != null && new_replacement != null) {
       SnippetRow row = new SnippetRow(new_keyword, new_replacement, this);
       snippets_list.add(row);

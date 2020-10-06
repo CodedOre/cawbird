@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.36.0 -->
+<interface>
+  <requires lib="gtk+" version="3.22"/>
+  <requires lib="libhandy" version="1.0"/>
+  <template class="ModifyAccountWidget" parent="GtkBox">
+    <property name="width_request">360</property>
+    <property name="height_request">450</property>
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="orientation">vertical</property>
+    <child>
+      <object class="HdyHeaderBar" id="dialog_header">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="title" translatable="yes">Modify Account</property>
+        <child>
+          <object class="GtkButton" id="header_cancel">
+            <property name="label" translatable="yes">Cancel</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <signal name="clicked" handler="ui_action_header_cancel" swapped="no"/>
+          </object>
+        </child>
+        <child>
+          <object class="GtkButton" id="header_confirm">
+            <property name="label" translatable="yes">Confirm</property>
+            <property name="visible">True</property>
+            <property name="sensitive">False</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <style>
+              <class name="suggested-action"/>
+            </style>
+          </object>
+          <packing>
+            <property name="pack_type">end</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">0</property>
+      </packing>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <object class="HdyClamp" id="modifier_clamp">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="margin_start">12</property>
+        <property name="margin_end">12</property>
+        <child>
+          <object class="GtkBox" id="modifier_box">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="valign">center</property>
+            <property name="orientation">vertical</property>
+            <child>
+              <object class="HdyPreferencesGroup" id="details_group">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="title" translatable="yes">Account Details</property>
+                <child>
+                  <object class="HdyActionRow" id="name_row">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="title" translatable="yes">Name</property>
+                    <child>
+                      <object class="GtkEntry" id="name_entry">
+                        <property name="width_request">200</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="valign">center</property>
+                        <property name="truncate_multiline">True</property>
+                        <property name="input_purpose">name</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="HdyActionRow" id="website_row">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="title" translatable="yes">Website</property>
+                    <child>
+                      <object class="GtkEntry" id="website_entry">
+                        <property name="width_request">200</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="valign">center</property>
+                        <property name="truncate_multiline">True</property>
+                        <property name="input_purpose">url</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkListBox" id="options_list">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="margin_top">20</property>
+                <property name="selection_mode">none</property>
+                <child>
+                  <object class="HdyActionRow" id="autostart_row">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="title" translatable="yes">Open Account on Startup</property>
+                    <property name="activatable_widget">autostart_switch</property>
+                    <child>
+                      <object class="GtkSwitch" id="autostart_switch">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkListBoxRow" id="delete_group_row">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkStack" id="delete_group_stack">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="transition_type">crossfade</property>
+                        <child>
+                          <object class="HdyActionRow" id="delete_action_row">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="activatable">False</property>
+                            <property name="title" translatable="yes">Remove Account</property>
+                            <property name="activatable_widget">delete_action_button</property>
+                            <child>
+                              <object class="GtkButton" id="delete_action_button">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">False</property>
+                                <property name="halign">center</property>
+                                <property name="valign">center</property>
+                                <child>
+                                  <object class="GtkImage" id="delete_action_symbol">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="icon_name">user-trash-symbolic</property>
+                                  </object>
+                                </child>
+                                <style>
+                                  <class name="destructive-action"/>
+                                </style>
+                              </object>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="name">page0</property>
+                            <property name="title" translatable="yes">page0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="HdyActionRow" id="delete_confirm_row">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="activatable">False</property>
+                            <property name="title" translatable="yes">Really Remove Account?</property>
+                            <child>
+                              <object class="GtkButton" id="delete_confirm_cancel_button">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">False</property>
+                                <property name="valign">center</property>
+                                <child>
+                                  <object class="GtkImage" id="delete_confirm_cancel_symbol">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="icon_name">window-close-symbolic</property>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkButton" id="delete_confirm_accept_button">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">False</property>
+                                <property name="valign">center</property>
+                                <child>
+                                  <object class="GtkImage" id="delete_confirm_accept_symbol">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="icon_name">emblem-ok-symbolic</property>
+                                  </object>
+                                </child>
+                                <style>
+                                  <class name="destructive-action"/>
+                                </style>
+                              </object>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="name">page1</property>
+                            <property name="title" translatable="yes">page1</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <style>
+                  <class name="content"/>
+                </style>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+        </child>
+      </object>
+      <packing>
+        <property name="expand">True</property>
+        <property name="fill">True</property>
+        <property name="position">2</property>
+      </packing>
+    </child>
+  </template>
+</interface>
