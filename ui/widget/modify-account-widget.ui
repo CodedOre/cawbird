@@ -66,6 +66,7 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="orientation">vertical</property>
+            <signal name="map" handler="ui_reset_delete_stack" swapped="no"/>
             <child>
               <placeholder/>
             </child>
@@ -136,6 +137,7 @@
           <object class="HdyClamp" id="filters_page">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <signal name="map" handler="ui_reset_delete_stack" swapped="no"/>
             <child>
               <object class="GtkBox" id="filters_box">
                 <property name="visible">True</property>
@@ -298,6 +300,7 @@
                                 <property name="receives_default">False</property>
                                 <property name="halign">center</property>
                                 <property name="valign">center</property>
+                                <signal name="clicked" handler="ui_action_delete_active" swapped="no"/>
                                 <child>
                                   <object class="GtkImage" id="delete_action_symbol">
                                     <property name="visible">True</property>
@@ -328,6 +331,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
                                 <property name="valign">center</property>
+                                <signal name="clicked" handler="ui_action_delete_cancel" swapped="no"/>
                                 <child>
                                   <object class="GtkImage" id="delete_confirm_cancel_symbol">
                                     <property name="visible">True</property>
@@ -343,6 +347,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
                                 <property name="valign">center</property>
+                                <signal name="clicked" handler="ui_action_delete_confirm" swapped="no"/>
                                 <child>
                                   <object class="GtkImage" id="delete_confirm_accept_symbol">
                                     <property name="visible">True</property>

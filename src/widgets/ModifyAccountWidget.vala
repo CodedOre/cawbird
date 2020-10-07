@@ -34,6 +34,12 @@ class ModifyAccountWidget : Gtk.Box {
   // UI-Elements of OptionsPage
   [GtkChild]
   private Gtk.Switch autostart_switch;
+  [GtkChild]
+  private Gtk.Stack delete_group_stack;
+  [GtkChild]
+  private Hdy.ActionRow delete_action_row;
+  [GtkChild]
+  private Hdy.ActionRow delete_confirm_row;
 
   // Non-UI-Elements of ModifyAccountWidget
   private Account account;
@@ -83,6 +89,111 @@ class ModifyAccountWidget : Gtk.Box {
       autostart_changed = false;
     }
     check_changes ();
+  }
+
+  [GtkCallback]
+  private void ui_action_delete_active () {
+    delete_group_stack.set_visible_child (delete_confirm_row);
+  }
+
+  [GtkCallback]
+  private void ui_action_delete_cancel () {
+    delete_group_stack.set_visible_child (delete_action_row);
+  }
+
+  [GtkCallback]
+  private void ui_reset_delete_stack () {
+    unowned Gtk.Widget visible_row = delete_group_stack.get_visible_child ();
+    if (visible_row != delete_action_row) {
+      delete_group_stack.set_visible_child (delete_action_row);
+    }
+  }
+
+  [GtkCallback]
+  private void ui_action_delete_confirm () {
+    /*
+       - Close open window of that account
+       - Remove the account from the db, disk, etc.
+       - Remove the account from the app menu
+       - If this would close the last opened window,
+         set the account of that window to NULL
+     */
+    int64 acc_id = account.id;
+    FileUtils.remove (Dirs.config (@"accounts/$(acc_id).db"));
+    FileUtils.remove (Dirs.config (@"accounts/$(acc_id).png"));
+    FileUtils.remove (Dirs.config (@"accounts/$(acc_id)_small.png"));
+    Cawbird.db.exec (@"DELETE FROM `accounts` WHERE `id`='$(acc_id)';");
+
+    /* Remove account from startup accounts, if it's in there */
+    string[] startup_accounts = Settings.get ().get_strv ("startup-accounts");
+    for (int i = 0; i < startup_accounts.length; i++) {
+      if (startup_accounts[i] == account.screen_name) {
+        string[] sa_new = new string[startup_accounts.length - 1];
+        for (int x = 0; x < i; i++) {
+          sa_new[x] = startup_accounts[x];
+        }
+        for (int x = i+1; x < startup_accounts.length; x++) {
+          sa_new[x] = startup_accounts[x];
+        }
+        Settings.get ().set_strv ("startup-accounts", sa_new);
+      }
+    }
+
+    Cawbird cb = (Cawbird) GLib.Application.get_default ();
+
+    /* Handle windows, i.e. if this MainWindow is the last open one,
+       we want to use it to show the "new account" UI, otherwise we
+       just close it. */
+    unowned GLib.List<Gtk.Window> windows = cb.get_windows ();
+    Gtk.Window? account_window = null;
+    int n_main_windows = 0;
+    foreach (Gtk.Window win in windows) {
+      if (win is MainWindow) {
+        n_main_windows ++;
+        if (((MainWindow)win).account.id == this.account.id) {
+          account_window = win;
+        }
+      }
+    }
+    debug ("Open main windows: %d", n_main_windows);
+
+    if (account_window != null) {
+      if (n_main_windows > 1) {
+        account_window.destroy ();
+      }
+      else {
+        Account first_acct = null;
+        Account first_startup_acct = null;
+        startup_accounts = Settings.get ().get_strv ("startup-accounts");
+        string startup_acct = null;
+        if (startup_accounts.length > 0) {
+          startup_acct = startup_accounts[0];
+        }
+
+        for (uint i = 0; i < Account.get_n (); i ++) {
+          var acct = Account.get_nth (i);
+          if (acct.screen_name == Account.DUMMY || acct.screen_name == account.screen_name) {
+            continue;
+          }
+          else if (acct.screen_name == startup_acct) {
+            first_startup_acct = acct;
+          }
+          else if (first_acct == null) {
+            first_acct = acct;
+          }
+        }
+
+        ((MainWindow)account_window).change_account (first_startup_acct ?? first_acct);
+      }
+    }
+
+    /* Remove the account from the global list of accounts */
+    Account acc_to_remove = Account.query_account_by_id (acc_id);
+    cb.account_removed (acc_to_remove);
+    Account.remove_account (acc_to_remove.screen_name);
+
+    /* Close this dialog */
+    modify_done();
   }
 
   private void save_autostart () {
