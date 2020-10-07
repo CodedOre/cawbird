@@ -118,12 +118,13 @@ class SettingsDialog : Hdy.PreferencesWindow {
 
     cawbird.account_removed.connect ((acc) => {
       var entries = accounts_list.get_children ();
-      foreach (Gtk.Widget urow in entries)
+      foreach (Gtk.Widget urow in entries) {
         if (urow is UserRow &&
             acc.screen_name == ((UserRow)urow).screen_name) {
           accounts_list.remove (urow);
           break;
         }
+      }
     });
 
     // Populate SnippetsPage with snippets

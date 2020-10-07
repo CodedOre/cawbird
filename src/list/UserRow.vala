@@ -41,8 +41,8 @@ class UserRow : Hdy.ActionRow {
     set { this.set_title(value); }
   }
   public string screen_name {
-    get { return this.get_subtitle(); }
-    set { this.set_subtitle(value); }
+    owned get { return this.get_subtitle ().substring (1); }
+    set { this.set_subtitle ("@" + value); }
   }
   public string avatar_url {
     set { real_set_avatar (value); }
@@ -77,7 +77,7 @@ class UserRow : Hdy.ActionRow {
     this.user_id = account.id;
     this.user_name = account.name;
     this.avatar_surface = acc.avatar;
-    this.screen_name = "@" + account.screen_name;
+    this.screen_name = account.screen_name;
     this.is_active = false;
 
     // Connect update signal

@@ -99,12 +99,13 @@ public class MainWindow : Gtk.ApplicationWindow {
 
     ((Cawbird)app).account_removed.connect ((acc) => {
       var entries = main_account_list.get_children ();
-      foreach (Gtk.Widget urow in entries)
+      foreach (Gtk.Widget urow in entries) {
         if (urow is UserRow &&
             acc.screen_name == ((UserRow)urow).screen_name) {
           main_account_list.remove (urow);
           break;
         }
+      }
     });
 
     this.add_action_entries (win_entries, this);
