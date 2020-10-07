@@ -38,6 +38,7 @@
             <property name="sensitive">False</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
+            <signal name="clicked" handler="ui_action_header_confirm" swapped="no"/>
             <style>
               <class name="suggested-action"/>
             </style>
@@ -269,6 +270,7 @@
                         <property name="can_focus">True</property>
                         <property name="halign">center</property>
                         <property name="valign">center</property>
+                        <signal name="notify::active" handler="ui_action_autostart_switch" after="yes" swapped="no"/>
                       </object>
                     </child>
                   </object>

@@ -209,8 +209,9 @@ class SettingsDialog : Hdy.PreferencesWindow {
     return ((UserRow)a).screen_name.ascii_casecmp (((UserRow)b).screen_name);
   }
 
-  private void open_account_modifier () {
-    ModifyAccountWidget mod_widget = new ModifyAccountWidget ();
+  private void open_account_modifier (UserRow row) {
+    Account acc = row.account;
+    ModifyAccountWidget mod_widget = new ModifyAccountWidget (acc);
     mod_widget.modify_done.connect(close_account_modifier);
     this.present_subpage(mod_widget);
   }
