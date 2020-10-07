@@ -81,7 +81,7 @@
                     <child>
                       <object class="HdyActionRow" id="name_row">
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
+                        <property name="can_focus">False</property>
                         <property name="title" translatable="yes">Name</property>
                         <child>
                           <object class="GtkEntry" id="name_entry">
@@ -98,7 +98,7 @@
                     <child>
                       <object class="HdyActionRow" id="website_row">
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
+                        <property name="can_focus">False</property>
                         <property name="title" translatable="yes">Website</property>
                         <child>
                           <object class="GtkEntry" id="website_entry">
@@ -160,7 +160,7 @@
                     <child>
                       <object class="HdyActionRow" id="block_new_user_row">
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
+                        <property name="can_focus">False</property>
                         <property name="title" translatable="yes">Block additional User</property>
                         <property name="activatable_widget">block_new_user_button</property>
                         <child>
@@ -260,7 +260,7 @@
                 <child>
                   <object class="HdyActionRow" id="autostart_row">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
+                    <property name="can_focus">False</property>
                     <property name="title" translatable="yes">Open Account on Startup</property>
                     <property name="activatable_widget">autostart_switch</property>
                     <child>
@@ -285,7 +285,7 @@
                         <child>
                           <object class="HdyActionRow" id="delete_action_row">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
+                            <property name="can_focus">False</property>
                             <property name="activatable">False</property>
                             <property name="title" translatable="yes">Remove Account</property>
                             <property name="activatable_widget">delete_action_button</property>
@@ -317,7 +317,7 @@
                         <child>
                           <object class="HdyActionRow" id="delete_confirm_row">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
+                            <property name="can_focus">False</property>
                             <property name="activatable">False</property>
                             <property name="title" translatable="yes">Really Remove Account?</property>
                             <child>
