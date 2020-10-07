@@ -86,7 +86,34 @@ class ModifyAccountWidget : Gtk.Box {
   }
 
   private void save_autostart () {
+    bool active = autostart_switch.active;
+    string[] startup_accounts = Settings.get ().get_strv ("startup-accounts");
+    if (active) {
+      foreach (unowned string acc in startup_accounts) {
+        if (acc == this.account.screen_name) {
+          return;
+        }
+      }
 
+      string[] new_startup_accounts = new string[startup_accounts.length + 1];
+      int i = 0;
+      foreach (unowned string s in startup_accounts) {
+        new_startup_accounts[i] = s;
+        i ++;
+      }
+      new_startup_accounts[new_startup_accounts.length - 1] = this.account.screen_name;
+      Settings.get ().set_strv ("startup-accounts", new_startup_accounts);
+    } else {
+      string[] new_startup_accounts = new string[startup_accounts.length - 1];
+      int i = 0;
+      foreach (unowned string acc in startup_accounts) {
+        if (acc != this.account.screen_name) {
+          new_startup_accounts[i] = acc;
+          i ++;
+        }
+      }
+      Settings.get ().set_strv ("startup-accounts", new_startup_accounts);
+    }
   }
 
   /*
@@ -100,6 +127,11 @@ class ModifyAccountWidget : Gtk.Box {
 
   [GtkCallback]
   private void ui_action_header_confirm () {
+    // Save elements for OptionsPage
+    if (autostart_changed) {
+      save_autostart ();
+    }
+    modify_done();
   }
 
   private void check_changes () {
