@@ -97,6 +97,40 @@ class ModifyAccountWidget : Gtk.Box {
     check_changes ();
   }
 
+  private void save_details () {
+    bool needs_save = (old_name    != name_entry.text) ||
+                      //(old_description != description_text_view.buffer.text) ||
+                      (old_website != website_entry.text);
+
+    if (needs_save && account.proxy == null) {
+      account.init_proxy ();
+    }
+
+    if (needs_save) {
+      debug ("Saving data...");
+      var call = account.proxy.new_call ();
+      call.set_function ("1.1/account/update_profile.json");
+      call.set_method ("POST");
+      call.add_param ("url",  website_entry.text);
+      call.add_param ("name", name_entry.text);
+      //call.add_param ("description", description_text_view.buffer.text);
+      call.invoke_async.begin (null, (obj, res) => {
+        try {
+          call.invoke_async.end (res);
+          debug ("Profile successfully updated");
+        } catch (GLib.Error e) {
+          warning (e.message);
+          //TODO: Utils.show_error_dialog (TweetUtils.failed_request_to_error (call, e), this);
+        }
+      });
+
+      /* Update local user data */
+      account.name = name_entry.text;
+      //account.description = description_text_view.buffer.text;
+      account.website = website_entry.text;
+    }
+  }
+
   /*
    * Functions for OptionsPage
    */
@@ -261,6 +295,9 @@ class ModifyAccountWidget : Gtk.Box {
     // Save elements for OptionsPage
     if (autostart_changed) {
       save_autostart ();
+    }
+    if (details_changed) {
+      save_details ();
     }
     modify_done();
   }
