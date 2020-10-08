@@ -126,7 +126,9 @@ public class MainWindow : Gtk.ApplicationWindow {
   [GtkCallback]
   private void ui_action_settings_menu_button () {
     Cawbird cb = (Cawbird)this.get_application ();
-    new SettingsDialog (cb);
+    SettingsDialog settings_window = new SettingsDialog (cb);
+    settings_window.set_transient_for(this);
+    settings_window.show();
   }
 
   [GtkCallback]
