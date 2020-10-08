@@ -119,7 +119,7 @@ class UserRow : Hdy.ActionRow {
   }
 
   private void update_account (string screen_name, string name, Cairo.Surface nop, Cairo.Surface avatar) {
-    this.screen_name = "@" + screen_name;
+    this.screen_name = screen_name;
     this.user_name = name;
     this.avatar_surface = avatar;
   }
