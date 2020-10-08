@@ -48,6 +48,7 @@ class ModifyAccountWidget : Gtk.Box {
   private bool old_autostart = false;
 
   // Change-States of ModifyAccountWidget
+  private bool details_changed   = false;
   private bool autostart_changed = false;
 
   // Signals of ModifyAccountWidget
@@ -55,26 +56,45 @@ class ModifyAccountWidget : Gtk.Box {
 
   public ModifyAccountWidget (Account account) {
     this.account = account;
-    this.set_sensitive (false);
 
     // Set up DetailsPage
-    name_entry.text = account.name;
-    website_entry.text = account.website ?? "";
+    this.old_name = account.name;
+    this.old_website = account.website ?? "";
 
-    old_name = account.name;
-    old_website = account.website ?? "";
+    this.name_entry.text = account.name;
+    this.website_entry.text = account.website ?? "";
 
     // Set up OptionsPage
     string[] startup_accounts = Settings.get ().get_strv ("startup-accounts");
     foreach (unowned string acc in startup_accounts) {
       if (acc == this.account.screen_name) {
         this.old_autostart = true;
-        autostart_switch.active = true;
+        this.autostart_switch.active = true;
         break;
       }
     }
+  }
 
-    this.set_sensitive (true);
+  /*
+   * Functions for DetailsPage
+   */
+
+  [GtkCallback]
+  private void ui_action_details_changed () {
+    details_changed = true;
+    if (website_entry.text == old_website
+        && name_entry.text == old_name) {
+      details_changed = false;
+      print("No one cares!");
+    }
+
+    if (name_entry.text == "") {
+      name_entry.secondary_icon_name = "dialog-warning-symbolic";
+      name_entry.secondary_icon_tooltip_text = _("Name can't be empty");
+      details_changed = false;
+    }
+    print("Entry checked!\n");
+    check_changes ();
   }
 
   /*
@@ -246,7 +266,8 @@ class ModifyAccountWidget : Gtk.Box {
   }
 
   private void check_changes () {
-    if (autostart_changed) {
+    if ( autostart_changed
+      || details_changed ) {
       header_confirm.set_sensitive(true);
     } else {
       header_confirm.set_sensitive(false);

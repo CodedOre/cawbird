@@ -91,8 +91,10 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="valign">center</property>
+                            <property name="max_length">50</property>
                             <property name="truncate_multiline">True</property>
                             <property name="input_purpose">name</property>
+                            <signal name="changed" handler="ui_action_details_changed" swapped="no"/>
                           </object>
                         </child>
                       </object>
@@ -110,6 +112,7 @@
                             <property name="valign">center</property>
                             <property name="truncate_multiline">True</property>
                             <property name="input_purpose">url</property>
+                            <signal name="changed" handler="ui_action_details_changed" swapped="no"/>
                           </object>
                         </child>
                       </object>
