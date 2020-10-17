@@ -23,29 +23,12 @@
             <property name="can_focus">False</property>
             <property name="show_close_button">True</property>
             <child type="title">
-              <object class="HdySqueezer" id="header_squeezer">
+              <object class="HdyViewSwitcherTitle" id="header_title">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="homogeneous">True</property>
-                <signal name="notify::visible-child" handler="ui_adaptive_change" swapped="no"/>
-                <child>
-                  <object class="HdyViewSwitcher" id="upper_stack_switch">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="policy">wide</property>
-                    <property name="stack">content_stack</property>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="window_title">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">About Cawbird</property>
-                    <style>
-                      <class name="title"/>
-                    </style>
-                  </object>
-                </child>
+                <property name="policy">wide</property>
+                <property name="stack">content_stack</property>
+                <property name="title">About Cawbird</property>
               </object>
             </child>
           </object>
@@ -129,142 +112,45 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="HdySqueezer" id="links_squeezer">
+                      <object class="GtkGrid" id="link_grid">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="valign">end</property>
                         <property name="margin_top">20</property>
-                        <property name="homogeneous">True</property>
-                        <property name="transition_type">crossfade</property>
+                        <property name="vexpand">True</property>
+                        <property name="row_spacing">10</property>
+                        <property name="column_spacing">20</property>
+                        <property name="column_homogeneous">True</property>
+                        <signal name="size-allocate" handler="ui_adaptive_change" swapped="no"/>
                         <child>
-                          <object class="GtkGrid" id="links_group_large">
+                          <object class="GtkButton" id="website_button">
+                            <property name="label" translatable="yes">Visit Website</property>
+                            <property name="width_request">150</property>
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="valign">end</property>
-                            <property name="row_spacing">10</property>
-                            <property name="column_spacing">20</property>
-                            <property name="column_homogeneous">True</property>
-                            <child>
-                              <object class="GtkBox" id="app_name_group_large">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="spacing">12</property>
-                                <child>
-                                  <object class="GtkLabel" id="app_name_label_large">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">Application name</property>
-                                    <style>
-                                      <class name="dim-label"/>
-                                    </style>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">0</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkLabel" id="app_name_info_large">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="label">cawbird</property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">1</property>
-                                  </packing>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="left_attach">0</property>
-                                <property name="top_attach">1</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkBox" id="version_group_large">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="spacing">12</property>
-                                <child>
-                                  <object class="GtkLabel" id="version_label_large">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">Version</property>
-                                    <style>
-                                      <class name="dim-label"/>
-                                    </style>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">0</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkLabel" id="version_info_large">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="label">handyport-alpha</property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">1</property>
-                                  </packing>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="left_attach">1</property>
-                                <property name="top_attach">1</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkButton" id="website_button_large">
-                                <property name="label" translatable="yes">Visit Website</property>
-                                <property name="width_request">150</property>
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">True</property>
-                                <property name="margin_bottom">20</property>
-                                <signal name="clicked" handler="ui_action_website_button" swapped="no"/>
-                              </object>
-                              <packing>
-                                <property name="left_attach">0</property>
-                                <property name="top_attach">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkButton" id="issue_button_large">
-                                <property name="label" translatable="yes">Report an Issue</property>
-                                <property name="width_request">150</property>
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">True</property>
-                                <property name="margin_bottom">20</property>
-                                <signal name="clicked" handler="ui_action_issue_button" swapped="no"/>
-                              </object>
-                              <packing>
-                                <property name="left_attach">1</property>
-                                <property name="top_attach">0</property>
-                              </packing>
-                            </child>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                            <signal name="clicked" handler="ui_action_website_button" swapped="no"/>
                           </object>
+                          <packing>
+                            <property name="left_attach">0</property>
+                            <property name="top_attach">0</property>
+                            <property name="width">2</property>
+                          </packing>
                         </child>
                         <child>
-                          <object class="GtkBox" id="links_group_small">
+                          <object class="GtkBox" id="app_name_group">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="orientation">vertical</property>
-                            <property name="spacing">8</property>
+                            <property name="spacing">12</property>
                             <child>
-                              <object class="GtkButton" id="website_button_small">
-                                <property name="label" translatable="yes">Visit Website</property>
-                                <property name="width_request">200</property>
+                              <object class="GtkLabel" id="app_name_label">
+                                <property name="width_request">80</property>
                                 <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">True</property>
-                                <signal name="clicked" handler="ui_action_website_button" swapped="no"/>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">Application</property>
+                                <style>
+                                  <class name="dim-label"/>
+                                </style>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -273,13 +159,10 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkButton" id="issue_button_small">
-                                <property name="label" translatable="yes">Report an Issue</property>
-                                <property name="width_request">200</property>
+                              <object class="GtkLabel" id="app_name_info">
                                 <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">True</property>
-                                <signal name="clicked" handler="ui_action_issue_button" swapped="no"/>
+                                <property name="can_focus">False</property>
+                                <property name="label">cawbird</property>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -287,80 +170,82 @@
                                 <property name="position">1</property>
                               </packing>
                             </child>
+                          </object>
+                          <packing>
+                            <property name="left_attach">0</property>
+                            <property name="top_attach">3</property>
+                            <property name="width">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkBox" id="version_group">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="spacing">12</property>
                             <child>
-                              <object class="GtkGrid" id="app_info_group_small">
+                              <object class="GtkLabel" id="version_label">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="row_spacing">5</property>
-                                <property name="column_spacing">12</property>
-                                <child>
-                                  <object class="GtkLabel" id="app_name_label_small">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="halign">start</property>
-                                    <property name="label" translatable="yes">Application name</property>
-                                    <style>
-                                      <class name="dim-label"/>
-                                    </style>
-                                  </object>
-                                  <packing>
-                                    <property name="left_attach">0</property>
-                                    <property name="top_attach">0</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkLabel" id="version_label_small">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="halign">start</property>
-                                    <property name="label" translatable="yes">Version</property>
-                                    <style>
-                                      <class name="dim-label"/>
-                                    </style>
-                                  </object>
-                                  <packing>
-                                    <property name="left_attach">0</property>
-                                    <property name="top_attach">1</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkLabel" id="app_name_info_small">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="halign">start</property>
-                                    <property name="label">cawbird</property>
-                                  </object>
-                                  <packing>
-                                    <property name="left_attach">1</property>
-                                    <property name="top_attach">0</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkLabel" id="version_info_small">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="halign">start</property>
-                                    <property name="label">handyport-alpha</property>
-                                  </object>
-                                  <packing>
-                                    <property name="left_attach">1</property>
-                                    <property name="top_attach">1</property>
-                                  </packing>
-                                </child>
+                                <property name="label" translatable="yes">Version</property>
+                                <style>
+                                  <class name="dim-label"/>
+                                </style>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">True</property>
-                                <property name="position">2</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="version_info">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label">handyport-alpha</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
                               </packing>
                             </child>
                           </object>
+                          <packing>
+                            <property name="left_attach">0</property>
+                            <property name="top_attach">4</property>
+                            <property name="width">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="issue_button">
+                            <property name="label" translatable="yes">Report an Issue</property>
+                            <property name="width_request">150</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                            <signal name="clicked" handler="ui_action_issue_button" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="left_attach">0</property>
+                            <property name="top_attach">1</property>
+                            <property name="width">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkSeparator" id="link_info_separator">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                          </object>
+                          <packing>
+                            <property name="left_attach">0</property>
+                            <property name="top_attach">2</property>
+                            <property name="width">2</property>
+                          </packing>
                         </child>
                       </object>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
-                        <property name="pack_type">end</property>
                         <property name="position">1</property>
                       </packing>
                     </child>
@@ -546,12 +431,12 @@
                         <property name="orientation">vertical</property>
                         <property name="spacing">10</property>
                         <child>
-                          <object class="GtkBox">
+                          <object class="GtkBox" id="legal_cawbird_box">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="orientation">vertical</property>
                             <child>
-                              <object class="GtkLabel">
+                              <object class="GtkLabel" id="legal_cawbird_title">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="halign">start</property>
@@ -571,7 +456,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel">
+                              <object class="GtkLabel" id="legal_cawbird_copyright">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="halign">start</property>
@@ -585,7 +470,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel">
+                              <object class="GtkLabel" id="legal_cawbird_license">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="halign">start</property>
@@ -630,6 +515,7 @@ Licensed under the &lt;a href="https://www.gnu.org/licenses/gpl-3.0.en.html"&gt;
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="stack">content_stack</property>
+            <property name="reveal" bind-source="header_title" bind-property="title-visible" bind-flags="sync-create">False</property>
           </object>
           <packing>
             <property name="expand">False</property>

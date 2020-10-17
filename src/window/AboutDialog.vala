@@ -24,16 +24,23 @@
 class AboutDialog : Hdy.Window {
   // UI-Elements of AboutDialog
   [GtkChild]
-  private Hdy.Squeezer header_squeezer;
+  private Gtk.Grid link_grid;
   [GtkChild]
-  private Hdy.ViewSwitcher upper_stack_switch;
+  private Gtk.Button website_button;
   [GtkChild]
-  private Hdy.ViewSwitcherBar lower_stack_switch;
+  private Gtk.Button issue_button;
+  [GtkChild]
+  private Gtk.Separator link_info_separator;
+  [GtkChild]
+  private Gtk.Box app_name_group;
+  [GtkChild]
+  private Gtk.Box version_group;
 
   // Non-UI-Elements of AboutDialog
   private GLib.Settings window_settings;
   private string website_link = "https://ibboard.co.uk/cawbird/";
   private string issues_link = "https://github.com/IBBoard/cawbird/issues";
+  private bool small_ui_mode = false;
 
   public AboutDialog () {
     this.window_settings = new GLib.Settings ("uk.co.ibboard.cawbird.window.dialog");
@@ -58,10 +65,49 @@ class AboutDialog : Hdy.Window {
     }
   }
 
+  // Swaps positions of items on the grid to have an responsive grid
   [GtkCallback]
   private void ui_adaptive_change () {
-    var child = header_squeezer.get_visible_child();
-    lower_stack_switch.set_reveal(child != upper_stack_switch);
+    // Determine current size mode
+    int width, height;
+    bool current_ui_mode;
+    this.get_size (out width, out height);
+    if (width <= 450) {
+      current_ui_mode = true;
+    } else {
+      current_ui_mode = false;
+    }
+
+    // Don't do anything if nothing changed
+    if (current_ui_mode == small_ui_mode) {
+      return;
+    }
+    small_ui_mode = current_ui_mode;
+    rearrange_grid ();
+  }
+
+  private void rearrange_grid () {
+    // Remove elements from grid
+    link_grid.remove(website_button);
+    link_grid.remove(issue_button);
+    link_grid.remove(link_info_separator);
+    link_grid.remove(app_name_group);
+    link_grid.remove(version_group);
+
+    // Add elements back to grid with updated position
+    if (small_ui_mode) {
+      link_grid.attach(website_button,      0, 0, 2, 1);
+      link_grid.attach(issue_button,        0, 1, 2, 1);
+      link_grid.attach(link_info_separator, 0, 2, 2, 1);
+      link_grid.attach(app_name_group,      0, 3, 2, 1);
+      link_grid.attach(version_group,       0, 4, 2, 1);
+    } else {
+      link_grid.attach(website_button,      0, 0, 1, 2);
+      link_grid.attach(issue_button,        1, 0, 1, 2);
+      link_grid.attach(link_info_separator, 0, 2, 2, 1);
+      link_grid.attach(app_name_group,      0, 3, 1, 2);
+      link_grid.attach(version_group,       1, 3, 1, 2);
+    }
   }
 
   [GtkCallback]
@@ -74,6 +120,7 @@ class AboutDialog : Hdy.Window {
     int width, height;
     window_settings.get ("window-size", "(ii)", out width, out height);
     this.resize (width, height);
+    rearrange_grid ();
   }
 
   private void save_geometry () {
