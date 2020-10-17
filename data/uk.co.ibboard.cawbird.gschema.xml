@@ -135,7 +135,7 @@
   <schema id="uk.co.ibboard.cawbird.window.dialog"
           path="/uk/co/ibboard/cawbird/window/dialog/">
     <key name="window-size" type="(ii)">
-      <default>(500,300)</default>
+      <default>(600,400)</default>
       <summary>The size of dialog windows</summary>
     </key>
   </schema>
