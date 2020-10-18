@@ -46,21 +46,21 @@
               <object class="GtkStack" id="content_stack">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="margin_start">20</property>
-                <property name="margin_end">20</property>
+                <property name="margin_start">12</property>
+                <property name="margin_end">12</property>
                 <property name="transition_type">crossfade</property>
                 <child>
                   <object class="GtkBox" id="about-page">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">40</property>
-                    <property name="margin_bottom">40</property>
+                    <property name="margin_top">20</property>
+                    <property name="margin_bottom">20</property>
                     <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkBox" id="info_group">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="margin_bottom">20</property>
+                        <property name="margin_bottom">10</property>
                         <property name="orientation">vertical</property>
                         <property name="spacing">5</property>
                         <child>
@@ -116,7 +116,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="valign">end</property>
-                        <property name="margin_top">20</property>
+                        <property name="margin_top">10</property>
                         <property name="vexpand">True</property>
                         <property name="row_spacing">10</property>
                         <property name="column_spacing">20</property>
@@ -238,8 +238,8 @@
                   <object class="GtkBox" id="credits_page">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">20</property>
-                    <property name="margin_bottom">20</property>
+                    <property name="margin_top">10</property>
+                    <property name="margin_bottom">10</property>
                     <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkBox" id="developer_group">
@@ -404,14 +404,16 @@
                       <object class="GtkBox" id="legal_page">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="margin_top">20</property>
-                        <property name="margin_bottom">20</property>
+                        <property name="margin_top">10</property>
+                        <property name="margin_bottom">10</property>
                         <property name="orientation">vertical</property>
                         <property name="spacing">10</property>
                         <child>
                           <object class="GtkBox" id="legal_cawbird_box">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
+                            <property name="margin_top">10</property>
+                            <property name="margin_bottom">10</property>
                             <property name="orientation">vertical</property>
                             <child>
                               <object class="GtkLabel" id="legal_cawbird_title">
