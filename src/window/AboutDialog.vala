@@ -32,9 +32,13 @@ class AboutDialog : Hdy.Window {
   [GtkChild]
   private Gtk.Separator link_info_separator;
   [GtkChild]
-  private Gtk.Box app_name_group;
+  private Gtk.Label app_name_label;
   [GtkChild]
-  private Gtk.Box version_group;
+  private Gtk.Label app_name_info;
+  [GtkChild]
+  private Gtk.Label version_label;
+  [GtkChild]
+  private Gtk.Label version_info;
 
   // Non-UI-Elements of AboutDialog
   private GLib.Settings window_settings;
@@ -91,22 +95,28 @@ class AboutDialog : Hdy.Window {
     link_grid.remove(website_button);
     link_grid.remove(issue_button);
     link_grid.remove(link_info_separator);
-    link_grid.remove(app_name_group);
-    link_grid.remove(version_group);
+    link_grid.remove(app_name_label);
+    link_grid.remove(app_name_info);
+    link_grid.remove(version_label);
+    link_grid.remove(version_info);
 
     // Add elements back to grid with updated position
     if (small_ui_mode) {
-      link_grid.attach(website_button,      0, 0, 2, 1);
-      link_grid.attach(issue_button,        0, 1, 2, 1);
-      link_grid.attach(link_info_separator, 0, 2, 2, 1);
-      link_grid.attach(app_name_group,      0, 3, 2, 1);
-      link_grid.attach(version_group,       0, 4, 2, 1);
+      link_grid.attach(website_button,      0, 0, 4, 1);
+      link_grid.attach(issue_button,        0, 1, 4, 1);
+      link_grid.attach(link_info_separator, 0, 2, 4, 1);
+      link_grid.attach(app_name_label,      0, 3, 1, 1);
+      link_grid.attach(app_name_info,       1, 3, 3, 1);
+      link_grid.attach(version_label,       0, 4, 1, 1);
+      link_grid.attach(version_info,        1, 4, 3, 1);
     } else {
-      link_grid.attach(website_button,      0, 0, 1, 2);
-      link_grid.attach(issue_button,        1, 0, 1, 2);
-      link_grid.attach(link_info_separator, 0, 2, 2, 1);
-      link_grid.attach(app_name_group,      0, 3, 1, 2);
-      link_grid.attach(version_group,       1, 3, 1, 2);
+      link_grid.attach(website_button,      0, 0, 2, 2);
+      link_grid.attach(issue_button,        2, 0, 2, 2);
+      link_grid.attach(link_info_separator, 0, 2, 4, 1);
+      link_grid.attach(app_name_label,      0, 3, 1, 2);
+      link_grid.attach(app_name_info,       1, 3, 1, 2);
+      link_grid.attach(version_label,       2, 3, 1, 2);
+      link_grid.attach(version_info,        3, 3, 1, 2);
     }
   }
 
