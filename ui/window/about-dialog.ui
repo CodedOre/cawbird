@@ -1,31 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.36.0 -->
+<!-- Generated with glade 3.38.1 -->
 <interface>
   <requires lib="gtk+" version="3.22"/>
   <requires lib="libhandy" version="1.0"/>
   <template class="AboutDialog" parent="HdyWindow">
-    <property name="width_request">360</property>
-    <property name="height_request">450</property>
-    <property name="can_focus">False</property>
+    <property name="width-request">360</property>
+    <property name="height-request">450</property>
+    <property name="can-focus">False</property>
     <property name="modal">True</property>
-    <property name="window_position">center-on-parent</property>
-    <property name="destroy_with_parent">True</property>
-    <property name="type_hint">dialog</property>
+    <property name="window-position">center-on-parent</property>
+    <property name="destroy-with-parent">True</property>
+    <property name="type-hint">dialog</property>
     <signal name="delete-event" handler="window_action_close" swapped="no"/>
     <child>
       <object class="GtkBox" id="window_box">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
         <child>
           <object class="HdyHeaderBar" id="window_header">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="show_close_button">True</property>
+            <property name="can-focus">False</property>
+            <property name="show-close-button">True</property>
+            <property name="centering-policy">strict</property>
             <child type="title">
               <object class="HdyViewSwitcherTitle" id="header_title">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="policy">wide</property>
                 <property name="stack">content_stack</property>
                 <property name="title">About Cawbird</property>
@@ -41,34 +42,34 @@
         <child>
           <object class="HdyClamp" id="content_clamp">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <child>
               <object class="GtkStack" id="content_stack">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="margin_start">12</property>
-                <property name="margin_end">12</property>
-                <property name="transition_type">crossfade</property>
+                <property name="can-focus">False</property>
+                <property name="margin-start">12</property>
+                <property name="margin-end">12</property>
+                <property name="transition-type">crossfade</property>
                 <child>
                   <object class="GtkBox" id="about-page">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="margin_top">20</property>
-                    <property name="margin_bottom">20</property>
+                    <property name="can-focus">False</property>
+                    <property name="margin-top">20</property>
+                    <property name="margin-bottom">20</property>
                     <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkBox" id="info_group">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_bottom">10</property>
+                        <property name="can-focus">False</property>
+                        <property name="margin-bottom">10</property>
                         <property name="orientation">vertical</property>
                         <property name="spacing">5</property>
                         <child>
                           <object class="GtkImage" id="about_icon">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="pixel_size">120</property>
-                            <property name="icon_name">uk.co.ibboard.cawbird</property>
+                            <property name="can-focus">False</property>
+                            <property name="pixel-size">120</property>
+                            <property name="icon-name">uk.co.ibboard.cawbird</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -79,7 +80,7 @@
                         <child>
                           <object class="GtkLabel" id="about_title">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <property name="label">Cawbird</property>
                             <attributes>
                               <attribute name="weight" value="light"/>
@@ -95,7 +96,7 @@
                         <child>
                           <object class="GtkLabel" id="about_subtitle">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <property name="label" translatable="yes">A Twitter Client forked from Corebird.</property>
                           </object>
                           <packing>
@@ -112,61 +113,62 @@
                       </packing>
                     </child>
                     <child>
+                      <!-- n-columns=4 n-rows=5 -->
                       <object class="GtkGrid" id="link_grid">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="valign">end</property>
-                        <property name="margin_top">10</property>
+                        <property name="margin-top">10</property>
                         <property name="vexpand">True</property>
-                        <property name="row_spacing">10</property>
-                        <property name="column_spacing">20</property>
+                        <property name="row-spacing">10</property>
+                        <property name="column-spacing">20</property>
                         <signal name="size-allocate" handler="ui_adaptive_change" swapped="no"/>
                         <child>
                           <object class="GtkButton" id="website_button">
                             <property name="label" translatable="yes">Visit Website</property>
-                            <property name="width_request">150</property>
+                            <property name="width-request">150</property>
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">True</property>
                             <signal name="clicked" handler="ui_action_website_button" swapped="no"/>
                           </object>
                           <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">0</property>
+                            <property name="left-attach">0</property>
+                            <property name="top-attach">0</property>
                             <property name="width">4</property>
                           </packing>
                         </child>
                         <child>
                           <object class="GtkButton" id="issue_button">
                             <property name="label" translatable="yes">Report an Issue</property>
-                            <property name="width_request">150</property>
+                            <property name="width-request">150</property>
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">True</property>
                             <signal name="clicked" handler="ui_action_issue_button" swapped="no"/>
                           </object>
                           <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">1</property>
+                            <property name="left-attach">0</property>
+                            <property name="top-attach">1</property>
                             <property name="width">4</property>
                           </packing>
                         </child>
                         <child>
                           <object class="GtkSeparator" id="link_info_separator">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <property name="hexpand">True</property>
                           </object>
                           <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">2</property>
+                            <property name="left-attach">0</property>
+                            <property name="top-attach">2</property>
                             <property name="width">4</property>
                           </packing>
                         </child>
                         <child>
                           <object class="GtkLabel" id="version_label">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <property name="halign">start</property>
                             <property name="label" translatable="yes">Version</property>
                             <style>
@@ -174,15 +176,15 @@
                             </style>
                           </object>
                           <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">4</property>
+                            <property name="left-attach">0</property>
+                            <property name="top-attach">4</property>
                           </packing>
                         </child>
                         <child>
                           <object class="GtkLabel" id="app_name_label">
-                            <property name="width_request">80</property>
+                            <property name="width-request">80</property>
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <property name="halign">start</property>
                             <property name="label" translatable="yes">Application</property>
                             <style>
@@ -190,33 +192,33 @@
                             </style>
                           </object>
                           <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">3</property>
+                            <property name="left-attach">0</property>
+                            <property name="top-attach">3</property>
                           </packing>
                         </child>
                         <child>
                           <object class="GtkLabel" id="version_info">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <property name="halign">start</property>
                             <property name="label">handyport-alpha</property>
                           </object>
                           <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">4</property>
+                            <property name="left-attach">1</property>
+                            <property name="top-attach">4</property>
                             <property name="width">3</property>
                           </packing>
                         </child>
                         <child>
                           <object class="GtkLabel" id="app_name_info">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <property name="halign">start</property>
                             <property name="label">cawbird</property>
                           </object>
                           <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">3</property>
+                            <property name="left-attach">1</property>
+                            <property name="top-attach">3</property>
                             <property name="width">3</property>
                           </packing>
                         </child>
@@ -231,28 +233,28 @@
                   <packing>
                     <property name="name">about-page</property>
                     <property name="title" translatable="yes">About</property>
-                    <property name="icon_name">help-about-symbolic</property>
+                    <property name="icon-name">help-about-symbolic</property>
                   </packing>
                 </child>
                 <child>
                   <object class="GtkBox" id="credits_page">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="margin_top">10</property>
-                    <property name="margin_bottom">10</property>
+                    <property name="can-focus">False</property>
+                    <property name="margin-top">10</property>
+                    <property name="margin-bottom">10</property>
                     <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkBox" id="developer_group">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">10</property>
-                        <property name="margin_bottom">10</property>
+                        <property name="can-focus">False</property>
+                        <property name="margin-top">10</property>
+                        <property name="margin-bottom">10</property>
                         <property name="orientation">vertical</property>
                         <property name="spacing">2</property>
                         <child>
                           <object class="GtkLabel" id="developer_title">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <property name="label" translatable="yes">Developed by:</property>
                             <attributes>
                               <attribute name="weight" value="bold"/>
@@ -270,11 +272,11 @@
                         <child>
                           <object class="GtkLabel" id="developer_info">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <property name="label">&lt;a href="mailto:cawbird@ibboard.co.uk"&gt;IBBoard&lt;/a&gt; (Cawbird)
 &lt;a href="mailto:fred99schenk@icloud.com"&gt;Frederick Schenk&lt;/a&gt; (UI Rewrite)
 &lt;a href="mail@baedert.org"&gt;Timm Bäder&lt;/a&gt; (Corebird)</property>
-                            <property name="use_markup">True</property>
+                            <property name="use-markup">True</property>
                             <property name="justify">center</property>
                           </object>
                           <packing>
@@ -293,15 +295,15 @@
                     <child>
                       <object class="GtkBox" id="translator_group">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">10</property>
-                        <property name="margin_bottom">10</property>
+                        <property name="can-focus">False</property>
+                        <property name="margin-top">10</property>
+                        <property name="margin-bottom">10</property>
                         <property name="orientation">vertical</property>
                         <property name="spacing">2</property>
                         <child>
                           <object class="GtkLabel" id="translator_label">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <property name="label" translatable="yes">Translated by:</property>
                             <attributes>
                               <attribute name="weight" value="bold"/>
@@ -319,9 +321,9 @@
                         <child>
                           <object class="GtkLabel" id="translator_info">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <property name="label">Insert Translator</property>
-                            <property name="use_markup">True</property>
+                            <property name="use-markup">True</property>
                             <property name="justify">center</property>
                           </object>
                           <packing>
@@ -340,15 +342,15 @@
                     <child>
                       <object class="GtkBox" id="graphical_group">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">10</property>
-                        <property name="margin_bottom">10</property>
+                        <property name="can-focus">False</property>
+                        <property name="margin-top">10</property>
+                        <property name="margin-bottom">10</property>
                         <property name="orientation">vertical</property>
                         <property name="spacing">2</property>
                         <child>
                           <object class="GtkLabel" id="graphics_label">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <property name="label" translatable="yes">Graphical Design by:</property>
                             <attributes>
                               <attribute name="weight" value="bold"/>
@@ -366,11 +368,11 @@
                         <child>
                           <object class="GtkLabel" id="graphics_info">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <property name="label">&lt;a href="mailto:cawbird@ibboard.co.uk"&gt;IBBoard&lt;/a&gt; (Cawbird Icon)
 &lt;a href="mailto:fred99schenk@icloud.com"&gt;Frederick Schenk&lt;/a&gt; (UI Design)
 </property>
-                            <property name="use_markup">True</property>
+                            <property name="use-markup">True</property>
                             <property name="justify">center</property>
                           </object>
                           <packing>
@@ -390,37 +392,37 @@
                   <packing>
                     <property name="name">credits-page</property>
                     <property name="title" translatable="yes">Credits</property>
-                    <property name="icon_name">system-users-symbolic</property>
+                    <property name="icon-name">system-users-symbolic</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
                 <child>
                   <object class="HdyClamp" id="legal_clamp">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="maximum_size">350</property>
-                    <property name="tightening_threshold">200</property>
+                    <property name="can-focus">False</property>
+                    <property name="maximum-size">350</property>
+                    <property name="tightening-threshold">200</property>
                     <child>
                       <object class="GtkBox" id="legal_page">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">10</property>
-                        <property name="margin_bottom">10</property>
+                        <property name="can-focus">False</property>
+                        <property name="margin-top">10</property>
+                        <property name="margin-bottom">10</property>
                         <property name="orientation">vertical</property>
                         <property name="spacing">10</property>
                         <child>
                           <object class="GtkBox" id="legal_cawbird_box">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="margin_top">10</property>
-                            <property name="margin_bottom">10</property>
+                            <property name="can-focus">False</property>
+                            <property name="margin-top">10</property>
+                            <property name="margin-bottom">10</property>
                             <property name="orientation">vertical</property>
                             <child>
                               <object class="GtkLabel" id="legal_cawbird_title">
                                 <property name="visible">True</property>
-                                <property name="can_focus">False</property>
+                                <property name="can-focus">False</property>
                                 <property name="halign">start</property>
-                                <property name="margin_bottom">4</property>
+                                <property name="margin-bottom">4</property>
                                 <property name="label">Cawbird</property>
                                 <attributes>
                                   <attribute name="weight" value="semibold"/>
@@ -438,9 +440,9 @@
                             <child>
                               <object class="GtkLabel" id="legal_cawbird_copyright">
                                 <property name="visible">True</property>
-                                <property name="can_focus">False</property>
+                                <property name="can-focus">False</property>
                                 <property name="halign">start</property>
-                                <property name="margin_bottom">3</property>
+                                <property name="margin-bottom">3</property>
                                 <property name="label">Copyright 2020, the Cawbird Developer</property>
                               </object>
                               <packing>
@@ -452,11 +454,11 @@
                             <child>
                               <object class="GtkLabel" id="legal_cawbird_license">
                                 <property name="visible">True</property>
-                                <property name="can_focus">False</property>
+                                <property name="can-focus">False</property>
                                 <property name="halign">start</property>
                                 <property name="label">This program comes without any warranty.
 Licensed under the &lt;a href="https://www.gnu.org/licenses/gpl-3.0.en.html"&gt;GNU Public License 3.0&lt;/a&gt;</property>
-                                <property name="use_markup">True</property>
+                                <property name="use-markup">True</property>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -477,7 +479,7 @@ Licensed under the &lt;a href="https://www.gnu.org/licenses/gpl-3.0.en.html"&gt;
                   <packing>
                     <property name="name">legal-page</property>
                     <property name="title" translatable="yes">Legal</property>
-                    <property name="icon_name">emblem-documents-symbolic</property>
+                    <property name="icon-name">emblem-documents-symbolic</property>
                     <property name="position">2</property>
                   </packing>
                 </child>
@@ -493,14 +495,14 @@ Licensed under the &lt;a href="https://www.gnu.org/licenses/gpl-3.0.en.html"&gt;
         <child>
           <object class="HdyViewSwitcherBar" id="lower_stack_switch">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="stack">content_stack</property>
             <property name="reveal" bind-source="header_title" bind-property="title-visible" bind-flags="sync-create">False</property>
           </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="pack_type">end</property>
+            <property name="pack-type">end</property>
             <property name="position">2</property>
           </packing>
         </child>
