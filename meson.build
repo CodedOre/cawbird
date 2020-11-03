@@ -194,10 +194,6 @@ cb_resources = gnome.compile_resources(
   'cawbird_resources',
   'cawbird.gresource.xml',
 )
-cb_resources += gnome.compile_resources(
-  'cawbird_ui_resources',
-  'cawbird-ui.gresource.xml',
-)
 
 # config.h
 cdata = configuration_data()
@@ -218,7 +214,6 @@ cb_lib = static_library(
     '--target-glib=' + min_glib_version,
     '--vapidir=' + meson.source_root() + '/vapi/',
     '--gresources=' + meson.source_root() + '/cawbird.gresource.xml',
-    '--gresources=' + meson.source_root() + '/cawbird-ui.gresource.xml',
   ],
   c_args: [
     '-Werror=implicit-function-declaration'
