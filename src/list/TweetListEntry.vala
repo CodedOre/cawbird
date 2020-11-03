@@ -706,7 +706,15 @@ public class TweetListEntry : Cb.TwitterItem, Gtk.ListBoxRow {
   }
 
   public override void get_preferred_height_for_width (int width, out int min, out int nat) {
+    if ((width < Cawbird.RESPONSIVE_LIMIT) == (get_allocated_width() < Cawbird.RESPONSIVE_LIMIT)) {
+      // We're staying the same side of the limit, so let GTK do everything
+      base.get_preferred_height_for_width(width, out min, out nat);
+      return;
+    }
+
+    // We're crossing the responsive threshold, so approximate a calculation.
     int margins = 0;
+    var orig_width = width;
     var style = this.get_style_context();
     var style_margin = style.get_margin(0);
     var style_padding = style.get_padding(0);
@@ -738,31 +746,34 @@ public class TweetListEntry : Cb.TwitterItem, Gtk.ListBoxRow {
     min += child_min;
     nat += child_nat;
 
-    if (width < Cawbird.RESPONSIVE_LIMIT) {
+    if (orig_width < Cawbird.RESPONSIVE_LIMIT) {
       // In "responsive" mode the text sits under the avatar, so take whichever is taller:
       // the avatar or the user's name and the "Replying to" line (if it was set)
       min = int.max(avatar_min, min);
       nat = int.max(avatar_nat, nat);
-
-      scroller.get_property ("margin-start", ref val);
-
-      if (val.get_int() == 0) {
-        // Crossing the responsive threshold, so subtract the extra margin we'll add as we allocate
-        width -= 6;
-      }
+      // Subtract the extra margin we'll add during allocation
+      width -= 6;
     }
     else {
       // All the other widgets don't fill the column under the avatar, so reduce the width
       // that they calculate from
       width -= avatar_width;
+      // But pretend it is a little wider because they still have their margins until allocation
+      width += 6;
     }
 
     scroller.get_preferred_height_for_width(width, out child_min, out child_nat);
     min += child_min;
     nat += child_nat;
 
+    // If the text is short in "wide mode" then the avatar may still be the tallest thing
+    // so check our minimums
+    min = int.max(avatar_min, min);
+    nat = int.max(avatar_nat, nat);
+
     if (mm_widget != null) {
-      mm_widget.get_preferred_height_for_width(width, out child_min, out child_nat);
+      Gtk.Widget w = media_stack != null ? ((Gtk.Widget)media_stack) : ((Gtk.Widget)mm_widget);
+      w.get_preferred_height_for_width(width, out child_min, out child_nat);
       min += child_min;
       nat += child_nat;
     }
@@ -799,41 +810,44 @@ public class TweetListEntry : Cb.TwitterItem, Gtk.ListBoxRow {
   }
 
   public override void size_allocate(Gtk.Allocation allocation) {
-    if (allocation.width < Cawbird.RESPONSIVE_LIMIT) {
-      grid.child_set (avatar_image, "height", 2);
-      grid.child_set (scroller, "left-attach", 0);
-      grid.child_set (scroller, "width", 7);
-      scroller.set ("margin-start", 6);
-      grid.child_set (rt_image, "left-attach", 0);
-      grid.child_set (rt_label, "left-attach", 1);
-      if (mm_widget != null) {
-        Gtk.Widget w = media_stack != null ? ((Gtk.Widget)media_stack) : ((Gtk.Widget)mm_widget);
-        grid.child_set (w, "left-attach", 0);
-        grid.child_set (w, "width", 7);
-        w.set ("margin-start", 6);
-      }
-      if (quote_grid != null) {
-        grid.child_set (quote_grid, "left-attach", 0);
-        grid.child_set (quote_grid, "width", 7);
-        quote_grid.set ("margin-start", 6);
-      }
-    } else {
-      grid.child_set (avatar_image, "height", 3);
-      grid.child_set (scroller, "left-attach", 2);
-      grid.child_set (scroller, "width", 5);
-      scroller.set ("margin-start", 0);
-      grid.child_set (rt_image, "left-attach", 1);
-      grid.child_set (rt_label, "left-attach", 2);
-      if (mm_widget != null) {
-        Gtk.Widget w = media_stack != null ? ((Gtk.Widget)media_stack) : ((Gtk.Widget)mm_widget);
-        grid.child_set (w, "left-attach", 2);
-        grid.child_set (w, "width", 5);
-        w.set ("margin-start", 0);
-      }
-      if (quote_grid != null) {
-        grid.child_set (quote_grid, "left-attach", 2);
-        grid.child_set (quote_grid, "width", 5);
-        quote_grid.set ("margin-start", 0);
+    if ((allocation.width < Cawbird.RESPONSIVE_LIMIT) != (get_allocated_width() < Cawbird.RESPONSIVE_LIMIT)) {
+      // We've crossed the threshold, so reallocate as appropriate
+      if (allocation.width < Cawbird.RESPONSIVE_LIMIT) {
+        grid.child_set (avatar_image, "height", 2);
+        grid.child_set (scroller, "left-attach", 0);
+        grid.child_set (scroller, "width", 7);
+        scroller.set ("margin-start", 6);
+        grid.child_set (rt_image, "left-attach", 0);
+        grid.child_set (rt_label, "left-attach", 1);
+        if (mm_widget != null) {
+          Gtk.Widget w = media_stack != null ? ((Gtk.Widget)media_stack) : ((Gtk.Widget)mm_widget);
+          grid.child_set (w, "left-attach", 0);
+          grid.child_set (w, "width", 7);
+          w.set ("margin-start", 6);
+        }
+        if (quote_grid != null) {
+          grid.child_set (quote_grid, "left-attach", 0);
+          grid.child_set (quote_grid, "width", 7);
+          quote_grid.set ("margin-start", 6);
+        }
+      } else {
+        grid.child_set (avatar_image, "height", 3);
+        grid.child_set (scroller, "left-attach", 2);
+        grid.child_set (scroller, "width", 5);
+        scroller.set ("margin-start", 0);
+        grid.child_set (rt_image, "left-attach", 1);
+        grid.child_set (rt_label, "left-attach", 2);
+        if (mm_widget != null) {
+          Gtk.Widget w = media_stack != null ? ((Gtk.Widget)media_stack) : ((Gtk.Widget)mm_widget);
+          grid.child_set (w, "left-attach", 2);
+          grid.child_set (w, "width", 5);
+          w.set ("margin-start", 0);
+        }
+        if (quote_grid != null) {
+          grid.child_set (quote_grid, "left-attach", 2);
+          grid.child_set (quote_grid, "width", 5);
+          quote_grid.set ("margin-start", 0);
+        }
       }
     }
     base.size_allocate(allocation);

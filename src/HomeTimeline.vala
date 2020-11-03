@@ -144,11 +144,12 @@ public class HomeTimeline : Cb.MessageReceiver, DefaultTimeline {
     tweet_list.model.add (t);
 
     if (!t.is_hidden ()) {
-      /* We need to balance even if we don't scroll up, in case
-         auto-scroll-on-new-tweets is disabled */
-      this.balance_next_upper_change (TOP);
       if (auto_scroll) {
         base.scroll_up (t);
+      } else if (preload_is_complete) {
+        /* We need to balance even if we don't scroll up, in case
+          auto-scroll-on-new-tweets is disabled */
+        this.balance_next_upper_change (TOP);
       }
 
       if (!t.get_seen () && preload_is_complete && is_new_unread) {

@@ -41,7 +41,10 @@ class DMPage : IPage, Cb.MessageReceiver, Gtk.Box {
   private ScrollWidget scroll_widget;
   private DMPlaceholderBox placeholder_box = new DMPlaceholderBox ();
 
+  private int64 first_dm_id;
   public int64 user_id;
+  private string user_name;
+  private string screen_name;
   private bool was_scrolled_down = false;
   private uint update_time_delta_timeout = 0;
 
@@ -63,6 +66,9 @@ class DMPage : IPage, Cb.MessageReceiver, Gtk.Box {
       } else {
         this.was_scrolled_down = false;
       }
+    });
+    scroll_widget.scrolled_to_start.connect((value) => {
+      load_dms.begin();
     });
   }
 
@@ -153,8 +159,16 @@ class DMPage : IPage, Cb.MessageReceiver, Gtk.Box {
     new_msg.load_avatar (yield Twitter.get ().get_avatar_url (account, sender_id));
     messages_list.add (new_msg);
 
-    if (scroll_widget.scrolled_down)
+    if (dm_id < first_dm_id) {
+      first_dm_id = dm_id;
+    }
+
+    if (scroll_widget.scrolled_down) {
       scroll_widget.scroll_down_next ();
+    }
+    else {
+      scroll_widget.balance_next_upper_change (TOP);
+    }
   }
 
   public void on_join (int page_id, Cb.Bundle? args) {
@@ -162,13 +176,12 @@ class DMPage : IPage, Cb.MessageReceiver, Gtk.Box {
     if (user_id == 0)
       return;
 
+    first_dm_id = int64.MAX;
     this.user_id = user_id;
-    string screen_name;
-    string name = null;
     if ((screen_name = args.get_string (KEY_SCREEN_NAME)) != null) {
       // If the screen name is set then it's a new conversation
       // So show the placeholder with name and avatar
-      name = args.get_string (KEY_USER_NAME);
+      user_name = args.get_string (KEY_USER_NAME);
       placeholder_box.user_id = user_id;
       placeholder_box.screen_name = screen_name;
       placeholder_box.name = name;
@@ -176,8 +189,8 @@ class DMPage : IPage, Cb.MessageReceiver, Gtk.Box {
       placeholder_box.load_avatar ();
     }
 
-    messages_list.get_accessible().set_name(_("Direct messages with %s").printf(name));
-    messages_list.get_accessible().set_description(_("Direct messages with %s").printf(name));
+    messages_list.get_accessible().set_name(_("Direct messages with %s").printf(user_name));
+    messages_list.get_accessible().set_description(_("Direct messages with %s").printf(user_name));
 
     text_view.set_account (this.account);
 
@@ -188,58 +201,91 @@ class DMPage : IPage, Cb.MessageReceiver, Gtk.Box {
     DMThreadsPage threads_page = ((DMThreadsPage)main_window.get_page (Page.DM_THREADS));
     threads_page.adjust_unread_count_for_user_id (user_id);
 
+    load_dms.begin((obj, res) => {
+      load_dms.end(res);
+
+      messages_list.get_accessible().set_name(_("Direct messages with %s").printf(user_name));
+      messages_list.get_accessible().set_description(_("Direct messages with %s").printf(user_name));
+
+      account.user_counter.user_seen (user_id, screen_name, user_name);
+
+      scroll_widget.scroll_down_next (false, true);
+
+      // Focus the text entry
+      text_view.grab_focus ();
+
+      if (this.update_time_delta_timeout != 0) {
+        GLib.Source.remove(this.update_time_delta_timeout);
+      }
+
+      this.update_time_delta_timeout = GLib.Timeout.add(1000 * 60, () => { 
+        messages_list.get_children().foreach((dm_list_entry) => {
+          ((DMListEntry)dm_list_entry).update_time_delta();
+        });
+        return GLib.Source.CONTINUE;
+      });
+    });
+  }
+
+  private async void load_dms() {
     // Load messages
     var query = account.db.select ("dms")
                            .cols ("from_id", "to_id", "text", "message_json",
                                   "from_name", "from_screen_name",
                                   "timestamp", "id");
-    if (user_id == account.id)
-      query.where (@"`from_id`='$user_id' AND `to_id`='$user_id'");
-    else
-      query.where (@"`from_id`='$user_id' OR `to_id`='$user_id'");
+    var dm_is_in_thread = "";
+    if (user_id == account.id) {
+      dm_is_in_thread = @"(`from_id`='$user_id' AND `to_id`='$user_id')";
+    }
+    else {
+      dm_is_in_thread = @"(`from_id`='$user_id' OR `to_id`='$user_id')";
+    }
 
+    if (first_dm_id != int64.MAX) {
+      query.where_lt("id", first_dm_id).and().where(dm_is_in_thread);
+    }
+    else {
+      query.where(dm_is_in_thread);
+    }
+
+    string[,] values = new string[35,8];
+    int row_num = 0;
+
+    // We can't `yield` async methods in the callback
+    // so load DMs in order by loading into memory and then parsing/adding
     query.order ("timestamp DESC")
          .limit (35)
          .run ((vals) => {
-      int64 id = int64.parse (vals[7]);      
-      string json = vals[3];
+           for (int i = 0; i < vals.length; i++) {
+             values[row_num,i] = vals[i];
+            }
+            row_num++;
+           return true;
+         });
+
+    for (int i = 0; i < row_num; i++) {
+      int64 id = int64.parse (values[i,7]);
+      string json = values[i,3];
 
       if (json != "") {
         try {
           Json.Parser parser = new Json.Parser ();
           parser.load_from_data (json);
           Json.Node node = parser.get_root ();
-          debug("Adding DM from JSON");
-          handle_dm.begin(Cb.StreamMessageType.DIRECT_MESSAGE, node);
+          yield handle_dm(Cb.StreamMessageType.DIRECT_MESSAGE, node);
         } catch (Error e) {
           warning ("Unable to parse the DM json string: %s\n", e.message);
         }
       } else {
-        debug("Adding DM from text");
-        add_entry.begin (id, int64.parse (vals[0]), int64.parse (vals[1]), vals[2], vals[4], vals[5], int64.parse (vals[6]));
+        yield add_entry (id, int64.parse (values[i,0]), int64.parse (values[i,1]), values[i,2], values[i,4], values[i,5], int64.parse (values[i,6]));
       }
-      name = vals[3];
-      screen_name = vals[4];
-      return true;
-    });
-    
-    account.user_counter.user_seen (user_id, screen_name, name);
-
-    scroll_widget.scroll_down_next (false, true);
-
-    // Focus the text entry
-    text_view.grab_focus ();
-
-    if (this.update_time_delta_timeout != 0) {
-      GLib.Source.remove(this.update_time_delta_timeout);
+      if (user_name == null) {
+        user_name = values[i,3];
+      }
+      if (screen_name == null) {
+        screen_name = values[i,4];
+      }
     }
-
-    this.update_time_delta_timeout = GLib.Timeout.add(1000 * 60, () => { 
-      messages_list.get_children().foreach((dm_list_entry) => {
-        ((DMListEntry)dm_list_entry).update_time_delta();
-      });
-      return GLib.Source.CONTINUE;
-    });
   }
 
   public void on_leave () {
