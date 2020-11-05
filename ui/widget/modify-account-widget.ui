@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.36.0 -->
+<!-- Generated with glade 3.38.1 -->
 <interface>
   <requires lib="gtk+" version="3.22"/>
   <requires lib="libhandy" version="1.0"/>
   <template class="ModifyAccountWidget" parent="GtkBox">
-    <property name="width_request">360</property>
-    <property name="height_request">450</property>
+    <property name="width-request">360</property>
+    <property name="height-request">450</property>
     <property name="visible">True</property>
-    <property name="can_focus">False</property>
+    <property name="can-focus">False</property>
     <property name="orientation">vertical</property>
     <child>
       <object class="HdyHeaderBar" id="dialog_header">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <property name="title" translatable="yes">Modify Account</property>
         <child type="title">
           <object class="HdyViewSwitcherTitle" id="header_title">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="stack">content_stack</property>
             <property name="title">Modify Account</property>
           </object>
@@ -26,8 +26,8 @@
           <object class="GtkButton" id="header_cancel">
             <property name="label" translatable="yes">Cancel</property>
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">True</property>
             <signal name="clicked" handler="ui_action_header_cancel" swapped="no"/>
           </object>
         </child>
@@ -36,15 +36,15 @@
             <property name="label" translatable="yes">Confirm</property>
             <property name="visible">True</property>
             <property name="sensitive">False</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">True</property>
             <signal name="clicked" handler="ui_action_header_confirm" swapped="no"/>
             <style>
               <class name="suggested-action"/>
             </style>
           </object>
           <packing>
-            <property name="pack_type">end</property>
+            <property name="pack-type">end</property>
             <property name="position">1</property>
           </packing>
         </child>
@@ -58,13 +58,14 @@
     <child>
       <object class="GtkStack" id="content_stack">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="margin_start">12</property>
-        <property name="margin_end">12</property>
+        <property name="can-focus">False</property>
+        <property name="margin-start">12</property>
+        <property name="margin-end">12</property>
+        <property name="transition-type">crossfade</property>
         <child>
           <object class="GtkBox" id="details_page">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="orientation">vertical</property>
             <signal name="map" handler="ui_reset_delete_stack" swapped="no"/>
             <child>
@@ -73,27 +74,27 @@
             <child>
               <object class="HdyClamp" id="details_clamp">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <child>
                   <object class="GtkListBox" id="details_grou">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="valign">center</property>
-                    <property name="selection_mode">none</property>
+                    <property name="selection-mode">none</property>
                     <child>
                       <object class="HdyActionRow" id="name_row">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="title" translatable="yes">Name</property>
                         <child>
                           <object class="GtkEntry" id="name_entry">
-                            <property name="width_request">200</property>
+                            <property name="width-request">200</property>
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
+                            <property name="can-focus">True</property>
                             <property name="valign">center</property>
-                            <property name="max_length">50</property>
-                            <property name="truncate_multiline">True</property>
-                            <property name="input_purpose">name</property>
+                            <property name="max-length">50</property>
+                            <property name="truncate-multiline">True</property>
+                            <property name="input-purpose">name</property>
                             <signal name="changed" handler="ui_action_details_changed" swapped="no"/>
                           </object>
                         </child>
@@ -102,16 +103,16 @@
                     <child>
                       <object class="HdyActionRow" id="website_row">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="title" translatable="yes">Website</property>
                         <child>
                           <object class="GtkEntry" id="website_entry">
-                            <property name="width_request">200</property>
+                            <property name="width-request">200</property>
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
+                            <property name="can-focus">True</property>
                             <property name="valign">center</property>
-                            <property name="truncate_multiline">True</property>
-                            <property name="input_purpose">url</property>
+                            <property name="truncate-multiline">True</property>
+                            <property name="input-purpose">url</property>
                             <signal name="changed" handler="ui_action_details_changed" swapped="no"/>
                           </object>
                         </child>
@@ -133,24 +134,24 @@
           <packing>
             <property name="name">detail-page</property>
             <property name="title" translatable="yes">Details</property>
-            <property name="icon_name">user-info-symbolic</property>
+            <property name="icon-name">user-info-symbolic</property>
           </packing>
         </child>
         <child>
           <object class="HdyClamp" id="filters_page">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <signal name="map" handler="ui_reset_delete_stack" swapped="no"/>
             <child>
               <object class="GtkBox" id="filters_box">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="orientation">vertical</property>
                 <child>
                   <object class="HdyPreferencesGroup" id="blocked_users_group">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="margin_top">20</property>
+                    <property name="can-focus">False</property>
+                    <property name="margin-top">20</property>
                     <property name="title" translatable="yes">Blocked Users</property>
                   </object>
                   <packing>
@@ -162,25 +163,25 @@
                 <child>
                   <object class="HdyPreferencesGroup" id="block_new_user_group">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="HdyActionRow" id="block_new_user_row">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="title" translatable="yes">Block additional User</property>
-                        <property name="activatable_widget">block_new_user_button</property>
+                        <property name="activatable-widget">block_new_user_button</property>
                         <child>
                           <object class="GtkButton" id="block_new_user_button">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
                             <property name="halign">center</property>
                             <property name="valign">center</property>
                             <child>
                               <object class="GtkImage" id="block_new_user_symbol">
                                 <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="icon_name">list-add-symbolic</property>
+                                <property name="can-focus">False</property>
+                                <property name="icon-name">list-add-symbolic</property>
                               </object>
                             </child>
                           </object>
@@ -197,8 +198,8 @@
                 <child>
                   <object class="HdyPreferencesGroup" id="blocked_words_group">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="margin_top">20</property>
+                    <property name="can-focus">False</property>
+                    <property name="margin-top">20</property>
                     <property name="description" translatable="yes">You can block Words using Regular Expressions</property>
                     <property name="title" translatable="yes">Blocked Expressions</property>
                   </object>
@@ -211,25 +212,25 @@
                 <child>
                   <object class="HdyPreferencesGroup" id="block_new_word_group">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="HdyActionRow" id="block_new_word_row">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="title" translatable="yes">Block additional Expression</property>
-                        <property name="activatable_widget">block_new_word_button</property>
+                        <property name="activatable-widget">block_new_word_button</property>
                         <child>
                           <object class="GtkButton" id="block_new_word_button">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="receives_default">False</property>
+                            <property name="can-focus">False</property>
+                            <property name="receives-default">False</property>
                             <property name="halign">center</property>
                             <property name="valign">center</property>
                             <child>
                               <object class="GtkImage" id="block_new_word_symbol">
                                 <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="icon_name">list-add-symbolic</property>
+                                <property name="can-focus">False</property>
+                                <property name="icon-name">list-add-symbolic</property>
                               </object>
                             </child>
                           </object>
@@ -249,30 +250,30 @@
           <packing>
             <property name="name">filters-page</property>
             <property name="title" translatable="yes">Filters</property>
-            <property name="icon_name">list-remove-all-symbolic</property>
+            <property name="icon-name">list-remove-all-symbolic</property>
             <property name="position">1</property>
           </packing>
         </child>
         <child>
           <object class="HdyClamp" id="options_page">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <child>
               <object class="GtkListBox" id="options_list">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="valign">center</property>
-                <property name="selection_mode">none</property>
+                <property name="selection-mode">none</property>
                 <child>
                   <object class="HdyActionRow" id="autostart_row">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="title" translatable="yes">Open Account on Startup</property>
-                    <property name="activatable_widget">autostart_switch</property>
+                    <property name="activatable-widget">autostart_switch</property>
                     <child>
                       <object class="GtkSwitch" id="autostart_switch">
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
+                        <property name="can-focus">True</property>
                         <property name="halign">center</property>
                         <property name="valign">center</property>
                         <signal name="notify::active" handler="ui_action_autostart_switch" after="yes" swapped="no"/>
@@ -283,32 +284,32 @@
                 <child>
                   <object class="GtkListBoxRow" id="delete_group_row">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkStack" id="delete_group_stack">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="transition_type">crossfade</property>
+                        <property name="can-focus">False</property>
+                        <property name="transition-type">crossfade</property>
                         <child>
                           <object class="HdyActionRow" id="delete_action_row">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <property name="activatable">False</property>
                             <property name="title" translatable="yes">Remove Account</property>
-                            <property name="activatable_widget">delete_action_button</property>
+                            <property name="activatable-widget">delete_action_button</property>
                             <child>
                               <object class="GtkButton" id="delete_action_button">
                                 <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">False</property>
+                                <property name="can-focus">True</property>
+                                <property name="receives-default">False</property>
                                 <property name="halign">center</property>
                                 <property name="valign">center</property>
                                 <signal name="clicked" handler="ui_action_delete_active" swapped="no"/>
                                 <child>
                                   <object class="GtkImage" id="delete_action_symbol">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="icon_name">user-trash-symbolic</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="icon-name">user-trash-symbolic</property>
                                   </object>
                                 </child>
                                 <style>
@@ -325,21 +326,21 @@
                         <child>
                           <object class="HdyActionRow" id="delete_confirm_row">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <property name="activatable">False</property>
                             <property name="title" translatable="yes">Really Remove Account?</property>
                             <child>
                               <object class="GtkButton" id="delete_confirm_cancel_button">
                                 <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">False</property>
+                                <property name="can-focus">True</property>
+                                <property name="receives-default">False</property>
                                 <property name="valign">center</property>
                                 <signal name="clicked" handler="ui_action_delete_cancel" swapped="no"/>
                                 <child>
                                   <object class="GtkImage" id="delete_confirm_cancel_symbol">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="icon_name">window-close-symbolic</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="icon-name">window-close-symbolic</property>
                                   </object>
                                 </child>
                               </object>
@@ -347,15 +348,15 @@
                             <child>
                               <object class="GtkButton" id="delete_confirm_accept_button">
                                 <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">False</property>
+                                <property name="can-focus">True</property>
+                                <property name="receives-default">False</property>
                                 <property name="valign">center</property>
                                 <signal name="clicked" handler="ui_action_delete_confirm" swapped="no"/>
                                 <child>
                                   <object class="GtkImage" id="delete_confirm_accept_symbol">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="icon_name">emblem-ok-symbolic</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="icon-name">emblem-ok-symbolic</property>
                                   </object>
                                 </child>
                                 <style>
@@ -383,7 +384,7 @@
           <packing>
             <property name="name">options-page</property>
             <property name="title" translatable="yes">Options</property>
-            <property name="icon_name">preferences-other-symbolic</property>
+            <property name="icon-name">preferences-other-symbolic</property>
             <property name="position">2</property>
           </packing>
         </child>
@@ -397,7 +398,7 @@
     <child>
       <object class="HdyViewSwitcherBar" id="lower_stack_switch">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <property name="stack">content_stack</property>
         <property name="reveal" bind-source="header_title" bind-property="title-visible" bind-flags="sync-create">False</property>
       </object>
