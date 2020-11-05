@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.36.0 -->
+<!-- Generated with glade 3.38.1 -->
 <interface>
   <requires lib="gtk+" version="3.22"/>
   <requires lib="libhandy" version="1.0"/>
   <template class="SettingsDialog" parent="HdyPreferencesWindow">
-    <property name="width_request">360</property>
-    <property name="height_request">450</property>
-    <property name="can_focus">False</property>
+    <property name="width-request">360</property>
+    <property name="height-request">450</property>
+    <property name="can-focus">False</property>
     <property name="title" translatable="yes">Cawbird - Settings</property>
-    <property name="window_position">center-on-parent</property>
+    <property name="window-position">center-on-parent</property>
     <signal name="delete-event" handler="window_action_close" swapped="no"/>
     <child>
       <object class="HdyPreferencesPage" id="interface_page">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="icon_name">focus-top-bar-symbolic</property>
+        <property name="can-focus">False</property>
+        <property name="icon-name">focus-top-bar-symbolic</property>
         <property name="title" translatable="yes">Interface</property>
         <child>
           <object class="HdyPreferencesGroup" id="interface_general_group">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="title">Cawbird</property>
             <child>
               <object class="HdyActionRow" id="dark_theme_row">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="title" translatable="yes">Use Dark Theme</property>
-                <property name="activatable_widget">dark_theme_switch</property>
+                <property name="activatable-widget">dark_theme_switch</property>
                 <child>
                   <object class="GtkSwitch" id="dark_theme_switch">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
+                    <property name="can-focus">True</property>
                     <property name="valign">center</property>
                     <signal name="notify::active" handler="setting_update_dark_theme" after="yes" swapped="no"/>
                   </object>
@@ -42,17 +42,17 @@
         <child>
           <object class="HdyPreferencesGroup" id="interface_timeline_group">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="title">Timeline</property>
             <child>
               <object class="HdyActionRow" id="media_visibilty_row">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="title" translatable="yes">Show Inline Media</property>
                 <child>
                   <object class="GtkComboBoxText" id="media_visibility_combo">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="valign">center</property>
                     <property name="active">0</property>
                     <items>
@@ -68,13 +68,13 @@
             <child>
               <object class="HdyActionRow" id="auto_scroll_row">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="title" translatable="yes">Auto Scroll on New Tweets</property>
-                <property name="activatable_widget">auto_scroll_switch</property>
+                <property name="activatable-widget">auto_scroll_switch</property>
                 <child>
                   <object class="GtkSwitch" id="auto_scroll_switch">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
+                    <property name="can-focus">True</property>
                     <property name="valign">center</property>
                     <signal name="notify::active" handler="update_new_tweet_access" swapped="no"/>
                   </object>
@@ -84,13 +84,13 @@
             <child>
               <object class="HdyActionRow" id="double_click_row">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="title" translatable="yes">Activate with Double-Click</property>
-                <property name="activatable_widget">double_click_switch</property>
+                <property name="activatable-widget">double_click_switch</property>
                 <child>
                   <object class="GtkSwitch" id="double_click_switch">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
+                    <property name="can-focus">True</property>
                     <property name="valign">center</property>
                   </object>
                 </child>
@@ -101,14 +101,14 @@
         <child>
           <object class="HdyPreferencesGroup" id="interface_tweet_group">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="title" translatable="yes">Tweets</property>
             <child>
               <object class="HdyActionRow" id="example_tweet_row">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="title" translatable="yes">TweetExampleBox</property>
-                <property name="icon_name">user-info-symbolic</property>
+                <property name="icon-name">user-info-symbolic</property>
                 <property name="subtitle" translatable="yes">When you will visit this later, this will be showing a
 #cool Tweet as an example for @CawbirdClient.</property>
               </object>
@@ -116,13 +116,13 @@
             <child>
               <object class="HdyActionRow" id="round_avatar_row">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="title" translatable="yes">Use Round Avatars</property>
-                <property name="activatable_widget">round_avatar_switch</property>
+                <property name="activatable-widget">round_avatar_switch</property>
                 <child>
                   <object class="GtkSwitch" id="round_avatar_switch">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
+                    <property name="can-focus">True</property>
                     <property name="valign">center</property>
                   </object>
                 </child>
@@ -131,13 +131,13 @@
             <child>
               <object class="HdyActionRow" id="trail_hashtags_row">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="title" translatable="yes">Hide Trailing Hashtags</property>
-                <property name="activatable_widget">trail_hashtags_switch</property>
+                <property name="activatable-widget">trail_hashtags_switch</property>
                 <child>
                   <object class="GtkSwitch" id="trail_hashtags_switch">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
+                    <property name="can-focus">True</property>
                     <property name="valign">center</property>
                     <signal name="notify::active" handler="setting_update_trail_hashtags" swapped="no"/>
                   </object>
@@ -147,13 +147,13 @@
             <child>
               <object class="HdyActionRow" id="media_link_row">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="title" translatable="yes">Hide Media Links</property>
-                <property name="activatable_widget">media_link_switch</property>
+                <property name="activatable-widget">media_link_switch</property>
                 <child>
                   <object class="GtkSwitch" id="media_link_switch">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
+                    <property name="can-focus">True</property>
                     <property name="valign">center</property>
                     <signal name="notify::active" handler="setting_update_media_links" swapped="no"/>
                   </object>
@@ -163,13 +163,13 @@
             <child>
               <object class="HdyActionRow" id="hide_nsfw_row">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="title" translatable="yes">Hide Inappropriate Content</property>
-                <property name="activatable_widget">hide_nsfw_switch</property>
+                <property name="activatable-widget">hide_nsfw_switch</property>
                 <child>
                   <object class="GtkSwitch" id="hide_nsfw_switch">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
+                    <property name="can-focus">True</property>
                     <property name="valign">center</property>
                   </object>
                 </child>
@@ -182,24 +182,24 @@
     <child>
       <object class="HdyPreferencesPage" id="notifications_page">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="icon_name">preferences-system-notifications-symbolic</property>
+        <property name="can-focus">False</property>
+        <property name="icon-name">preferences-system-notifications-symbolic</property>
         <property name="title" translatable="yes">Notifications</property>
         <child>
           <object class="HdyPreferencesGroup" id="notification_actions_group">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="title" translatable="yes">Notificate me on...</property>
             <child>
               <object class="HdyActionRow" id="new_tweet_row">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="title" translatable="yes">New Tweets</property>
-                <property name="activatable_widget">new_tweet_combo</property>
+                <property name="activatable-widget">new_tweet_combo</property>
                 <child>
                   <object class="GtkComboBoxText" id="new_tweet_combo">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="valign">center</property>
                     <property name="active">0</property>
                     <items>
@@ -217,13 +217,13 @@
             <child>
               <object class="HdyActionRow" id="new_mention_row">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="title" translatable="yes">New Mentions</property>
-                <property name="activatable_widget">new_mention_switch</property>
+                <property name="activatable-widget">new_mention_switch</property>
                 <child>
                   <object class="GtkSwitch" id="new_mention_switch">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
+                    <property name="can-focus">True</property>
                     <property name="valign">center</property>
                   </object>
                 </child>
@@ -232,13 +232,13 @@
             <child>
               <object class="HdyActionRow" id="new_message_row">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="title" translatable="yes">New Messages</property>
-                <property name="activatable_widget">new_message_switch</property>
+                <property name="activatable-widget">new_message_switch</property>
                 <child>
                   <object class="GtkSwitch" id="new_message_switch">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
+                    <property name="can-focus">True</property>
                     <property name="valign">center</property>
                   </object>
                 </child>
@@ -251,19 +251,19 @@
     <child>
       <object class="HdyPreferencesPage" id="accounts_page">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="icon_name">system-users-symbolic</property>
+        <property name="can-focus">False</property>
+        <property name="icon-name">system-users-symbolic</property>
         <property name="title" translatable="yes">Accounts</property>
         <child>
           <object class="HdyPreferencesGroup" id="accounts_group">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="title" translatable="yes">Accounts</property>
             <child>
               <object class="GtkListBox" id="accounts_list">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="selection_mode">none</property>
+                <property name="can-focus">False</property>
+                <property name="selection-mode">none</property>
                 <style>
                   <class name="content"/>
                 </style>
@@ -274,26 +274,26 @@
         <child>
           <object class="HdyPreferencesGroup" id="accounts_configuration_group">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <child>
               <object class="HdyActionRow" id="add_account_row">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="title" translatable="yes">Add new Account</property>
-                <property name="activatable_widget">add_account_button</property>
+                <property name="activatable-widget">add_account_button</property>
                 <child>
                   <object class="GtkButton" id="add_account_button">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="receives_default">False</property>
+                    <property name="can-focus">False</property>
+                    <property name="receives-default">False</property>
                     <property name="halign">center</property>
                     <property name="valign">center</property>
                     <signal name="clicked" handler="ui_action_add_account" swapped="no"/>
                     <child>
                       <object class="GtkImage" id="add_account_symbol">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="icon_name">list-add-symbolic</property>
+                        <property name="can-focus">False</property>
+                        <property name="icon-name">list-add-symbolic</property>
                       </object>
                     </child>
                   </object>
@@ -307,20 +307,20 @@
     <child>
       <object class="HdyPreferencesPage" id="snippets_page">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="icon_name">folder-templates-symbolic</property>
+        <property name="can-focus">False</property>
+        <property name="icon-name">folder-templates-symbolic</property>
         <property name="title" translatable="yes">Snippets</property>
         <child>
           <object class="HdyPreferencesGroup" id="snippets_group">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="description" translatable="yes">You can activate snippets by writing the keyword and pressing TAB.</property>
             <property name="title" translatable="yes">Active Snippets</property>
             <child>
               <object class="GtkListBox" id="snippets_list">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="selection_mode">none</property>
+                <property name="can-focus">False</property>
+                <property name="selection-mode">none</property>
                 <style>
                   <class name="content"/>
                 </style>
@@ -331,26 +331,26 @@
         <child>
           <object class="HdyPreferencesGroup" id="snippet_configuration_group">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <child>
               <object class="HdyActionRow" id="add_snippet_row">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="title" translatable="yes">Add new Snippet</property>
-                <property name="activatable_widget">add_snippet_button</property>
+                <property name="activatable-widget">add_snippet_button</property>
                 <child>
                   <object class="GtkButton" id="add_snippet_button">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="receives_default">False</property>
+                    <property name="can-focus">False</property>
+                    <property name="receives-default">False</property>
                     <property name="halign">center</property>
                     <property name="valign">center</property>
                     <signal name="clicked" handler="ui_action_add_snippet" swapped="no"/>
                     <child>
                       <object class="GtkImage" id="add_snippet_symbol">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="icon_name">list-add-symbolic</property>
+                        <property name="can-focus">False</property>
+                        <property name="icon-name">list-add-symbolic</property>
                       </object>
                     </child>
                   </object>

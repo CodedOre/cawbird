@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.36.0 -->
+<!-- Generated with glade 3.38.1 -->
 <interface>
   <requires lib="gtk+" version="3.22"/>
   <requires lib="libhandy" version="1.0"/>
   <template class="CreateAccountWidget" parent="GtkBox">
-    <property name="width_request">360</property>
-    <property name="height_request">450</property>
+    <property name="width-request">360</property>
+    <property name="height-request">450</property>
     <property name="visible">True</property>
-    <property name="can_focus">False</property>
+    <property name="can-focus">False</property>
     <property name="orientation">vertical</property>
     <child>
       <object class="HdyHeaderBar" id="dialog_header">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <property name="title" translatable="yes">Add new Account</property>
         <child>
           <object class="GtkButton" id="header_cancel">
             <property name="label" translatable="yes">Cancel</property>
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">True</property>
             <signal name="clicked" handler="ui_action_header_cancel" swapped="no"/>
           </object>
         </child>
@@ -28,15 +28,15 @@
             <property name="label" translatable="yes">Confirm</property>
             <property name="visible">True</property>
             <property name="sensitive">False</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">True</property>
             <signal name="clicked" handler="ui_action_header_confirm" swapped="no"/>
             <style>
               <class name="suggested-action"/>
             </style>
           </object>
           <packing>
-            <property name="pack_type">end</property>
+            <property name="pack-type">end</property>
             <property name="position">1</property>
           </packing>
         </child>
@@ -50,31 +50,31 @@
     <child>
       <object class="GtkOverlay" id="content_area">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <property name="vexpand">True</property>
         <child>
           <object class="HdyCarousel" id="content_carousel">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="interactive">False</property>
-            <property name="allow_mouse_drag">False</property>
+            <property name="allow-mouse-drag">False</property>
             <child>
               <object class="HdyClamp" id="overview_page">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="hexpand">True</property>
                 <child>
                   <object class="GtkBox" id="overview_box">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="valign">center</property>
                     <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkImage" id="overview_icon">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="pixel_size">128</property>
-                        <property name="icon_name">uk.co.ibboard.cawbird</property>
+                        <property name="can-focus">False</property>
+                        <property name="pixel-size">128</property>
+                        <property name="icon-name">uk.co.ibboard.cawbird</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -85,8 +85,8 @@
                     <child>
                       <object class="GtkLabel" id="overview_title">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">10</property>
+                        <property name="can-focus">False</property>
+                        <property name="margin-top">10</property>
                         <property name="label" translatable="yes">Add your Account</property>
                         <attributes>
                           <attribute name="weight" value="light"/>
@@ -102,8 +102,8 @@
                     <child>
                       <object class="GtkLabel" id="overview_label">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">5</property>
+                        <property name="can-focus">False</property>
+                        <property name="margin-top">5</property>
                         <property name="label" translatable="yes">In order to use Cawbird, you need to connect your Twitter account using a PIN.</property>
                         <property name="justify">center</property>
                         <property name="wrap">True</property>
@@ -117,12 +117,12 @@
                     <child>
                       <object class="GtkButton" id="request_pin_button">
                         <property name="label" translatable="yes">Request PIN</property>
-                        <property name="width_request">250</property>
+                        <property name="width-request">250</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">True</property>
                         <property name="halign">center</property>
-                        <property name="margin_top">40</property>
+                        <property name="margin-top">40</property>
                         <signal name="clicked" handler="ui_action_request_pin" swapped="no"/>
                         <style>
                           <class name="suggested-action"/>
@@ -137,13 +137,13 @@
                     <child>
                       <object class="GtkButton" id="create_account_button">
                         <property name="label" translatable="yes">Create new Account</property>
-                        <property name="width_request">250</property>
+                        <property name="width-request">250</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">True</property>
                         <property name="halign">center</property>
-                        <property name="margin_top">10</property>
-                        <property name="margin_bottom">50</property>
+                        <property name="margin-top">10</property>
+                        <property name="margin-bottom">50</property>
                         <signal name="clicked" handler="ui_action_create_account" swapped="no"/>
                       </object>
                       <packing>
@@ -159,20 +159,20 @@
             <child>
               <object class="HdyClamp" id="pin_page">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="valign">center</property>
                 <property name="hexpand">True</property>
                 <child>
                   <object class="GtkBox" id="pin_box">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkImage" id="pin_icon">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="pixel_size">128</property>
-                        <property name="icon_name">system-lock-screen-symbolic</property>
+                        <property name="can-focus">False</property>
+                        <property name="pixel-size">128</property>
+                        <property name="icon-name">system-lock-screen-symbolic</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -184,7 +184,7 @@
                       <object class="GtkLabel" id="pin_title">
                         <property name="name">pin_title</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Authenticate Account</property>
                         <attributes>
                           <attribute name="weight" value="light"/>
@@ -200,7 +200,7 @@
                     <child>
                       <object class="GtkLabel" id="pin_label">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="label" translatable="yes">Enter the PIN provided by Twitter:</property>
                       </object>
                       <packing>
@@ -211,18 +211,18 @@
                     </child>
                     <child>
                       <object class="GtkBox" id="pin_entry_box">
-                        <property name="width_request">250</property>
+                        <property name="width-request">250</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can-focus">False</property>
                         <property name="halign">center</property>
-                        <property name="margin_top">40</property>
+                        <property name="margin-top">40</property>
                         <property name="spacing">5</property>
                         <child>
                           <object class="GtkEntry" id="pin_entry">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="max_length">7</property>
-                            <property name="input_purpose">number</property>
+                            <property name="can-focus">True</property>
+                            <property name="max-length">7</property>
+                            <property name="input-purpose">number</property>
                             <signal name="changed" handler="ui_action_pin_entry" swapped="no"/>
                           </object>
                           <packing>
@@ -234,22 +234,22 @@
                         <child>
                           <object class="GtkButton" id="pin_retry_button">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">True</property>
-                            <property name="tooltip_text" translatable="yes">Request a new PIN.</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">True</property>
+                            <property name="tooltip-text" translatable="yes">Request a new PIN.</property>
                             <signal name="clicked" handler="ui_action_pin_retry" swapped="no"/>
                             <child>
                               <object class="GtkImage" id="pin_retry_symbol">
                                 <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="icon_name">view-refresh-symbolic</property>
+                                <property name="can-focus">False</property>
+                                <property name="icon-name">view-refresh-symbolic</property>
                               </object>
                             </child>
                           </object>
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">False</property>
-                            <property name="pack_type">end</property>
+                            <property name="pack-type">end</property>
                             <property name="position">1</property>
                           </packing>
                         </child>
@@ -271,19 +271,19 @@
         </child>
         <child type="overlay">
           <object class="GtkRevealer" id="notification_revealer">
-            <property name="width_request">360</property>
+            <property name="width-request">360</property>
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="halign">center</property>
             <property name="valign">start</property>
             <child>
               <object class="GtkBox" id="notification_box">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <child>
                   <object class="GtkLabel" id="notification_label">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="hexpand">True</property>
                     <property name="wrap">True</property>
                   </object>
@@ -296,14 +296,14 @@
                 <child>
                   <object class="GtkButton" id="notification_close_button">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
                     <signal name="clicked" handler="ui_action_notification_close" swapped="no"/>
                     <child>
                       <object class="GtkImage" id="notification_close_symbol">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="icon_name">window-close-symbolic</property>
+                        <property name="can-focus">False</property>
+                        <property name="icon-name">window-close-symbolic</property>
                       </object>
                     </child>
                   </object>
@@ -330,9 +330,9 @@
     <child>
       <object class="HdyCarouselIndicatorLines" id="progress_indicator">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="margin_top">5</property>
-        <property name="margin_bottom">5</property>
+        <property name="can-focus">False</property>
+        <property name="margin-top">5</property>
+        <property name="margin-bottom">5</property>
         <property name="carousel">content_carousel</property>
       </object>
       <packing>
