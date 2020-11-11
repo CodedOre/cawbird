@@ -24,7 +24,7 @@
             <property name="show-close-button">True</property>
             <property name="centering-policy">strict</property>
             <child type="title">
-              <object class="HdyViewSwitcherTitle" id="header_title">
+              <object class="HdyViewSwitcherTitle" id="window_title_switch">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="policy">wide</property>
@@ -493,11 +493,11 @@ Licensed under the &lt;a href="https://www.gnu.org/licenses/gpl-3.0.en.html"&gt;
           </packing>
         </child>
         <child>
-          <object class="HdyViewSwitcherBar" id="lower_stack_switch">
+          <object class="HdyViewSwitcherBar" id="window_lower_switch">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="stack">content_stack</property>
-            <property name="reveal" bind-source="header_title" bind-property="title-visible" bind-flags="sync-create">False</property>
+            <property name="reveal" bind-source="window_title_switch" bind-property="title-visible" bind-flags="sync-create">False</property>
           </object>
           <packing>
             <property name="expand">False</property>
