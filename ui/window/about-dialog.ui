@@ -40,20 +40,20 @@
           </packing>
         </child>
         <child>
-          <object class="HdyClamp" id="content_clamp">
+          <object class="GtkStack" id="content_stack">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
+            <property name="transition-type">crossfade</property>
             <child>
-              <object class="GtkStack" id="content_stack">
+              <object class="HdyClamp" id="about_page">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="margin-start">12</property>
-                <property name="margin-end">12</property>
-                <property name="transition-type">crossfade</property>
                 <child>
-                  <object class="GtkBox" id="about-page">
+                  <object class="GtkBox" id="about_box">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="margin-start">12</property>
+                    <property name="margin-end">12</property>
                     <property name="margin-top">20</property>
                     <property name="margin-bottom">20</property>
                     <property name="orientation">vertical</property>
@@ -230,206 +230,78 @@
                       </packing>
                     </child>
                   </object>
-                  <packing>
-                    <property name="name">about-page</property>
-                    <property name="title" translatable="yes">About</property>
-                    <property name="icon-name">help-about-symbolic</property>
-                  </packing>
                 </child>
+              </object>
+              <packing>
+                <property name="name">about_page</property>
+                <property name="title" translatable="yes">About</property>
+                <property name="icon-name">help-about-symbolic</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkScrolledWindow" id="credits_page">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="hscrollbar-policy">never</property>
                 <child>
-                  <object class="GtkBox" id="credits_page">
+                  <object class="GtkViewport" id="credits_view">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="margin-top">10</property>
-                    <property name="margin-bottom">10</property>
-                    <property name="orientation">vertical</property>
                     <child>
-                      <object class="GtkBox" id="developer_group">
+                      <object class="HdyClamp" id="credits_clamp">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="margin-top">10</property>
-                        <property name="margin-bottom">10</property>
-                        <property name="orientation">vertical</property>
-                        <property name="spacing">2</property>
                         <child>
-                          <object class="GtkLabel" id="developer_title">
+                          <object class="GtkBox" id="credits_box">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
-                            <property name="label" translatable="yes">Developed by:</property>
-                            <attributes>
-                              <attribute name="weight" value="bold"/>
-                            </attributes>
-                            <style>
-                              <class name="dim-label"/>
-                            </style>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkLabel" id="developer_info">
-                            <property name="visible">True</property>
-                            <property name="can-focus">False</property>
-                            <property name="label">&lt;a href="mailto:cawbird@ibboard.co.uk"&gt;IBBoard&lt;/a&gt; (Cawbird)
-&lt;a href="mailto:fred99schenk@icloud.com"&gt;Frederick Schenk&lt;/a&gt; (UI Rewrite)
-&lt;a href="mail@baedert.org"&gt;Timm Bäder&lt;/a&gt; (Corebird)</property>
-                            <property name="use-markup">True</property>
-                            <property name="justify">center</property>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkBox" id="translator_group">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="margin-top">10</property>
-                        <property name="margin-bottom">10</property>
-                        <property name="orientation">vertical</property>
-                        <property name="spacing">2</property>
-                        <child>
-                          <object class="GtkLabel" id="translator_label">
-                            <property name="visible">True</property>
-                            <property name="can-focus">False</property>
-                            <property name="label" translatable="yes">Translated by:</property>
-                            <attributes>
-                              <attribute name="weight" value="bold"/>
-                            </attributes>
-                            <style>
-                              <class name="dim-label"/>
-                            </style>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkLabel" id="translator_info">
-                            <property name="visible">True</property>
-                            <property name="can-focus">False</property>
-                            <property name="label">Insert Translator</property>
-                            <property name="use-markup">True</property>
-                            <property name="justify">center</property>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">2</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkBox" id="graphical_group">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="margin-top">10</property>
-                        <property name="margin-bottom">10</property>
-                        <property name="orientation">vertical</property>
-                        <property name="spacing">2</property>
-                        <child>
-                          <object class="GtkLabel" id="graphics_label">
-                            <property name="visible">True</property>
-                            <property name="can-focus">False</property>
-                            <property name="label" translatable="yes">Graphical Design by:</property>
-                            <attributes>
-                              <attribute name="weight" value="bold"/>
-                            </attributes>
-                            <style>
-                              <class name="dim-label"/>
-                            </style>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkLabel" id="graphics_info">
-                            <property name="visible">True</property>
-                            <property name="can-focus">False</property>
-                            <property name="label">&lt;a href="mailto:cawbird@ibboard.co.uk"&gt;IBBoard&lt;/a&gt; (Cawbird Icon)
-&lt;a href="mailto:fred99schenk@icloud.com"&gt;Frederick Schenk&lt;/a&gt; (UI Design)
-</property>
-                            <property name="use-markup">True</property>
-                            <property name="justify">center</property>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">4</property>
-                      </packing>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="name">credits-page</property>
-                    <property name="title" translatable="yes">Credits</property>
-                    <property name="icon-name">system-users-symbolic</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="HdyClamp" id="legal_clamp">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="maximum-size">350</property>
-                    <property name="tightening-threshold">200</property>
-                    <child>
-                      <object class="GtkBox" id="legal_page">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="margin-top">10</property>
-                        <property name="margin-bottom">10</property>
-                        <property name="orientation">vertical</property>
-                        <property name="spacing">10</property>
-                        <child>
-                          <object class="GtkBox" id="legal_cawbird_box">
-                            <property name="visible">True</property>
-                            <property name="can-focus">False</property>
+                            <property name="margin-start">12</property>
+                            <property name="margin-end">12</property>
                             <property name="margin-top">10</property>
                             <property name="margin-bottom">10</property>
                             <property name="orientation">vertical</property>
                             <child>
-                              <object class="GtkLabel" id="legal_cawbird_title">
+                              <object class="GtkBox" id="developer_group">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
-                                <property name="halign">start</property>
-                                <property name="margin-bottom">4</property>
-                                <property name="label">Cawbird</property>
-                                <attributes>
-                                  <attribute name="weight" value="semibold"/>
-                                </attributes>
-                                <style>
-                                  <class name="dim-label"/>
-                                </style>
+                                <property name="margin-top">10</property>
+                                <property name="margin-bottom">10</property>
+                                <property name="orientation">vertical</property>
+                                <property name="spacing">2</property>
+                                <child>
+                                  <object class="GtkLabel" id="developer_title">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="label" translatable="yes">Developed by:</property>
+                                    <attributes>
+                                      <attribute name="weight" value="bold"/>
+                                    </attributes>
+                                    <style>
+                                      <class name="dim-label"/>
+                                    </style>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="developer_info">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="label">&lt;a href="mailto:cawbird@ibboard.co.uk"&gt;IBBoard&lt;/a&gt; (Cawbird)
+&lt;a href="mailto:fred99schenk@icloud.com"&gt;Frederick Schenk&lt;/a&gt; (UI Rewrite)
+&lt;a href="mail@baedert.org"&gt;Timm Bäder&lt;/a&gt; (Corebird)</property>
+                                    <property name="use-markup">True</property>
+                                    <property name="justify">center</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -438,27 +310,45 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel" id="legal_cawbird_copyright">
+                              <object class="GtkBox" id="translator_group">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
-                                <property name="halign">start</property>
-                                <property name="margin-bottom">3</property>
-                                <property name="label">Copyright 2020, the Cawbird Developer</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">1</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel" id="legal_cawbird_license">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="halign">start</property>
-                                <property name="label">This program comes without any warranty.
-Licensed under the &lt;a href="https://www.gnu.org/licenses/gpl-3.0.en.html"&gt;GNU Public License 3.0&lt;/a&gt;</property>
-                                <property name="use-markup">True</property>
+                                <property name="margin-top">10</property>
+                                <property name="margin-bottom">10</property>
+                                <property name="orientation">vertical</property>
+                                <property name="spacing">2</property>
+                                <child>
+                                  <object class="GtkLabel" id="translator_label">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="label" translatable="yes">Translated by:</property>
+                                    <attributes>
+                                      <attribute name="weight" value="bold"/>
+                                    </attributes>
+                                    <style>
+                                      <class name="dim-label"/>
+                                    </style>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="translator_info">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="label">Insert Translator</property>
+                                    <property name="use-markup">True</property>
+                                    <property name="justify">center</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -466,24 +356,170 @@ Licensed under the &lt;a href="https://www.gnu.org/licenses/gpl-3.0.en.html"&gt;
                                 <property name="position">2</property>
                               </packing>
                             </child>
+                            <child>
+                              <object class="GtkBox" id="graphical_group">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="margin-top">10</property>
+                                <property name="margin-bottom">10</property>
+                                <property name="orientation">vertical</property>
+                                <property name="spacing">2</property>
+                                <child>
+                                  <object class="GtkLabel" id="graphics_label">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="label" translatable="yes">Graphical Design by:</property>
+                                    <attributes>
+                                      <attribute name="weight" value="bold"/>
+                                    </attributes>
+                                    <style>
+                                      <class name="dim-label"/>
+                                    </style>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="graphics_info">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="label">&lt;a href="mailto:cawbird@ibboard.co.uk"&gt;IBBoard&lt;/a&gt; (Cawbird Icon)
+&lt;a href="mailto:fred99schenk@icloud.com"&gt;Frederick Schenk&lt;/a&gt; (UI Design)
+</property>
+                                    <property name="use-markup">True</property>
+                                    <property name="justify">center</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">4</property>
+                              </packing>
+                            </child>
                           </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
                         </child>
                       </object>
                     </child>
                   </object>
-                  <packing>
-                    <property name="name">legal-page</property>
-                    <property name="title" translatable="yes">Legal</property>
-                    <property name="icon-name">emblem-documents-symbolic</property>
-                    <property name="position">2</property>
-                  </packing>
                 </child>
               </object>
+              <packing>
+                <property name="name">credits-page</property>
+                <property name="title" translatable="yes">Credits</property>
+                <property name="icon-name">system-users-symbolic</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkScrolledWindow" id="legal_page">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="hscrollbar-policy">never</property>
+                <child>
+                  <object class="GtkViewport" id="legal_view">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <child>
+                      <object class="HdyClamp" id="legal_clamp">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="maximum-size">350</property>
+                        <property name="tightening-threshold">200</property>
+                        <child>
+                          <object class="GtkBox" id="legal_box">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="margin-start">12</property>
+                            <property name="margin-end">12</property>
+                            <property name="margin-top">10</property>
+                            <property name="margin-bottom">10</property>
+                            <property name="orientation">vertical</property>
+                            <property name="spacing">10</property>
+                            <child>
+                              <object class="GtkBox" id="legal_cawbird_box">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="margin-top">10</property>
+                                <property name="margin-bottom">10</property>
+                                <property name="orientation">vertical</property>
+                                <child>
+                                  <object class="GtkLabel" id="legal_cawbird_title">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="halign">start</property>
+                                    <property name="margin-bottom">4</property>
+                                    <property name="label">Cawbird</property>
+                                    <attributes>
+                                      <attribute name="weight" value="semibold"/>
+                                    </attributes>
+                                    <style>
+                                      <class name="dim-label"/>
+                                    </style>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="legal_cawbird_copyright">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="halign">start</property>
+                                    <property name="margin-bottom">3</property>
+                                    <property name="label">Copyright 2020, the Cawbird Developer</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="legal_cawbird_license">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="halign">start</property>
+                                    <property name="label">This program comes without any warranty.
+Licensed under the &lt;a href="https://www.gnu.org/licenses/gpl-3.0.en.html"&gt;GNU Public License 3.0&lt;/a&gt;</property>
+                                    <property name="use-markup">True</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">2</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="name">legal-page</property>
+                <property name="title" translatable="yes">Legal</property>
+                <property name="icon-name">emblem-documents-symbolic</property>
+                <property name="position">2</property>
+              </packing>
             </child>
           </object>
           <packing>
