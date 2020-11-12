@@ -14,14 +14,17 @@ i18n.merge_file(
   install: true,
   install_dir: join_paths(get_option('datadir'), 'applications')
 )
-i18n.merge_file(
-  input:  'uk.co.ibboard.cawbird.appdata.xml.in',
-  output: 'uk.co.ibboard.cawbird.appdata.xml',
-  po_dir: '../po/',
-  type:   'xml',
-  install: true,
-  install_dir: join_paths(get_option('datadir'), 'metainfo')
-)
+
+if get_option('appdata')
+  i18n.merge_file(
+    input:  'uk.co.ibboard.cawbird.appdata.xml.in',
+    output: 'uk.co.ibboard.cawbird.appdata.xml',
+    po_dir: '../po/',
+    type:   'xml',
+    install: true,
+    install_dir: join_paths(get_option('datadir'), 'metainfo')
+  )
+endif
 
 install_man('cawbird.1')
 
@@ -35,7 +38,7 @@ configure_file(
   install_dir: join_paths(get_option('datadir'), 'dbus-1/services')
 )
 
-gnome.compile_schemas()
+gnome.compile_schemas(build_by_default: true)
 
 # Install all application icons in one go
 install_subdir(
