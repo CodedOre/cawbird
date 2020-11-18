@@ -2,7 +2,7 @@
 <!-- Generated with glade 3.38.1 -->
 <interface>
   <requires lib="gtk+" version="3.22"/>
-  <requires lib="libhandy" version="0.0"/>
+  <requires lib="libhandy" version="1.0"/>
   <template class="ModifySnippetWidget" parent="GtkBox">
     <property name="width-request">360</property>
     <property name="height-request">450</property>
@@ -52,84 +52,112 @@
         <property name="visible">True</property>
         <property name="can-focus">False</property>
         <child>
-          <object class="GtkListBox" id="modifier_list">
+          <object class="GtkBox" id="content_box">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="valign">center</property>
             <property name="margin-start">12</property>
             <property name="margin-end">12</property>
-            <property name="selection-mode">none</property>
+            <property name="orientation">vertical</property>
             <child>
-              <object class="HdyActionRow" id="keyword_row">
-                <property name="width-request">100</property>
+              <object class="GtkListBox" id="modifier_list">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="activatable">False</property>
-                <property name="title" translatable="yes">Keyword</property>
-                <property name="activatable-widget">keyword_entry</property>
+                <property name="margin-bottom">5</property>
+                <property name="selection-mode">none</property>
                 <child>
-                  <object class="GtkEntry" id="keyword_entry">
+                  <object class="HdyActionRow" id="keyword_row">
+                    <property name="width-request">100</property>
                     <property name="visible">True</property>
-                    <property name="can-focus">True</property>
-                    <property name="valign">center</property>
-                    <property name="truncate-multiline">True</property>
-                    <signal name="changed" handler="ui_action_entry_changed" swapped="no"/>
-                  </object>
-                </child>
-              </object>
-            </child>
-            <child>
-              <object class="HdyActionRow" id="replacement_row">
-                <property name="width-request">100</property>
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="activatable">False</property>
-                <property name="title" translatable="yes">Replacement</property>
-                <property name="activatable-widget">replacement_entry</property>
-                <child>
-                  <object class="GtkEntry" id="replacement_entry">
-                    <property name="visible">True</property>
-                    <property name="can-focus">True</property>
-                    <property name="valign">center</property>
-                    <property name="truncate-multiline">True</property>
-                    <signal name="changed" handler="ui_action_entry_changed" swapped="no"/>
-                  </object>
-                </child>
-              </object>
-            </child>
-            <child>
-              <object class="HdyActionRow" id="delete_row">
-                <property name="width-request">100</property>
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="activatable">False</property>
-                <property name="title" translatable="yes">Delete Snippet</property>
-                <property name="activatable-widget">delete_button</property>
-                <child>
-                  <object class="GtkButton" id="delete_button">
-                    <property name="visible">True</property>
-                    <property name="can-focus">True</property>
-                    <property name="receives-default">False</property>
-                    <property name="halign">center</property>
-                    <property name="valign">center</property>
-                    <signal name="clicked" handler="ui_action_delete_button" swapped="no"/>
+                    <property name="can-focus">False</property>
+                    <property name="activatable">False</property>
+                    <property name="title" translatable="yes">Keyword</property>
+                    <property name="activatable-widget">keyword_entry</property>
                     <child>
-                      <object class="GtkImage" id="delete_symbol">
+                      <object class="GtkEntry" id="keyword_entry">
                         <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="icon-name">list-remove-symbolic</property>
+                        <property name="can-focus">True</property>
+                        <property name="valign">center</property>
+                        <property name="truncate-multiline">True</property>
+                        <signal name="changed" handler="ui_action_entry_changed" swapped="no"/>
                       </object>
                     </child>
-                    <style>
-                      <class name="destructive-action"/>
-                    </style>
                   </object>
                 </child>
+                <child>
+                  <object class="HdyActionRow" id="replacement_row">
+                    <property name="width-request">100</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="activatable">False</property>
+                    <property name="title" translatable="yes">Replacement</property>
+                    <property name="activatable-widget">replacement_entry</property>
+                    <child>
+                      <object class="GtkEntry" id="replacement_entry">
+                        <property name="visible">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="valign">center</property>
+                        <property name="truncate-multiline">True</property>
+                        <signal name="changed" handler="ui_action_entry_changed" swapped="no"/>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <style>
+                  <class name="content"/>
+                </style>
               </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
             </child>
-            <style>
-              <class name="content"/>
-            </style>
+            <child>
+              <object class="GtkListBox" id="options_list">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="margin-top">5</property>
+                <property name="selection-mode">none</property>
+                <child type="placeholder">
+                  <object class="HdyActionRow" id="delete_row">
+                    <property name="width-request">100</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="activatable">False</property>
+                    <property name="title" translatable="yes">Delete Snippet</property>
+                    <child>
+                      <object class="GtkButton" id="delete_button">
+                        <property name="visible">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
+                        <signal name="clicked" handler="ui_action_delete_button" swapped="no"/>
+                        <child>
+                          <object class="GtkImage" id="delete_symbol">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="icon-name">user-trash-symbolic</property>
+                          </object>
+                        </child>
+                        <style>
+                          <class name="destructive-action"/>
+                        </style>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <style>
+                  <class name="content"/>
+                </style>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
           </object>
         </child>
       </object>

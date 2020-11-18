@@ -29,7 +29,7 @@ class ModifySnippetWidget : Gtk.Box {
   [GtkChild]
   private Gtk.Button header_confirm;
   [GtkChild]
-  private Hdy.ActionRow delete_row;
+  private Gtk.ListBox options_list;
 
   // Non-UI-Elements of ModifySnippetWidget
   private string old_key;
@@ -43,7 +43,7 @@ class ModifySnippetWidget : Gtk.Box {
       keyword_entry.text = keyword;
     }
     else {
-      delete_row.set_visible(false);
+      options_list.set_visible(false);
     }
     if (replacement != null) {
       replacement_entry.text = replacement;
