@@ -18,6 +18,8 @@
           <object class="HdyViewSwitcherTitle" id="header_title">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
+            <property name="margin-start">10</property>
+            <property name="margin-end">10</property>
             <property name="stack">content_stack</property>
             <property name="title">Modify Account</property>
           </object>
@@ -59,8 +61,6 @@
       <object class="GtkStack" id="content_stack">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
-        <property name="margin-start">12</property>
-        <property name="margin-end">12</property>
         <property name="transition-type">crossfade</property>
         <child>
           <object class="GtkBox" id="details_page">
@@ -75,6 +75,8 @@
               <object class="HdyClamp" id="details_clamp">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
+                <property name="margin-start">12</property>
+                <property name="margin-end">12</property>
                 <child>
                   <object class="GtkListBox" id="details_grou">
                     <property name="visible">True</property>
@@ -141,6 +143,8 @@
           <object class="HdyClamp" id="filters_page">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
+            <property name="margin-start">12</property>
+            <property name="margin-end">12</property>
             <signal name="map" handler="ui_reset_delete_stack" swapped="no"/>
             <child>
               <object class="GtkBox" id="filters_box">
@@ -258,6 +262,8 @@
           <object class="HdyClamp" id="options_page">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
+            <property name="margin-start">12</property>
+            <property name="margin-end">12</property>
             <child>
               <object class="GtkListBox" id="options_list">
                 <property name="visible">True</property>
