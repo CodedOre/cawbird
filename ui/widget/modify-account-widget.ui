@@ -63,74 +63,88 @@
         <property name="can-focus">False</property>
         <property name="transition-type">crossfade</property>
         <child>
-          <object class="GtkBox" id="details_page">
+          <object class="GtkScrolledWindow" id="details_page">
             <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <property name="orientation">vertical</property>
-            <signal name="map" handler="ui_reset_delete_stack" swapped="no"/>
+            <property name="can-focus">True</property>
+            <property name="hscrollbar-policy">never</property>
             <child>
-              <placeholder/>
-            </child>
-            <child>
-              <object class="HdyClamp" id="details_clamp">
+              <object class="GtkViewport" id="details_view">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="margin-start">12</property>
-                <property name="margin-end">12</property>
+                <property name="shadow-type">none</property>
                 <child>
-                  <object class="GtkListBox" id="details_grou">
+                  <object class="GtkBox" id="details_box">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="valign">center</property>
-                    <property name="selection-mode">none</property>
+                    <property name="orientation">vertical</property>
+                    <signal name="map" handler="ui_reset_delete_stack" swapped="no"/>
                     <child>
-                      <object class="HdyActionRow" id="name_row">
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <object class="HdyClamp" id="details_clamp">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="title" translatable="yes">Name</property>
+                        <property name="margin-start">12</property>
+                        <property name="margin-end">12</property>
                         <child>
-                          <object class="GtkEntry" id="name_entry">
-                            <property name="width-request">200</property>
+                          <object class="GtkListBox" id="details_grou">
                             <property name="visible">True</property>
-                            <property name="can-focus">True</property>
+                            <property name="can-focus">False</property>
                             <property name="valign">center</property>
-                            <property name="max-length">50</property>
-                            <property name="truncate-multiline">True</property>
-                            <property name="input-purpose">name</property>
-                            <signal name="changed" handler="ui_action_details_changed" swapped="no"/>
+                            <property name="selection-mode">none</property>
+                            <child>
+                              <object class="HdyActionRow" id="name_row">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="title" translatable="yes">Name</property>
+                                <child>
+                                  <object class="GtkEntry" id="name_entry">
+                                    <property name="width-request">200</property>
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">True</property>
+                                    <property name="valign">center</property>
+                                    <property name="max-length">50</property>
+                                    <property name="truncate-multiline">True</property>
+                                    <property name="input-purpose">name</property>
+                                    <signal name="changed" handler="ui_action_details_changed" swapped="no"/>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="HdyActionRow" id="website_row">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="title" translatable="yes">Website</property>
+                                <child>
+                                  <object class="GtkEntry" id="website_entry">
+                                    <property name="width-request">200</property>
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">True</property>
+                                    <property name="valign">center</property>
+                                    <property name="truncate-multiline">True</property>
+                                    <property name="input-purpose">url</property>
+                                    <signal name="changed" handler="ui_action_details_changed" swapped="no"/>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            <style>
+                              <class name="content"/>
+                            </style>
                           </object>
                         </child>
                       </object>
+                      <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
                     </child>
-                    <child>
-                      <object class="HdyActionRow" id="website_row">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="title" translatable="yes">Website</property>
-                        <child>
-                          <object class="GtkEntry" id="website_entry">
-                            <property name="width-request">200</property>
-                            <property name="visible">True</property>
-                            <property name="can-focus">True</property>
-                            <property name="valign">center</property>
-                            <property name="truncate-multiline">True</property>
-                            <property name="input-purpose">url</property>
-                            <signal name="changed" handler="ui_action_details_changed" swapped="no"/>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-                    <style>
-                      <class name="content"/>
-                    </style>
                   </object>
                 </child>
               </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
             </child>
           </object>
           <packing>
@@ -140,113 +154,127 @@
           </packing>
         </child>
         <child>
-          <object class="HdyClamp" id="filters_page">
+          <object class="GtkScrolledWindow" id="filters_page">
             <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <property name="margin-start">12</property>
-            <property name="margin-end">12</property>
-            <signal name="map" handler="ui_reset_delete_stack" swapped="no"/>
+            <property name="can-focus">True</property>
+            <property name="hscrollbar-policy">never</property>
             <child>
-              <object class="GtkBox" id="filters_box">
+              <object class="GtkViewport" id="filters_view">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="orientation">vertical</property>
+                <property name="shadow-type">none</property>
                 <child>
-                  <object class="HdyPreferencesGroup" id="blocked_users_group">
+                  <object class="HdyClamp" id="filters_clamp">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="margin-top">20</property>
-                    <property name="title" translatable="yes">Blocked Users</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="HdyPreferencesGroup" id="block_new_user_group">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
+                    <property name="margin-start">12</property>
+                    <property name="margin-end">12</property>
+                    <signal name="map" handler="ui_reset_delete_stack" swapped="no"/>
                     <child>
-                      <object class="HdyActionRow" id="block_new_user_row">
+                      <object class="GtkBox" id="filters_box">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="title" translatable="yes">Block additional User</property>
-                        <property name="activatable-widget">block_new_user_button</property>
+                        <property name="orientation">vertical</property>
                         <child>
-                          <object class="GtkButton" id="block_new_user_button">
-                            <property name="visible">True</property>
-                            <property name="can-focus">True</property>
-                            <property name="receives-default">False</property>
-                            <property name="halign">center</property>
-                            <property name="valign">center</property>
-                            <child>
-                              <object class="GtkImage" id="block_new_user_symbol">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="icon-name">list-add-symbolic</property>
-                              </object>
-                            </child>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="HdyPreferencesGroup" id="blocked_words_group">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="margin-top">20</property>
-                    <property name="description" translatable="yes">You can block Words using Regular Expressions</property>
-                    <property name="title" translatable="yes">Blocked Expressions</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">2</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="HdyPreferencesGroup" id="block_new_word_group">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <child>
-                      <object class="HdyActionRow" id="block_new_word_row">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="title" translatable="yes">Block additional Expression</property>
-                        <property name="activatable-widget">block_new_word_button</property>
-                        <child>
-                          <object class="GtkButton" id="block_new_word_button">
+                          <object class="HdyPreferencesGroup" id="blocked_users_group">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
-                            <property name="receives-default">False</property>
-                            <property name="halign">center</property>
-                            <property name="valign">center</property>
+                            <property name="margin-top">20</property>
+                            <property name="title" translatable="yes">Blocked Users</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="HdyPreferencesGroup" id="block_new_user_group">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
                             <child>
-                              <object class="GtkImage" id="block_new_word_symbol">
+                              <object class="HdyActionRow" id="block_new_user_row">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
-                                <property name="icon-name">list-add-symbolic</property>
+                                <property name="title" translatable="yes">Block additional User</property>
+                                <property name="activatable-widget">block_new_user_button</property>
+                                <child>
+                                  <object class="GtkButton" id="block_new_user_button">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">True</property>
+                                    <property name="receives-default">False</property>
+                                    <property name="halign">center</property>
+                                    <property name="valign">center</property>
+                                    <child>
+                                      <object class="GtkImage" id="block_new_user_symbol">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                        <property name="icon-name">list-add-symbolic</property>
+                                      </object>
+                                    </child>
+                                  </object>
+                                </child>
                               </object>
                             </child>
                           </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="HdyPreferencesGroup" id="blocked_words_group">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="margin-top">20</property>
+                            <property name="description" translatable="yes">You can block Words using Regular Expressions</property>
+                            <property name="title" translatable="yes">Blocked Expressions</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="HdyPreferencesGroup" id="block_new_word_group">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <child>
+                              <object class="HdyActionRow" id="block_new_word_row">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="title" translatable="yes">Block additional Expression</property>
+                                <property name="activatable-widget">block_new_word_button</property>
+                                <child>
+                                  <object class="GtkButton" id="block_new_word_button">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="receives-default">False</property>
+                                    <property name="halign">center</property>
+                                    <property name="valign">center</property>
+                                    <child>
+                                      <object class="GtkImage" id="block_new_word_symbol">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                        <property name="icon-name">list-add-symbolic</property>
+                                      </object>
+                                    </child>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">3</property>
+                          </packing>
                         </child>
                       </object>
                     </child>
                   </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">3</property>
-                  </packing>
                 </child>
               </object>
             </child>
