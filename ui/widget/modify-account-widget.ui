@@ -79,7 +79,15 @@
                     <property name="orientation">vertical</property>
                     <signal name="map" handler="ui_reset_delete_stack" swapped="no"/>
                     <child>
-                      <placeholder/>
+                      <object class="AvatarBannerWidget" id="avatar_banner_widget">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
                     </child>
                     <child>
                       <object class="HdyClamp" id="details_clamp">

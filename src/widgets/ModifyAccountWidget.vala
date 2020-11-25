@@ -27,6 +27,8 @@ class ModifyAccountWidget : Gtk.Box {
 
   // UI-Elements of DetailsPage
   [GtkChild]
+  private AvatarBannerWidget avatar_banner_widget;
+  [GtkChild]
   private Gtk.Entry name_entry;
   [GtkChild]
   private Gtk.Entry website_entry;
@@ -58,6 +60,7 @@ class ModifyAccountWidget : Gtk.Box {
     this.account = account;
 
     // Set up DetailsPage
+    this.avatar_banner_widget.set_account (account);
     this.old_name = account.name;
     this.old_website = account.website ?? "";
 
