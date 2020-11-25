@@ -1,4 +1,4 @@
-/* ModifyAccountWidget.vala
+/* AvatarBannerWidget.vala
  *
  * This file is part of Cawbird, a Gtk+ linux Twitter client forked from Corebird.
  * Copyright 2020 Frederick Schenk
