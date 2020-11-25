@@ -156,12 +156,12 @@ class UserListEntry : Gtk.ListBoxRow, Cb.TwitterItem {
 
   [GtkCallback]
   private void settings_button_clicked_cb () {
-    action_clicked ();
-    var active_window = ((Gtk.Application)GLib.Application.get_default ()).active_window;
-    var dialog = new AccountDialog (this.account);
-    dialog.set_transient_for (active_window);
-    dialog.modal = true;
-    dialog.show ();
+    // action_clicked ();
+    // var active_window = ((Gtk.Application)GLib.Application.get_default ()).active_window;
+    // var dialog = new AccountDialog (this.account);
+    // dialog.set_transient_for (active_window);
+    // dialog.modal = true;
+    // dialog.show ();
   }
 
   [GtkCallback]

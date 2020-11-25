@@ -151,7 +151,6 @@ cawbird_lib_sources = files([
   'src/widgets/UserListsWidget.vala',
   'src/widgets/FavImageView.vala',
   'src/window/AboutDialog.vala',
-  'src/window/AccountDialog.vala',
   'src/window/ComposeTweetWindow.vala',
   'src/window/ImageDescriptionWindow.vala',
   'src/window/MainWindow.vala',
