@@ -40,6 +40,10 @@ i586, x86_64 (amd64) and aarch64 (arm64) are available on most platforms (where 
 
 The following distros currently have their own official packages:
 
+* [Alpine Linux / postmarketOS (Edge)](https://pkgs.alpinelinux.org/packages?name=cawbird&branch=edge)
+  * `sudo apk add cawbird`
+* [Arch Linux](https://www.archlinux.org/packages/community/x86_64/cawbird/) ("Community")
+  * `pacman -Syu cawbird`
 * [Fedora (30+)](https://apps.fedoraproject.org/packages/cawbird)
   * `sudo dnf install cawbird`
 * [NixOS (19.09+)](https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/networking/cawbird/default.nix)
@@ -185,6 +189,7 @@ Cawbird installs its application icon into `/usr/share/icons/hicolor/`, so an ap
 * `sqlite3`
 * `libsoup-2.4`
 * `librest-0.7`
+* `liboauth`
 * `gettext >= 0.19.7`
 * `vala >= 0.28` (makedep)
 * `meson` (makedep)

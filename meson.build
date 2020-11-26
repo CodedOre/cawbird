@@ -10,6 +10,7 @@ srcdir = include_directories('src')
 # This is apparently bad practice, but it solves our "undefined reference to symbol 'floor@@GLIBC_2.2.5'" build problem
 cc = meson.get_compiler('c')
 libm = cc.find_library('m', required : false)
+oauth = cc.find_library('oauth')
 
 min_glib_version = '2.44'
 
@@ -29,6 +30,7 @@ cb_deps = [
   json_dep,
   sql_dep,
   soup_dep,
+  oauth,
   libm
 ]
 
@@ -89,6 +91,7 @@ cawbird_lib_sources = files([
   'src/MentionsTimeline.vala',
   'src/NotificationManager.vala',
   'src/OAuthProxyCallWithBody.vala',
+  'src/OAuthProxyCallWithQueryString.vala',
   'src/ProfilePage.vala',
   'src/SearchPage.vala',
   'src/Settings.vala',
@@ -111,6 +114,8 @@ cawbird_lib_sources = files([
   'src/list/UserRow.vala',
   'src/model/DMThreadsModel.vala',
   'src/sql/Database.vala',
+  'src/sql/BaseStatement.vala',
+  'src/sql/DeleteStatement.vala',
   'src/sql/InsertStatement.vala',
   'src/sql/SelectStatement.vala',
   'src/sql/UpdateStatement.vala',
