@@ -202,6 +202,7 @@
                             <property name="can-focus">False</property>
                             <property name="halign">start</property>
                             <property name="label">@VCS_TAG@</property>
+                            <property name="selectable">True</property>
                           </object>
                           <packing>
                             <property name="left-attach">1</property>
@@ -215,6 +216,7 @@
                             <property name="can-focus">False</property>
                             <property name="halign">start</property>
                             <property name="label">cawbird</property>
+                            <property name="selectable">True</property>
                           </object>
                           <packing>
                             <property name="left-attach">1</property>
