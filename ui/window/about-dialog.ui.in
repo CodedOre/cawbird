@@ -201,7 +201,7 @@
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
                             <property name="halign">start</property>
-                            <property name="label">handyport-alpha</property>
+                            <property name="label">@VCS_TAG@</property>
                           </object>
                           <packing>
                             <property name="left-attach">1</property>

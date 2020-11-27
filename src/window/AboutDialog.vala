@@ -20,7 +20,7 @@
  */
 
 
-[GtkTemplate (ui = "/uk/co/ibboard/cawbird/ui/window/about-dialog.ui")]
+[GtkTemplate (ui = "/uk/co/ibboard/cawbird/about-dialog.ui")]
 class AboutDialog : Hdy.Window {
   // UI-Elements of AboutDialog
   [GtkChild]

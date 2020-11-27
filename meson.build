@@ -7,12 +7,35 @@ project('Cawbird', ['vala', 'c'],
 gnome = import('gnome')
 srcdir = include_directories('src')
 
+# Generates the versions number based on git detection
+git = find_program('git', required : false, disabler : true)
+git_tags = run_command(git, 'describe', '--exact-match', '--tags')
+
+if not git.found() or git_tags.returncode() == 0
+  # If we found a tag, then use the project version for better style.
+  version = meson.project_version()
+else
+  # If not on a tag, then create a git-based version number
+  git_branch = run_command(git, 'rev-parse', '--abbrev-ref', 'HEAD')
+  git_commit = run_command(git, 'rev-parse', '--short', 'HEAD')
+  version = git_branch.stdout().strip() + '-' + git_commit.stdout().strip()
+endif
+message('Current program version: ' + version)
+
+about_config = configuration_data()
+about_config.set('VCS_TAG', version)
+
+about_file = configure_file(
+               input : 'ui/window/about-dialog.ui.in',
+               output :'about-dialog.ui',
+               configuration: about_config)
+
 # This is apparently bad practice, but it solves our "undefined reference to symbol 'floor@@GLIBC_2.2.5'" build problem
 cc = meson.get_compiler('c')
 libm = cc.find_library('m', required : false)
 oauth = cc.find_library('oauth')
 
-min_glib_version = '2.44'
+min_glib_version = '2.50'
 
 glib_dep = dependency('glib-2.0', version: '>=' + min_glib_version)
 gtk_dep  = dependency('gtk+-3.0', version: '>=3.22')
@@ -202,6 +225,7 @@ cawbird_lib_sources = files([
 cb_resources = gnome.compile_resources(
   'cawbird_resources',
   'cawbird.gresource.xml',
+  dependencies: about_file,
 )
 
 # config.h
@@ -223,6 +247,7 @@ cb_lib = static_library(
     '--target-glib=' + min_glib_version,
     '--vapidir=' + meson.source_root() + '/vapi/',
     '--gresources=' + meson.source_root() + '/cawbird.gresource.xml',
+    '--gresourcesdir=' + meson.build_root(),
   ],
   c_args: [
     '-Werror=implicit-function-declaration'
