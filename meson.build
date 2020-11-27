@@ -26,7 +26,7 @@ about_config = configuration_data()
 about_config.set('VCS_TAG', version)
 
 about_file = configure_file(
-               input : 'ui/window/about-dialog.ui.in',
+               input : 'ui/window/about-dialog.ui',
                output :'about-dialog.ui',
                configuration: about_config)
 
