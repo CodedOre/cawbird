@@ -19,6 +19,7 @@ class ComposeImageManager : Gtk.Container {
   private const int BUTTON_DELTA = 10;
   private const int BUTTON_SPACING = 12;
   private GLib.GenericArray<AddImageButton> buttons;
+  private GLib.GenericArray<MediaUpload> uploads;
   private GLib.GenericArray<Gtk.Button> close_buttons;
   private GLib.GenericArray<Gtk.Button> desc_buttons;
   private GLib.GenericArray<Gtk.ProgressBar> progress_bars;
@@ -30,10 +31,25 @@ class ComposeImageManager : Gtk.Container {
       return this.buttons.length;
     }
   }
+
+  public int max_images { get; set; default = Twitter.max_media_per_upload; }
+
+  // Is there an *animated* GIF?
   public bool has_gif {
     get {
-      for (int i = 0; i < buttons.length; i ++) {
-        if (buttons.get (i).image_path.has_suffix (".gif")) {
+      for (int i = 0; i < uploads.length; i ++) {
+        if (uploads.get (i).media_category.has_suffix("gif")) {
+          return true;
+        }
+      }
+      return false;
+
+    }
+  }
+  public bool has_video {
+    get {
+      for (int i = 0; i < uploads.length; i ++) {
+        if (uploads.get (i).media_category.has_suffix("video")) {
           return true;
         }
       }
@@ -43,34 +59,58 @@ class ComposeImageManager : Gtk.Container {
   }
   public bool full {
     get {
-      return this.buttons.length == Twitter.max_media_per_upload ||
-             this.has_gif;
+      return this.buttons.length == max_images ||
+             this.has_gif || this.has_video;
     }
   }
 
-  public signal void image_removed (string uuid);
-  public signal void image_reloaded (string uuid);
+  public signal void image_removed (MediaUpload upload);
+  public signal void image_reloaded (MediaUpload upload);
+  public signal void image_uploaded (MediaUpload upload);
 
   construct {
     this.buttons = new GLib.GenericArray<AddImageButton> ();
+    this.uploads = new GLib.GenericArray<MediaUpload> ();
     this.close_buttons = new GLib.GenericArray<Gtk.Button> ();
     this.desc_buttons = new GLib.GenericArray<Gtk.Button> ();
     this.progress_bars = new GLib.GenericArray<Gtk.ProgressBar> ();
     this.set_has_window (false);
   }
 
-  public string? get_path_for_uuid(string uuid) {
-    string? path = null;
+  public MediaUpload[] get_uploads() {
+    return uploads.data;
+  }
 
-    
-    for (int i = 0; i < buttons.length; i ++) {
-      var btn = buttons.get (i);
-      if (btn.uuid == uuid) {
-        path = btn.image_path;
-      }
+  public void clear() {
+    for (int i = this.buttons.length - 1; i >= 0; i--) {
+      remove_index(i, false);
     }
+  }
 
-    return path;
+  private void remove_index (int index, bool animate) {
+    this.close_buttons.get (index).hide ();
+    this.desc_buttons.get (index).hide ();
+    this.progress_bars.get (index).hide ();
+
+    AddImageButton aib = (AddImageButton) this.buttons.get (index);
+    aib.deleted.connect (() => {
+      this.buttons.remove_index (index);
+      var upload = this.uploads.get(index);
+      this.uploads.remove_index (index);
+      this.close_buttons.remove_index (index);
+      this.desc_buttons.remove_index (index);
+      this.progress_bars.remove_index (index);
+      this.queue_draw ();
+      this.image_removed (upload);
+    });
+
+    this.uploads.get(index).cancellable.cancel();
+    if (animate) {
+      aib.start_remove ();
+    }
+    else {
+      aib.deleted();
+    }
   }
 
   private void remove_clicked_cb (Gtk.Button source) {
@@ -83,22 +123,7 @@ class ComposeImageManager : Gtk.Container {
       }
     }
     assert (index >= 0);
-
-    this.close_buttons.get (index).hide ();
-    this.desc_buttons.get (index).hide ();
-    this.progress_bars.get (index).hide ();
-
-    AddImageButton aib = (AddImageButton) this.buttons.get (index);
-    aib.deleted.connect (() => {
-      this.buttons.remove_index (index);
-      this.close_buttons.remove_index (index);
-      this.desc_buttons.remove_index (index);
-      this.progress_bars.remove_index (index);
-      this.queue_draw ();
-      this.image_removed (aib.uuid);
-    });
-
-    aib.start_remove ();
+    remove_index(index, true);
   }
 
   private void image_description_button_clicked(Gtk.Button source) {
@@ -126,8 +151,18 @@ class ComposeImageManager : Gtk.Container {
       return;
     }
 
+    int index = -1;
+
+    for (int i = 0; i < this.desc_buttons.length; i ++) {
+      if (desc_buttons.get (i) == source) {
+        index = i;
+        break;
+      }
+    }
+    assert (index >= 0);
+
     aib.clicked.disconnect (reupload_image_cb);
-    this.image_reloaded (aib.uuid);
+    this.image_reloaded (uploads.get(index));
   }
 
   // GtkContainer API {{{
@@ -352,23 +387,33 @@ class ComposeImageManager : Gtk.Container {
   }
   // }}}
 
-  public string load_image (string path, Gdk.Pixbuf? image) {
+  public string load_media (MediaUpload upload) {
 #if DEBUG
     assert (!this.full);
 #endif
 
-    Cairo.ImageSurface surface;
-    if (image == null)
-      surface = (Cairo.ImageSurface) load_surface (path);
-    else
-      surface = (Cairo.ImageSurface) Gdk.cairo_surface_create_from_pixbuf (image,
-                                                                           this.get_scale_factor (),
-                                                                           this.get_window ());
+    upload.progress_updated.connect ((progress) => {
+      set_image_progress (upload.id, progress);
+    });
+    upload.progress_complete.connect ((error) => {
+      end_progress (upload.id, error);
+    });
+    upload.media_id_assigned.connect(() => {
+      set_media_id(upload.id);
+    });
 
-    var button = new AddImageButton ();
+    this.uploads.add(upload);
+
+    Cairo.ImageSurface surface;
+    if (upload.media_category.has_suffix("video")) {
+      surface = (Cairo.ImageSurface)load_surface_for_video (upload.filepath);
+    }
+    else {
+      surface = (Cairo.ImageSurface)load_surface (upload.filepath);
+    }
+
+    var button = new AddImageButton (upload);
     button.surface = surface;
-    button.image_path = path;
-    button.uuid = GLib.Uuid.string_random();
 
     button.hexpand = false;
     button.halign = Gtk.Align.START;
@@ -377,32 +422,31 @@ class ComposeImageManager : Gtk.Container {
     return button.uuid;
   }
 
-  public void set_image_progress (string uuid, double progress) {
+  private void set_image_progress (string uuid, double progress) {
     for (int i = 0; i < buttons.length; i ++) {
       var btn = buttons.get (i);
       if (btn.uuid == uuid) {
         var progress_bar = progress_bars.get (i);
         progress_bar.set_fraction (progress);
-        if (progress == 1.0) {
-          progress_bar.hide ();
-        }
         break;
       }
     }
   }
 
-  public void end_progress (string uuid, string? error_message) {
+  private void end_progress (string uuid, GLib.Error? error) {
     for (int i = 0; i < buttons.length; i ++) {
       var btn = buttons.get (i);
       if (btn.uuid == uuid) {
+        image_uploaded (uploads[i]);
+        progress_bars.get(i).hide();
         var style_context = btn.get_style_context ();
         style_context.remove_class ("image-progress");
 
-        if (error_message == null) {
+        if (error == null) {
           style_context.add_class ("image-success");
           style_context.remove_class ("image-error");
         } else {
-          warning ("%s: %s", btn.image_path, error_message);
+          warning ("%s: %s", btn.image_path, error.message);
           style_context.add_class ("image-error");
           style_context.remove_class ("image-success");
           btn.clicked.connect (reupload_image_cb);
@@ -412,11 +456,19 @@ class ComposeImageManager : Gtk.Container {
     }
   }
 
-  public void set_media_id(string uuid, int64 media_id) {
+  public bool is_ready () {
+    for (int i = 0; i < uploads.length; i++) {
+      if (!uploads[i].is_uploaded()) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  public void set_media_id(string uuid) {
     for (int i = 0; i < buttons.length; i ++) {
       var btn = buttons.get (i);
       if (btn.uuid == uuid) {
-        btn.media_id = media_id;
         desc_buttons.get(i).sensitive = true;
         break;
       }

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cawbird\n"
 "Report-Msgid-Bugs-To: https://github.com/ibboard/cawbird/issues/new\n"
-"POT-Creation-Date: 2020-08-29 11:40+0100\n"
+"POT-Creation-Date: 2020-12-26 11:56+0000\n"
 "PO-Revision-Date: 2017-11-20 17:05+0000\n"
 "Last-Translator: Slobodan Terzić <githzerai06@gmail.com>\n"
 "Language-Team: Serbian (Latin) (http://www.transifex.com/cawbird/cawbird/"
@@ -74,9 +74,72 @@ msgstr "i"
 msgid "and %d others"
 msgstr "i %d drugih"
 
+#. TRANSLATORS: Description of the `--tweet` option for the command-line
+msgid ""
+"Shows only the 'compose tweet' window for the given account, nothing else."
+msgstr ""
+
+#. TRANSLATORS: Used as the placeholder for the account name in the `--help` output
+msgid "account-name"
+msgstr ""
+
+#. TRANSLATORS: Description of the `--start-service` option for the command-line
+msgid "Start service"
+msgstr ""
+
+#. TRANSLATORS: Description of the `--stop-service` option for the command-line
+msgid "Stop service, if it has been started as a service"
+msgstr ""
+
+#. TRANSLATORS: Description of the `--print-startup-accounts` option for the command-line
+#, fuzzy
+msgid "Print configured startup accounts"
+msgstr "Prikaži podešene naloge"
+
+#. TRANSLATORS: Description of the `--account` option for the command-line
+msgid "Open the window for the given account"
+msgstr ""
+
 #, fuzzy, c-format
 msgid "Direct messages with %s"
 msgstr "Direktne poruke"
+
+#, fuzzy
+msgid "Select Media"
+msgstr "Izaberi sliku"
+
+msgid "Open"
+msgstr "Otvori"
+
+msgid "Cancel"
+msgstr "Otkaži"
+
+#, fuzzy
+msgid "Selected file is not an image or video."
+msgstr "Izabrana datoteka nije slika."
+
+#, fuzzy, c-format
+msgid ""
+"The selected video is too big. The maximum file size per video is %'d MB"
+msgstr ""
+"Izabrana slika je suviše velika. Najveća dozvoljena veličina datoteke po "
+"slici je %'d megabajta"
+
+#, c-format
+msgid ""
+"The selected image is too big. The maximum file size per image is %'d MB"
+msgstr ""
+"Izabrana slika je suviše velika. Najveća dozvoljena veličina datoteke po "
+"slici je %'d megabajta"
+
+#, fuzzy, c-format
+msgid "The selected GIF is too big. The maximum file size per GIF is %'d MB"
+msgstr ""
+"Izabrana slika je suviše velika. Najveća dozvoljena veličina datoteke po "
+"slici je %'d megabajta"
+
+msgid "Insert Emoji"
+msgstr "Ubaci emodži"
 
 msgid "Direct Conversation"
 msgstr "Direktni razgovori"
@@ -271,6 +334,10 @@ msgstr "Obriši"
 msgid "Retweeted by %s (@%s)"
 msgstr "Ponovo tvituj"
 
+#, fuzzy
+msgid "Are you sure you want to delete this tweet?"
+msgstr "Da li stvarno želite obrisati ovaj nalog?"
+
 #, c-format
 msgid "Block %s"
 msgstr "Blokiraj %s"
@@ -419,6 +486,13 @@ msgstr ""
 msgid "The original Tweet author restricted who can reply to this Tweet."
 msgstr ""
 
+msgid "Invalid media file"
+msgstr ""
+
+#, c-format
+msgid "Unknown error code %lld during upload"
+msgstr ""
+
 msgid "Now"
 msgstr "sada"
 
@@ -487,12 +561,6 @@ msgstr ""
 msgid "Select Image"
 msgstr "Izaberi sliku"
 
-msgid "Open"
-msgstr "Otvori"
-
-msgid "Cancel"
-msgstr "Otkaži"
-
 msgid "Unfollow"
 msgstr "Prestani sa praćenjem"
 
@@ -553,30 +621,27 @@ msgstr ""
 msgid "Back"
 msgstr "Nazad"
 
-msgid "Quote tweet"
-msgstr "Citiraj tvit"
-
-msgid "Selected file is not an image."
-msgstr "Izabrana datoteka nije slika."
+#. TRANSLATORS: %s is the error message returned by Twitter (e.g. "Not Found")
+#, c-format
+msgid ""
+"Error fetching quoted tweet: %s\n"
+"\n"
+"Save unsent tweet?"
+msgstr ""
 
 #, c-format
 msgid ""
-"The selected image is too big. The maximum file size per image is %'d MB"
+"Error fetching reply tweet: %s\n"
+"\n"
+"Save unsent tweet?"
 msgstr ""
-"Izabrana slika je suviše velika. Najveća dozvoljena veličina datoteke po "
-"slici je %'d megabajta"
 
-#, fuzzy, c-format
-msgid "The selected GIF is too big. The maximum file size per GIF is %'d MB"
-msgstr ""
-"Izabrana slika je suviše velika. Najveća dozvoljena veličina datoteke po "
-"slici je %'d megabajta"
+msgid "Quote tweet"
+msgstr "Citiraj tvit"
 
-msgid "Only one GIF file per tweet is allowed."
+#, fuzzy
+msgid "Only one animated GIF file per tweet is allowed."
 msgstr "Dozvoljen je samo jedan GIF po tvitu."
-
-msgid "Insert Emoji"
-msgstr "Ubaci emodži"
 
 #, c-format
 msgid "%d character remaining"
@@ -722,8 +787,8 @@ msgstr "Probajte sa drugačijom pretragom"
 msgid "Send"
 msgstr "Pošalji"
 
-msgid "Add Image"
-msgstr "Dodaj sliku"
+msgid "Add Media"
+msgstr ""
 
 msgid "Show favorite images"
 msgstr "Prikaži omiljene slike"
@@ -1044,6 +1109,9 @@ msgstr "Napravi"
 
 msgid "Subscribed to"
 msgstr "Pretplaćen(a) na"
+
+#~ msgid "Add Image"
+#~ msgstr "Dodaj sliku"
 
 #, fuzzy, c-format
 #~ msgid "%s (%s) followers"

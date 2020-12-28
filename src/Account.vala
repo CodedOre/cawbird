@@ -385,6 +385,15 @@ public class Account : GLib.Object {
     this.filters.add (f);
   }
 
+  public bool disabled_rts_for (int64 user_id) {
+    foreach (int64 id in disabled_rts) {
+      if (id == user_id) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   /**
    * Checks if any of the filters associated to this acount match
    * the given tweet.
@@ -523,7 +532,7 @@ public class Account : GLib.Object {
 
   public void add_disabled_rts_id (int64 user_id) {
     this.disabled_rts.resize (this.disabled_rts.length + 1);
-    this.disabled_rts[this.disabled_rts.length - 1] = id;
+    this.disabled_rts[this.disabled_rts.length - 1] = user_id;
   }
 
   public void remove_disabled_rts_id (int64 user_id) {
@@ -535,10 +544,10 @@ public class Account : GLib.Object {
 
     int o = 0;
     for (int i = 0; i < this.disabled_rts.length; i++) {
-      if (this.disabled_rts[i] == id) {
+      if (this.disabled_rts[i] == user_id) {
         continue;
       }
-      disabled_rts[o] = this.disabled_rts[i];
+      new_disabled_rts[o] = this.disabled_rts[i];
       o ++;
     }
     this.disabled_rts = new_disabled_rts;
@@ -715,11 +724,15 @@ public class Account : GLib.Object {
     if (GLib.unlikely (accounts == null))
       lookup_accounts ();
 
+    var lower_screen_name = screen_name.down();
+
     for (uint i = 0; i < accounts.length; i ++) {
       unowned Account a = accounts.get (i);
 
-      if (screen_name == a.screen_name ||
-          screen_name == "@" + a.screen_name)
+      var acct_screen_name = a.screen_name.down();
+
+      if (lower_screen_name == acct_screen_name ||
+          lower_screen_name == "@" + acct_screen_name)
         return a;
     }
     return null;

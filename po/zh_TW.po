@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cawbird\n"
 "Report-Msgid-Bugs-To: https://github.com/ibboard/cawbird/issues/new\n"
-"POT-Creation-Date: 2020-08-29 11:40+0100\n"
+"POT-Creation-Date: 2020-12-26 11:56+0000\n"
 "PO-Revision-Date: 2018-01-17 19:31+0000\n"
 "Last-Translator: HybridGlucose <a07051226@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/cawbird/cawbird/"
@@ -73,9 +73,66 @@ msgstr "和"
 msgid "and %d others"
 msgstr "和其他 %d 人"
 
+#. TRANSLATORS: Description of the `--tweet` option for the command-line
+msgid ""
+"Shows only the 'compose tweet' window for the given account, nothing else."
+msgstr ""
+
+#. TRANSLATORS: Used as the placeholder for the account name in the `--help` output
+msgid "account-name"
+msgstr ""
+
+#. TRANSLATORS: Description of the `--start-service` option for the command-line
+msgid "Start service"
+msgstr ""
+
+#. TRANSLATORS: Description of the `--stop-service` option for the command-line
+msgid "Stop service, if it has been started as a service"
+msgstr ""
+
+#. TRANSLATORS: Description of the `--print-startup-accounts` option for the command-line
+#, fuzzy
+msgid "Print configured startup accounts"
+msgstr "顯示帳戶"
+
+#. TRANSLATORS: Description of the `--account` option for the command-line
+msgid "Open the window for the given account"
+msgstr ""
+
 #, fuzzy, c-format
 msgid "Direct messages with %s"
 msgstr "訊息"
+
+#, fuzzy
+msgid "Select Media"
+msgstr "選擇媒體"
+
+msgid "Open"
+msgstr "開啟"
+
+msgid "Cancel"
+msgstr "取消"
+
+#, fuzzy
+msgid "Selected file is not an image or video."
+msgstr "所選擇的檔案並非影像或圖片。"
+
+#, fuzzy, c-format
+msgid ""
+"The selected video is too big. The maximum file size per video is %'d MB"
+msgstr "所選擇的媒體檔案太大。大小上限為 %'d MB。"
+
+#, c-format
+msgid ""
+"The selected image is too big. The maximum file size per image is %'d MB"
+msgstr "所選擇的媒體檔案太大。大小上限為 %'d MB。"
+
+#, fuzzy, c-format
+msgid "The selected GIF is too big. The maximum file size per GIF is %'d MB"
+msgstr "所選擇的媒體檔案太大。大小上限為 %'d MB。"
+
+msgid "Insert Emoji"
+msgstr "插入顏文字"
 
 msgid "Direct Conversation"
 msgstr "對話"
@@ -258,6 +315,10 @@ msgstr "刪除"
 msgid "Retweeted by %s (@%s)"
 msgstr "轉推"
 
+#, fuzzy
+msgid "Are you sure you want to delete this tweet?"
+msgstr "你確定要移除這個帳戶？"
+
 #, c-format
 msgid "Block %s"
 msgstr "封鎖 %s"
@@ -406,6 +467,13 @@ msgstr ""
 msgid "The original Tweet author restricted who can reply to this Tweet."
 msgstr ""
 
+msgid "Invalid media file"
+msgstr ""
+
+#, c-format
+msgid "Unknown error code %lld during upload"
+msgstr ""
+
 msgid "Now"
 msgstr "現在"
 
@@ -470,12 +538,6 @@ msgstr ""
 msgid "Select Image"
 msgstr "選擇媒體"
 
-msgid "Open"
-msgstr "開啟"
-
-msgid "Cancel"
-msgstr "取消"
-
 msgid "Unfollow"
 msgstr "取消跟隨"
 
@@ -530,26 +592,27 @@ msgstr ""
 msgid "Back"
 msgstr "返回"
 
-msgid "Quote tweet"
-msgstr "引用推文"
-
-msgid "Selected file is not an image."
-msgstr "所選擇的檔案並非影像或圖片。"
+#. TRANSLATORS: %s is the error message returned by Twitter (e.g. "Not Found")
+#, c-format
+msgid ""
+"Error fetching quoted tweet: %s\n"
+"\n"
+"Save unsent tweet?"
+msgstr ""
 
 #, c-format
 msgid ""
-"The selected image is too big. The maximum file size per image is %'d MB"
-msgstr "所選擇的媒體檔案太大。大小上限為 %'d MB。"
+"Error fetching reply tweet: %s\n"
+"\n"
+"Save unsent tweet?"
+msgstr ""
 
-#, fuzzy, c-format
-msgid "The selected GIF is too big. The maximum file size per GIF is %'d MB"
-msgstr "所選擇的媒體檔案太大。大小上限為 %'d MB。"
+msgid "Quote tweet"
+msgstr "引用推文"
 
-msgid "Only one GIF file per tweet is allowed."
+#, fuzzy
+msgid "Only one animated GIF file per tweet is allowed."
 msgstr "每一則推文只允許一個GIF檔案."
-
-msgid "Insert Emoji"
-msgstr "插入顏文字"
 
 #, c-format
 msgid "%d character remaining"
@@ -688,8 +751,8 @@ msgstr "試試其他的吧"
 msgid "Send"
 msgstr "推文"
 
-msgid "Add Image"
-msgstr "新增媒體"
+msgid "Add Media"
+msgstr ""
 
 msgid "Show favorite images"
 msgstr "顯示加入常用的媒體"
@@ -1009,6 +1072,9 @@ msgstr "建立"
 
 msgid "Subscribed to"
 msgstr "訂閱的"
+
+#~ msgid "Add Image"
+#~ msgstr "新增媒體"
 
 #, fuzzy, c-format
 #~ msgid "%s (%s) followers"

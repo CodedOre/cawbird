@@ -103,7 +103,6 @@
                     <property name="wrap-mode">word-char</property>
                     <property name="accepts-tab">False</property>
                     <property name="height-request">60</property>
-                    <signal name="populate-popup" handler="tweet_text_populate_popup_cb" />
                     <accessibility>
                       <relation type="labelled-by" target="length_label"/>
                     </accessibility>
@@ -172,11 +171,11 @@
                   <class name="linked" />
                 </style>
                 <child>
-                  <object class="GtkButton" id="add_image_button">
+                  <object class="GtkButton" id="add_media_button">
                     <property name="visible">1</property>
-                    <property name="label" translatable="yes">Add Image</property>
+                    <property name="label" translatable="yes">Add Media</property>
                     <property name="valign">baseline</property>
-                    <signal name="clicked" handler="add_image_clicked_cb"/>
+                    <signal name="clicked" handler="add_media_clicked_cb"/>
                   </object>
                 </child>
                 <child>

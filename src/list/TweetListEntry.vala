@@ -17,12 +17,6 @@
 
 [GtkTemplate (ui = "/uk/co/ibboard/cawbird/ui/tweet-list-entry.ui")]
 public class TweetListEntry : Cb.TwitterItem, Gtk.ListBoxRow {
-
-  private const GLib.ActionEntry[] action_entries = {
-    {"quote", quote_activated},
-    {"delete", delete_activated}
-  };
-
   [GtkChild]
   private Gtk.Label name_label;
   [GtkChild]
@@ -142,7 +136,6 @@ public class TweetListEntry : Cb.TwitterItem, Gtk.ListBoxRow {
       // TRANSLATORS: replacements are name and handle (without the "@")
       var rt_by = _("Retweeted by %s (@%s)").printf(rt_author.user_name, rt_author.screen_name);
       rt_label.get_accessible().set_name(rt_by);
-      rt_label.get_accessible().set_name(rt_by);
     }
 
     if ((tweet.retweeted_tweet != null &&
@@ -222,15 +215,24 @@ public class TweetListEntry : Cb.TwitterItem, Gtk.ListBoxRow {
         Settings.get ().changed["hide-nsfw-content"].connect (hide_nsfw_content_changed_cb);
     }
 
-    var actions = new GLib.SimpleActionGroup ();
-    actions.add_action_entries (action_entries, this);
-    this.insert_action_group ("tweet", actions);
+    var quote_action = new GLib.SimpleAction("quote", null);
+    quote_action.activate.connect(quote_activated);
+    var non_destructive_actions = new GLib.SimpleActionGroup ();
+    non_destructive_actions.add_action (quote_action);
+    this.insert_action_group ("tweet", non_destructive_actions);
+    var delete_action = new GLib.SimpleAction("delete", null);
+    delete_action.activate.connect(delete_activated);
+    var destructive_actions = new GLib.SimpleActionGroup ();
+    destructive_actions.add_action (delete_action);
+    this.insert_action_group("destructive-actions", destructive_actions);
 
-    if (tweet.get_user_id () != account.id)
-      ((GLib.SimpleAction)actions.lookup_action ("delete")).set_enabled (false);
+    if (tweet.get_user_id () != account.id) {
+      delete_action.set_enabled (false);
+    }
 
-    if (tweet.is_flag_set (Cb.TweetState.PROTECTED))
-      ((GLib.SimpleAction)actions.lookup_action ("quote")).set_enabled (false);
+    if (tweet.is_flag_set (Cb.TweetState.PROTECTED)) {
+      quote_action.set_enabled (false);
+    }
 
     reply_tweet.connect (reply_tweet_activated);
     delete_tweet.connect (delete_tweet_activated);
@@ -478,8 +480,19 @@ public class TweetListEntry : Cb.TwitterItem, Gtk.ListBoxRow {
   }
 
   private void delete_activated () {
-    delete_first_activated = true;
-    delete_tweet ();
+    var dialog = new Gtk.MessageDialog(main_window, Gtk.DialogFlags.MODAL, Gtk.MessageType.QUESTION, Gtk.ButtonsType.YES_NO, _("Are you sure you want to delete this tweet?"));
+    var result = dialog.run();
+    dialog.destroy();
+
+    if (result == Gtk.ResponseType.YES) {
+      delete_first_activated = true;
+      delete_tweet ();
+    }
+    else {
+      if (shows_actions) {
+        toggle_mode ();
+      }
+    }
   }
 
   [GtkCallback]
@@ -810,7 +823,7 @@ public class TweetListEntry : Cb.TwitterItem, Gtk.ListBoxRow {
   }
 
   public override void size_allocate(Gtk.Allocation allocation) {
-    if ((allocation.width < Cawbird.RESPONSIVE_LIMIT) != (get_allocated_width() < Cawbird.RESPONSIVE_LIMIT)) {
+    if ((allocation.width < Cawbird.RESPONSIVE_LIMIT) != (get_allocated_width() < Cawbird.RESPONSIVE_LIMIT) || get_allocated_width() == 1) {
       // We've crossed the threshold, so reallocate as appropriate
       if (allocation.width < Cawbird.RESPONSIVE_LIMIT) {
         grid.child_set (avatar_image, "height", 2);

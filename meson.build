@@ -73,10 +73,7 @@ add_project_arguments('--enable-deprecated', language: 'vala')
 add_project_arguments('-D', 'GTK322', language: 'vala')
 
 if (enable_debug)
-  add_project_arguments('-g', language: 'c')
-  add_project_arguments('-g', language: 'vala')
   add_project_arguments('-DDEBUG', language: 'c')
-  #add_project_arguments('-DG_DISABLE_CAST_CHECKS', language: 'c')
   add_project_arguments('-D', 'DEBUG', language: 'vala')
 endif
 
@@ -93,6 +90,8 @@ if (enable_spellcheck)
 endif
 
 if (enable_x11)
+  add_project_arguments('-DX11', language: 'c')
+  add_project_arguments('-D', 'X11', language: 'vala')
   cb_deps += [dependency('x11')]
 endif
 
@@ -100,6 +99,7 @@ endif
 cawbird_lib_sources = files([
   'src/Account.vala',
   'src/Cawbird.vala',
+  'src/ComposedTweet.vala',
   'src/DMManager.vala',
   'src/DMPage.vala',
   'src/DMThreadsPage.vala',
@@ -111,6 +111,7 @@ cawbird_lib_sources = files([
   'src/ListStatusesPage.vala',
   'src/ListsPage.vala',
   'src/MainWidget.vala',
+  'src/MediaUpload.vala',
   'src/MentionsTimeline.vala',
   'src/NotificationManager.vala',
   'src/OAuthProxyCallWithBody.vala',
@@ -122,6 +123,7 @@ cawbird_lib_sources = files([
   'src/Twitter.vala',
   'src/UserEventReceiver.vala',
   'src/async/Collect.vala',
+  'src/async/CollectById.vala',
   'src/list/AddListEntry.vala',
   'src/list/DMListEntry.vala',
   'src/list/DMThreadEntry.vala',
@@ -208,7 +210,6 @@ cawbird_lib_sources = files([
   'src/CbMediaVideoWidget.c',
   'src/CbUserStream.c',
   'src/CbMessageReceiver.c',
-  'src/CbComposeJob.c',
   'src/CbUserCompletionModel.c',
   'src/CbEmojiChooser.c',
 

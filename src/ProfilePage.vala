@@ -515,6 +515,8 @@ class ProfilePage : ScrollWidget, IPage, Cb.MessageReceiver {
                            tweet_list,
                            account);
     tweets_loading = false;
+    // TODO: Check whether we've got an empty list (all hidden) and load more.
+    // TODO: Track last hidden tweet ID in model so that we don't keep loading newest tweets every time (get_oldest_hidden_id() rather than tracking, because it's a corner case?)
   }
 
   private async void load_older_tweets () {
@@ -678,19 +680,14 @@ class ProfilePage : ScrollWidget, IPage, Cb.MessageReceiver {
         }
       }
 
-      HomeTimeline ht = (HomeTimeline) main_window.get_page (Page.STREAM);
       if (follow_button.following) {
-        ht.hide_tweets_from (this.user_id, Cb.TweetState.HIDDEN_UNFOLLOWED);
-        ht.hide_retweets_from (this.user_id, Cb.TweetState.HIDDEN_UNFOLLOWED);
+        TweetUtils.inject_user_unfollow (this.user_id, account);
         follower_count --;
         account.unfollow_id (this.user_id);
         ((SimpleAction)actions.lookup_action ("toggle-retweets")).set_enabled (false);
         set_retweets_disabled (false);
       } else {
-        ht.show_tweets_from (this.user_id, Cb.TweetState.HIDDEN_UNFOLLOWED);
-        if (!((SimpleAction)actions.lookup_action ("toggle-retweets")).get_state ().get_boolean ()) {
-          ht.show_retweets_from (this.user_id, Cb.TweetState.HIDDEN_UNFOLLOWED);
-        }
+        TweetUtils.inject_user_follow (this.user_id, account);
         set_user_blocked (false);
         follower_count ++;
         account.follow_id (this.user_id);
@@ -746,7 +743,11 @@ class ProfilePage : ScrollWidget, IPage, Cb.MessageReceiver {
       tweet_list.model.clear ();
       user_lists.clear_lists ();
       lists_page_inited = false;
-      load_tweets.begin ();
+      load_tweets.begin (() => {
+        // Try to load more in case we loaded tweets with RTs disabled
+        //and didn't fetch enough in one go
+        fill_tweet_list.begin();
+      });
     } else {
       /* Still load the friendship since muted/blocked/etc. may have changed */
       load_friendship.begin ();
@@ -816,13 +817,12 @@ class ProfilePage : ScrollWidget, IPage, Cb.MessageReceiver {
       try {
         UserUtils.block_user.end (res);
         a.set_state(!current_state);
-        HomeTimeline ht = (HomeTimeline) main_window.get_page (Page.STREAM);
         if (current_state) {
-          ht.show_tweets_from (this.user_id, Cb.TweetState.HIDDEN_AUTHOR_BLOCKED);
+          TweetUtils.inject_user_unblock (user_id, account);
         } else {
           this.follow_button.following = false;
-          this.follow_button.sensitive = (this.user_id != this.account.id);
-          ht.hide_tweets_from (this.user_id, Cb.TweetState.HIDDEN_AUTHOR_BLOCKED);
+          this.follow_button.sensitive = (this.user_id != this.account.id);          
+          TweetUtils.inject_user_block (user_id, account);
         }
         set_user_blocked (!current_state);
       } catch (GLib.Error e) {
@@ -840,13 +840,10 @@ class ProfilePage : ScrollWidget, IPage, Cb.MessageReceiver {
       try {
         UserUtils.mute_user.end (res);
         a.set_state (!setting);
-        HomeTimeline ht = (HomeTimeline) main_window.get_page (Page.STREAM);
         if (setting) {
-          ht.show_tweets_from (this.user_id, Cb.TweetState.HIDDEN_AUTHOR_MUTED);
-          ht.show_retweets_from (this.user_id, Cb.TweetState.HIDDEN_RETWEETER_MUTED);
+          TweetUtils.inject_user_unmute (user_id, account);
         } else {
-          ht.hide_tweets_from (this.user_id, Cb.TweetState.HIDDEN_AUTHOR_MUTED);
-          ht.hide_retweets_from (this.user_id, Cb.TweetState.HIDDEN_RETWEETER_MUTED);
+          TweetUtils.inject_user_mute (user_id, account);
         }
       } catch (GLib.Error e) {
         Utils.show_error_dialog (e, this.main_window);
@@ -868,13 +865,12 @@ class ProfilePage : ScrollWidget, IPage, Cb.MessageReceiver {
     call.set_method ("POST");
     call.add_param ("user_id", this.user_id.to_string ());
     call.add_param ("retweets", current_state.to_string ());
-    HomeTimeline ht = (HomeTimeline) main_window.get_page (Page.STREAM);
     if (current_state) {
-      ht.show_retweets_from (this.user_id, Cb.TweetState.HIDDEN_RTS_DISABLED);
       account.remove_disabled_rts_id (this.user_id);
+      TweetUtils.inject_user_show_rts(user_id, account);
     } else {
-      ht.hide_retweets_from (this.user_id, Cb.TweetState.HIDDEN_RTS_DISABLED);
       account.add_disabled_rts_id (this.user_id);
+      TweetUtils.inject_user_hide_rts (this.user_id, account);
     }
 
     call.invoke_async.begin (null, (obj, res) => {
@@ -945,7 +941,35 @@ class ProfilePage : ScrollWidget, IPage, Cb.MessageReceiver {
       this.tweet_list.model.delete_id (id, out was_seen);
     } else if (type == Cb.StreamMessageType.RT_DELETE) {
       Utils.unrt_tweet (root_node, this.tweet_list.model);
+    } else if (type == Cb.StreamMessageType.EVENT_HIDE_RTS) {
+      tweet_list.hide_retweets_from (get_user_id (root_node), Cb.TweetState.HIDDEN_RTS_DISABLED);
+      fill_tweet_list.begin();
+    } else if (type == Cb.StreamMessageType.EVENT_SHOW_RTS) {
+      tweet_list.show_retweets_from (get_user_id (root_node), Cb.TweetState.HIDDEN_RTS_DISABLED);        
     }
+    // We could also hide tweets in the profile on block/mute, but Twitter gives you a "show anyway" button so we'll continue just showing them
+    // If you block someone and don't want to see their tweets then don't go to the profile!
+  }
+
+  private async void fill_tweet_list() {
+    // Try to load more tweets if we may not have enough because we disabled RTs from this user
+    // But don't try too many times or we'll burn up all of our requests
+    for (int i = 0; i < 5; i++) {
+      GLib.Idle.add(() => {
+        // Give the scroller time to update its status
+        fill_tweet_list.callback();
+        return GLib.Source.REMOVE;
+      });
+      yield;
+      if (this.is_scrollable) {
+        break;            
+      }
+      yield load_older_tweets();
+    }
+  }
+
+  private int64 get_user_id (Json.Node root) {
+    return root.get_object ().get_object_member ("target").get_int_member ("id");
   }
 
   [GtkCallback]

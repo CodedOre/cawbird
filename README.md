@@ -48,8 +48,6 @@ The following distros currently have their own official packages:
   * `sudo dnf install cawbird`
 * [NixOS (19.09+)](https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/networking/cawbird/default.nix)
   * `nix-shell -p cawbird` for testing, `nix-env -iA cawbird` for permanent installation
-* [Solus](https://dev.getsol.us/source/cawbird/)
-  * `sudo eopkg it cawbird`
 
 ## Community builds
 
@@ -204,6 +202,12 @@ Cawbird installs its application icon into `/usr/share/icons/hicolor/`, so an ap
 Note that the above packages are just rough estimations, the actual package names on your distribution may vary and may require additional repositories (e.g. RPMFusion in Fedora, or Packman in openSUSE)
 
 If you pass `--disable-video` to the configure script, you don't need any gstreamer dependency but won't be able to view any videos.
+
+## Copyright
+
+Cawbird is released under the GPL v3 - see [COPYING](./COPYING) for more details.
+
+The [video fallback image](data/symbolic/apps/cawbird-video-placeholder.svg) is a Creative Commons "CC BY" licensed work [by Iris Li](https://thenounproject.com/term/film-reel/20395/).
 
 ## Footnotes
 

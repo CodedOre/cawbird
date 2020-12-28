@@ -217,9 +217,9 @@ stream_tweet (CbUserStream *self,
 
   JsonGenerator *gen = json_generator_new ();
   json_generator_set_root (gen, node);
-  json_generator_set_pretty (gen, TRUE);
+  json_generator_set_pretty (gen, FALSE);
   gchar *json_dump = json_generator_to_data (gen, NULL);
-  g_print ("%s", json_dump);
+  g_print ("%s\n", json_dump);
 #endif
 
   for (i = 0; i < self->receivers->len; i++) {
@@ -378,7 +378,7 @@ load_timeline_tweets (gpointer user_data)
   rest_proxy_call_add_param (proxy_call, "include_ext_alt_text", "true");
 
   if (!is_first_load) {
-    char since_id [20];
+    char since_id [21];
     // We may occasionally miss tweets (bug #147). This appears to be because of eventual consistency (tweets appear at the server
     // that we query *after* our last query but are timestamped *before* the 'since' ID for that query). So we need to try and overlap a bit.
     // Tweet IDs are "snowflakes" with 12 bits of sequence (lowest), 5 bits of worker ID, 5 bits of data centre, and then the timestamp.
@@ -389,7 +389,7 @@ load_timeline_tweets (gpointer user_data)
     // Note: this will result in at least the last tweet being reloaded each time.
     gint timestamp_shift = 5 + 5 + 12;
     gint overlap_shift = 13; // 13bits ~= 8 seconds
-    sprintf(since_id, "%ld", self->last_home_id & (-1L << (timestamp_shift + overlap_shift)));
+    sprintf(since_id, "%" G_GINT64_FORMAT, self->last_home_id & (-1L << (timestamp_shift + overlap_shift)));
     rest_proxy_call_add_param(proxy_call, "since_id", since_id);
   }
 
@@ -587,10 +587,9 @@ load_dm_tweets_done  (GObject *source_object,
 
   JsonGenerator *gen = json_generator_new ();
   json_generator_set_root (gen, root_node);
-  json_generator_set_pretty (gen, TRUE);
+  json_generator_set_pretty (gen, FALSE);
   gchar *json_dump = json_generator_to_data (gen, NULL);
-  g_print ("%s", json_dump);
-  g_print("Done DMs");
+  g_print ("%s\n", json_dump);
 #endif
 
   root_obj = json_node_get_object (root_node);

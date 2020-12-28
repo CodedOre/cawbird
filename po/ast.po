@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cawbird\n"
 "Report-Msgid-Bugs-To: https://github.com/ibboard/cawbird/issues/new\n"
-"POT-Creation-Date: 2020-08-29 11:40+0100\n"
+"POT-Creation-Date: 2020-12-26 11:56+0000\n"
 "PO-Revision-Date: 2018-01-09 20:56+0000\n"
 "Last-Translator: Xuacu Saturio <xuacusk8@gmail.com>\n"
 "Language-Team: Asturian (http://www.transifex.com/cawbird/cawbird/language/"
@@ -77,9 +77,72 @@ msgstr "y"
 msgid "and %d others"
 msgstr "y %d más"
 
+#. TRANSLATORS: Description of the `--tweet` option for the command-line
+msgid ""
+"Shows only the 'compose tweet' window for the given account, nothing else."
+msgstr ""
+
+#. TRANSLATORS: Used as the placeholder for the account name in the `--help` output
+msgid "account-name"
+msgstr ""
+
+#. TRANSLATORS: Description of the `--start-service` option for the command-line
+msgid "Start service"
+msgstr ""
+
+#. TRANSLATORS: Description of the `--stop-service` option for the command-line
+msgid "Stop service, if it has been started as a service"
+msgstr ""
+
+#. TRANSLATORS: Description of the `--print-startup-accounts` option for the command-line
+#, fuzzy
+msgid "Print configured startup accounts"
+msgstr "Amosar cuentes configuraes"
+
+#. TRANSLATORS: Description of the `--account` option for the command-line
+msgid "Open the window for the given account"
+msgstr ""
+
 #, fuzzy, c-format
 msgid "Direct messages with %s"
 msgstr "Mensaxes direutos"
+
+#, fuzzy
+msgid "Select Media"
+msgstr "Esbillar imaxe"
+
+msgid "Open"
+msgstr "Abrir"
+
+msgid "Cancel"
+msgstr "Encaboxar"
+
+#, fuzzy
+msgid "Selected file is not an image or video."
+msgstr "El ficheru seleicionáu nun ye una imaxe"
+
+#, fuzzy, c-format
+msgid ""
+"The selected video is too big. The maximum file size per video is %'d MB"
+msgstr ""
+"La imaxe seleicionada ye demasiao grande. El tamañu máximu per imaxe ye de "
+"%'d MB"
+
+#, c-format
+msgid ""
+"The selected image is too big. The maximum file size per image is %'d MB"
+msgstr ""
+"La imaxe seleicionada ye demasiao grande. El tamañu máximu per imaxe ye de "
+"%'d MB"
+
+#, fuzzy, c-format
+msgid "The selected GIF is too big. The maximum file size per GIF is %'d MB"
+msgstr ""
+"La imaxe seleicionada ye demasiao grande. El tamañu máximu per imaxe ye de "
+"%'d MB"
+
+msgid "Insert Emoji"
+msgstr "Inxertar Emoji"
 
 msgid "Direct Conversation"
 msgstr "Conversación direuta"
@@ -268,6 +331,10 @@ msgstr "Desaniciar"
 msgid "Retweeted by %s (@%s)"
 msgstr "Retuit"
 
+#, fuzzy
+msgid "Are you sure you want to delete this tweet?"
+msgstr "¿De xuru que quies desaniciar esta cuenta?"
+
 #, c-format
 msgid "Block %s"
 msgstr "Bloquiar a %s"
@@ -416,6 +483,13 @@ msgstr ""
 msgid "The original Tweet author restricted who can reply to this Tweet."
 msgstr ""
 
+msgid "Invalid media file"
+msgstr ""
+
+#, c-format
+msgid "Unknown error code %lld during upload"
+msgstr ""
+
 msgid "Now"
 msgstr "Agora"
 
@@ -482,12 +556,6 @@ msgstr ""
 msgid "Select Image"
 msgstr "Esbillar imaxe"
 
-msgid "Open"
-msgstr "Abrir"
-
-msgid "Cancel"
-msgstr "Encaboxar"
-
 msgid "Unfollow"
 msgstr "Dexar de siguir"
 
@@ -545,30 +613,27 @@ msgstr ""
 msgid "Back"
 msgstr "Atrás"
 
-msgid "Quote tweet"
-msgstr "Citar tuit"
-
-msgid "Selected file is not an image."
-msgstr "El ficheru seleicionáu nun ye una imaxe"
+#. TRANSLATORS: %s is the error message returned by Twitter (e.g. "Not Found")
+#, c-format
+msgid ""
+"Error fetching quoted tweet: %s\n"
+"\n"
+"Save unsent tweet?"
+msgstr ""
 
 #, c-format
 msgid ""
-"The selected image is too big. The maximum file size per image is %'d MB"
+"Error fetching reply tweet: %s\n"
+"\n"
+"Save unsent tweet?"
 msgstr ""
-"La imaxe seleicionada ye demasiao grande. El tamañu máximu per imaxe ye de "
-"%'d MB"
 
-#, fuzzy, c-format
-msgid "The selected GIF is too big. The maximum file size per GIF is %'d MB"
-msgstr ""
-"La imaxe seleicionada ye demasiao grande. El tamañu máximu per imaxe ye de "
-"%'d MB"
+msgid "Quote tweet"
+msgstr "Citar tuit"
 
-msgid "Only one GIF file per tweet is allowed."
+#, fuzzy
+msgid "Only one animated GIF file per tweet is allowed."
 msgstr "Sólo se permite un ficheru GIF por tweet"
-
-msgid "Insert Emoji"
-msgstr "Inxertar Emoji"
 
 #, c-format
 msgid "%d character remaining"
@@ -713,8 +778,8 @@ msgstr "Tenta una gueta distinta"
 msgid "Send"
 msgstr "Unviar"
 
-msgid "Add Image"
-msgstr "Amestar imaxe"
+msgid "Add Media"
+msgstr ""
 
 msgid "Show favorite images"
 msgstr "Ver imaxes favorites"
@@ -1034,6 +1099,9 @@ msgstr "Creáu"
 
 msgid "Subscribed to"
 msgstr "Soscribise a"
+
+#~ msgid "Add Image"
+#~ msgstr "Amestar imaxe"
 
 #, fuzzy, c-format
 #~ msgid "%s (%s) followers"

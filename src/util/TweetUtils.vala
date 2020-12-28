@@ -15,6 +15,9 @@
  *  along with cawbird.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+
+int MAX_CHUNK_SIZE = 5 * 1024 * 1024;
+
 namespace TweetUtils {
   public Quark get_error_domain() {
     return Quark.from_string("tweet-action");
@@ -192,6 +195,107 @@ namespace TweetUtils {
       throw err;
     }
     return tweet;
+  }
+
+  /**
+   * Posts a new tweet.
+   */
+  async bool post_tweet (Account account, ComposedTweet tweet) throws GLib.Error {
+    var media_attachments = tweet.get_attachments();
+
+    if (media_attachments.length > 0) {
+      GLib.Error err = null;
+      var mutex = GLib.Mutex();
+      var collect = new CollectById();
+      var yielded = false;
+      collect.finished.connect((error) => {
+        if (error != null) {
+          err = error;
+        }
+        mutex.lock();
+        try {
+          if (yielded) {
+            post_tweet.callback();
+          }
+        }
+        finally {
+          mutex.unlock();
+        }
+      });
+
+      foreach (MediaUpload upload in media_attachments) {
+        collect.add(upload.id);
+        // Connect to progress_complete first so we don't have race conditions
+        // The CollectById makes sure we don't double-count
+        ulong handler_id = 0;
+        handler_id = upload.progress_complete.connect((error) => {
+          if (error != null) {
+            err = error;
+          }
+          collect.emit(upload.id, err);
+          upload.disconnect(handler_id);
+        });
+        if (upload.is_uploaded()) {
+          upload.disconnect(handler_id);
+          collect.emit(upload.id);
+        }
+      }
+
+      // XXX: There may be a better way to do this, but this is the best way I can think of to only yield (and call back) when we need to
+      // The other options involve race conditions with potentially bigger windows for the check to say "not uploaded" and the upload to complete before we connect,
+      // or we end up doing a callback when we've not yielded (or we want to do an impossible "connect, yield, and then check if anything had already finished")
+      mutex.lock();
+      if (!collect.done && !collect.errored) {
+        yielded = true;
+        mutex.unlock();
+        yield;
+      }
+
+      if (err != null) {
+        throw err;
+      }
+    }
+
+    return yield do_post_tweet (account, tweet);
+  }
+
+  private string map_upload_to_id (MediaUpload upload) {
+    return upload.media_id.to_string();
+  }
+
+  private async bool do_post_tweet (Account account, ComposedTweet tweet) throws GLib.Error {
+    var call = account.proxy.new_call();
+    call.set_method("POST");
+    call.set_function("1.1/statuses/update.json");
+    call.add_param("auto_populate_reply_metadata", "true");
+    call.add_param("tweet_mode", "extended");
+    call.add_param("include_ext_alt_text", "true");
+
+    if (tweet.reply_to_id > 0) {
+      call.add_param("in_reply_to_status_id", tweet.reply_to_id.to_string());
+    }
+    else if (tweet.has_quote_attachment()) {
+      call.add_param("attachment_url", tweet.get_quoted_url());
+    }
+
+    var media_attachments = tweet.get_attachments();
+
+    if (media_attachments.length > 0) {
+      // Vala 0.50 can't infer the TARGET type from the return type, so we need to cast to help it
+      var ids = map(media_attachments, (MapFunction<MediaUpload, string>)map_upload_to_id);
+      call.add_param("media_ids", string.joinv(",", ids));
+    }
+
+    call.add_param("status", tweet.get_text());
+
+    try {
+      yield call.invoke_async(null);
+    }
+    catch (GLib.Error e) {
+      throw failed_request_to_error (call, e);
+    }
+    inject_tweet (call.get_payload(), account);
+    return true;
   }
 
   /**
@@ -473,11 +577,8 @@ namespace TweetUtils {
       if (account.is_muted (t.retweeted_tweet.author.id)) {
         t.set_flag (Cb.TweetState.HIDDEN_AUTHOR_MUTED);
       }
-      foreach (int64 id in account.disabled_rts) {
-        if (id == t.source_tweet.author.id) {
-          t.set_flag(Cb.TweetState.HIDDEN_RTS_DISABLED);
-          break;
-        }
+      if (account.disabled_rts_for (t.source_tweet.author.id)) {
+        t.set_flag(Cb.TweetState.HIDDEN_RTS_DISABLED);
       }
     }
     else {
@@ -505,9 +606,230 @@ namespace TweetUtils {
     return tweets;
   }
 
+  public void inject_tweet (string json, Account account) {
+    account.user_stream.inject_tweet(Cb.StreamMessageType.TWEET, json);
+  }
+
+  private void inject_user_action (int64 user_id, Account account, Cb.StreamMessageType action) {
+    var message = @"{ \"target\": { \"id\":$(user_id) } }";
+    account.user_stream.inject_tweet(action, message);
+  }
+
+  public void inject_user_mute (int64 user_id, Account account) {
+    inject_user_action(user_id, account, Cb.StreamMessageType.EVENT_MUTE);
+  }
+
+  public void inject_user_unmute (int64 user_id, Account account) {
+    inject_user_action(user_id, account, Cb.StreamMessageType.EVENT_UNMUTE);
+  }
+
+  public void inject_user_block (int64 user_id, Account account) {
+    inject_user_action(user_id, account, Cb.StreamMessageType.EVENT_BLOCK);
+  }
+
+  public void inject_user_unblock (int64 user_id, Account account) {
+    inject_user_action(user_id, account, Cb.StreamMessageType.EVENT_UNBLOCK);
+  }
+
+  public void inject_user_follow (int64 user_id, Account account) {
+    inject_user_action(user_id, account, Cb.StreamMessageType.EVENT_FOLLOW);
+  }
+
+  public void inject_user_unfollow (int64 user_id, Account account) {
+    inject_user_action(user_id, account, Cb.StreamMessageType.EVENT_UNFOLLOW);
+  }
+
+  public void inject_user_hide_rts (int64 user_id, Account account) {
+    inject_user_action(user_id, account, Cb.StreamMessageType.EVENT_HIDE_RTS);
+  }
+
+  public void inject_user_show_rts (int64 user_id, Account account) {
+    inject_user_action(user_id, account, Cb.StreamMessageType.EVENT_SHOW_RTS);
+  }
+
   private void inject_deletion (int64 id, Account account) {
     var message = @"{ \"delete\":{ \"status\":{ \"id\":$(id), \"id_str\":\"$(id)\", \"user_id\":$(account.id), \"user_id_str\":\"$(account.id)\" } } }";
     account.user_stream.inject_tweet(Cb.StreamMessageType.DELETE, message);
+  }
+
+  private delegate bool UploadMediaCallback();
+
+  private class UploadProgress {
+    private MediaUpload _upload;
+    private double _filesize;
+    private double _total_uploaded;
+    private UploadMediaCallback _cb;
+
+    public UploadProgress(MediaUpload media_upload, int64 filesize, size_t total_uploaded, UploadMediaCallback callback) {
+      _upload = media_upload;
+      _filesize = (double)filesize;
+      _total_uploaded = (double)total_uploaded;
+      _cb = callback;
+    }
+
+    public void callback(Rest.ProxyCall call, size_t total, size_t uploaded, GLib.Error? error, GLib.Object? weak_object){
+      if (error != null) {
+        warning("Upload error: %s", error.message);
+        _upload.progress_complete(error);
+        _cb();
+        return;
+      }
+
+      _upload.progress = (_total_uploaded + uploaded) / _filesize;
+
+      if (total == uploaded) {
+        _cb();
+        return;
+      }
+    }
+  }
+
+  async bool upload_media(MediaUpload media_upload, Account account, GLib.Cancellable? cancellable = null) {
+    var upload_proxy = new Rest.OAuthProxy(account.proxy.consumer_key,
+                                           account.proxy.consumer_secret,
+                                           "https://upload.twitter.com/",
+                                           false);
+    upload_proxy.set_token(account.proxy.token);
+    upload_proxy.set_token_secret(account.proxy.token_secret);
+    var init_call = upload_proxy.new_call();
+    init_call.set_function("1.1/media/upload.json");
+    init_call.set_method("POST");
+    init_call.add_param("command", "INIT");
+    init_call.add_param("total_bytes", media_upload.filesize.to_string());
+    init_call.add_param("media_type", media_upload.filetype);
+    init_call.add_param("media_category", media_upload.media_category);
+    Json.Node root;
+    try {
+      root = yield Cb.Utils.load_threaded_async(init_call, cancellable);
+    }
+    catch (GLib.Error e) {
+      media_upload.progress_complete(TweetUtils.failed_request_to_error (init_call, e));
+      return false;
+    }
+
+    if (root == null) {
+      warning("Null response uploading %s", media_upload.filepath);
+      return false;
+    }
+
+    media_upload.media_id = root.get_object().get_int_member("media_id");
+    GLib.FileInputStream file_reader = null;
+    try {
+      file_reader = media_upload.read();
+    }
+    catch (GLib.Error e) {
+      media_upload.progress_complete(e);
+      return false;
+    }
+    var chunk_idx = 0;
+    size_t total_uploaded = 0;
+    int64 filesize = media_upload.filesize;
+    media_upload.progress = 0;
+
+    while (total_uploaded < filesize) {
+      var append_call = upload_proxy.new_call();
+      GLib.Bytes chunk;
+      try {
+        chunk = file_reader.read_bytes(MAX_CHUNK_SIZE);
+      }
+      catch (GLib.Error e) {
+        media_upload.progress_complete(e);
+        return false;
+      }
+      append_call.set_function("1.1/media/upload.json");
+      append_call.set_method("POST");
+      append_call.add_param("command", "APPEND");
+      append_call.add_param("media_id", media_upload.media_id.to_string());
+      append_call.add_param("segment_index", chunk_idx.to_string());
+      var media_param = new Rest.Param.full("media", Rest.MemoryUse.COPY, chunk.get_data(), "multipart/form-data", media_upload.filepath);
+      append_call.add_param_full(media_param);
+
+      try {
+        // Use a helper object to work around Vala only expecting a calback to be called once before freeing its closure,
+        // which causes segfaults
+        var upload_progress = new UploadProgress(media_upload, filesize, total_uploaded, upload_media.callback);
+        append_call.upload(upload_progress.callback, cancellable);
+        yield;
+      }
+      catch (GLib.Error e) {
+        media_upload.progress_complete(TweetUtils.failed_request_to_error (append_call, e));
+        return false;
+      }
+
+      total_uploaded += chunk.get_size();
+      media_upload.progress = (double)total_uploaded / (double)filesize;
+      chunk_idx++;
+    }
+
+    var finalise_call = upload_proxy.new_call();
+    finalise_call.set_function("1.1/media/upload.json");
+    finalise_call.set_method("POST");
+    finalise_call.add_param("command", "FINALIZE");
+    finalise_call.add_param("media_id", media_upload.media_id.to_string());
+
+    try {
+      root = yield Cb.Utils.load_threaded_async(finalise_call, cancellable);
+    }
+    catch (GLib.Error e) {
+      media_upload.progress_complete(TweetUtils.failed_request_to_error (finalise_call, e));
+      return false;
+    }
+
+    if (root == null) {
+      warning("Null response finalising %s", media_upload.filepath);
+      return false;
+    }
+
+    var object = root.get_object();
+    while (object.has_member("processing_info")) {
+      var processing_info = object.get_object_member("processing_info");
+      var state = processing_info.get_string_member("state");
+      if (state == "succeeded") {
+        break;
+      }
+      else if (state == "failed") {
+        var error_code = processing_info.get_object_member("error").get_int_member("code");
+        string message;
+        if (error_code == 1) {
+          message = _("Invalid media file");
+        }
+        else {
+          message = _("Unknown error code %lld during upload").printf(error_code);
+        }
+        media_upload.progress_complete(new GLib.Error.literal(TweetUtils.get_error_domain(), 0, message));
+        return false;
+      }
+      else {
+        var delay = (uint) object.get_object_member("processing_info").get_int_member("check_after_secs");
+        debug("Media upload processing - check after %u seconds", delay);
+        GLib.Timeout.add (delay * 1000, () => {
+            upload_media.callback ();
+            return false;
+          }, GLib.Priority.DEFAULT);
+        yield;
+        var status_call = upload_proxy.new_call();
+        status_call.set_function("1.1/media/upload.json");
+        status_call.set_method("GET");
+        status_call.add_param("command", "STATUS");
+        status_call.add_param("media_id", media_upload.media_id.to_string());
+
+        try {
+          root = yield Cb.Utils.load_threaded_async(status_call, cancellable);
+        }
+        catch (GLib.Error e) {
+          media_upload.progress_complete(TweetUtils.failed_request_to_error (finalise_call, e));
+          return false;
+        }
+
+        if (root == null) {
+          warning("Null response checking status of %s", media_upload.filepath);
+          return false;
+        }
+        object = root.get_object();
+      }
+    }
+    media_upload.finalize_upload();
+    return true;
   }
 
   /**

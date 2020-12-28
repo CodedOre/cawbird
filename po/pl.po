@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cawbird\n"
 "Report-Msgid-Bugs-To: https://github.com/ibboard/cawbird/issues/new\n"
-"POT-Creation-Date: 2020-08-29 11:40+0100\n"
+"POT-Creation-Date: 2020-12-26 11:56+0000\n"
 "PO-Revision-Date: 2017-10-22 15:14+0000\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/cawbird/cawbird/language/"
@@ -77,9 +77,69 @@ msgstr "i"
 msgid "and %d others"
 msgstr "i %d innych"
 
+#. TRANSLATORS: Description of the `--tweet` option for the command-line
+msgid ""
+"Shows only the 'compose tweet' window for the given account, nothing else."
+msgstr ""
+
+#. TRANSLATORS: Used as the placeholder for the account name in the `--help` output
+msgid "account-name"
+msgstr ""
+
+#. TRANSLATORS: Description of the `--start-service` option for the command-line
+msgid "Start service"
+msgstr ""
+
+#. TRANSLATORS: Description of the `--stop-service` option for the command-line
+msgid "Stop service, if it has been started as a service"
+msgstr ""
+
+#. TRANSLATORS: Description of the `--print-startup-accounts` option for the command-line
+#, fuzzy
+msgid "Print configured startup accounts"
+msgstr "Wyświetla skonfigurowane konta"
+
+#. TRANSLATORS: Description of the `--account` option for the command-line
+msgid "Open the window for the given account"
+msgstr ""
+
 #, fuzzy, c-format
 msgid "Direct messages with %s"
 msgstr "Wiadomości prywatne"
+
+#, fuzzy
+msgid "Select Media"
+msgstr "Wybór obrazu"
+
+msgid "Open"
+msgstr "Otwórz"
+
+msgid "Cancel"
+msgstr "Anuluj"
+
+#, fuzzy
+msgid "Selected file is not an image or video."
+msgstr "Wybrany plik nie jest obrazem."
+
+#, fuzzy, c-format
+msgid ""
+"The selected video is too big. The maximum file size per video is %'d MB"
+msgstr ""
+"Wybrany obraz jest za duży. Maksymalny rozmiar pliku na obraz to %'d MB."
+
+#, c-format
+msgid ""
+"The selected image is too big. The maximum file size per image is %'d MB"
+msgstr ""
+"Wybrany obraz jest za duży. Maksymalny rozmiar pliku na obraz to %'d MB."
+
+#, fuzzy, c-format
+msgid "The selected GIF is too big. The maximum file size per GIF is %'d MB"
+msgstr ""
+"Wybrany obraz jest za duży. Maksymalny rozmiar pliku na obraz to %'d MB."
+
+msgid "Insert Emoji"
+msgstr "Wstaw emoji"
 
 msgid "Direct Conversation"
 msgstr "Prywatna rozmowa"
@@ -280,6 +340,10 @@ msgstr "Usuń"
 msgid "Retweeted by %s (@%s)"
 msgstr "Podanie tweeta dalej"
 
+#, fuzzy
+msgid "Are you sure you want to delete this tweet?"
+msgstr "Na pewno usunąć to konto?"
+
 #, c-format
 msgid "Block %s"
 msgstr "Zablokuj użytkownika %s"
@@ -428,6 +492,13 @@ msgstr ""
 msgid "The original Tweet author restricted who can reply to this Tweet."
 msgstr ""
 
+msgid "Invalid media file"
+msgstr ""
+
+#, c-format
+msgid "Unknown error code %lld during upload"
+msgstr ""
+
 msgid "Now"
 msgstr "Teraz"
 
@@ -498,12 +569,6 @@ msgstr ""
 msgid "Select Image"
 msgstr "Wybór obrazu"
 
-msgid "Open"
-msgstr "Otwórz"
-
-msgid "Cancel"
-msgstr "Anuluj"
-
 msgid "Unfollow"
 msgstr "Przestań obserwować"
 
@@ -567,28 +632,27 @@ msgstr ""
 msgid "Back"
 msgstr "Wstecz"
 
-msgid "Quote tweet"
-msgstr "Cytowanie tweeta"
-
-msgid "Selected file is not an image."
-msgstr "Wybrany plik nie jest obrazem."
+#. TRANSLATORS: %s is the error message returned by Twitter (e.g. "Not Found")
+#, c-format
+msgid ""
+"Error fetching quoted tweet: %s\n"
+"\n"
+"Save unsent tweet?"
+msgstr ""
 
 #, c-format
 msgid ""
-"The selected image is too big. The maximum file size per image is %'d MB"
+"Error fetching reply tweet: %s\n"
+"\n"
+"Save unsent tweet?"
 msgstr ""
-"Wybrany obraz jest za duży. Maksymalny rozmiar pliku na obraz to %'d MB."
 
-#, fuzzy, c-format
-msgid "The selected GIF is too big. The maximum file size per GIF is %'d MB"
-msgstr ""
-"Wybrany obraz jest za duży. Maksymalny rozmiar pliku na obraz to %'d MB."
+msgid "Quote tweet"
+msgstr "Cytowanie tweeta"
 
-msgid "Only one GIF file per tweet is allowed."
+#, fuzzy
+msgid "Only one animated GIF file per tweet is allowed."
 msgstr "Dozwolony jest tylko jeden plik GIF na tweet."
-
-msgid "Insert Emoji"
-msgstr "Wstaw emoji"
 
 #, c-format
 msgid "%d character remaining"
@@ -735,8 +799,8 @@ msgstr "Proszę spróbować innych słów"
 msgid "Send"
 msgstr "Wyślij"
 
-msgid "Add Image"
-msgstr "Dodaj obraz"
+msgid "Add Media"
+msgstr ""
 
 msgid "Show favorite images"
 msgstr "Wyświetla ulubione obrazy"
@@ -1057,6 +1121,9 @@ msgstr "Utworzono"
 
 msgid "Subscribed to"
 msgstr "Subskrybowano do"
+
+#~ msgid "Add Image"
+#~ msgstr "Dodaj obraz"
 
 #, fuzzy, c-format
 #~ msgid "%s (%s) followers"

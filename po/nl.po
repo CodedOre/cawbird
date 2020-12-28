@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cawbird\n"
 "Report-Msgid-Bugs-To: https://github.com/ibboard/cawbird/issues/new\n"
-"POT-Creation-Date: 2020-08-29 11:40+0100\n"
+"POT-Creation-Date: 2020-12-26 11:56+0000\n"
 "PO-Revision-Date: 2020-02-05 20:32+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>, 2020\n"
 "Language-Team: Dutch (https://www.transifex.com/cawbird/teams/107135/nl/)\n"
@@ -41,9 +41,9 @@ msgid ""
 "Additional features include local viewing of videos, multiple inline images,"
 " Lists, Filters, multiple accounts, etc."
 msgstr ""
-"Daarnaast kun je video's afspelen, meerdere bijgevoegde afbeeldingen tonen, "
-"en is er ondersteuning voor lijsten, filters, meerdere accounts en nog veel "
-"meer."
+"Daarnaast kun je video's afspelen, meerdere bijgevoegde afbeeldingen "
+"bekijken en is er ondersteuning voor lijsten, filters, meerdere accounts en "
+"nog veel meer."
 
 msgid "Generic timeline view when using Cawbird"
 msgstr "Algemene tijdlijnweergave gebruiken"
@@ -81,9 +81,74 @@ msgstr "en"
 msgid "and %d others"
 msgstr "en %d anderen"
 
+#. TRANSLATORS: Description of the `--tweet` option for the command-line
+msgid ""
+"Shows only the 'compose tweet' window for the given account, nothing else."
+msgstr ""
+"Toont alleen het venster 'Tweet opstellen' van het opgegeven account en niks"
+" anders."
+
+#. TRANSLATORS: Used as the placeholder for the account name in the `--help`
+#. output
+msgid "account-name"
+msgstr "accountnaam"
+
+#. TRANSLATORS: Description of the `--start-service` option for the command-
+#. line
+msgid "Start service"
+msgstr "Start de dienst"
+
+#. TRANSLATORS: Description of the `--stop-service` option for the command-
+#. line
+msgid "Stop service, if it has been started as a service"
+msgstr "Stop de dienst indien deze gestart is"
+
+#. TRANSLATORS: Description of the `--print-startup-accounts` option for the
+#. command-line
+msgid "Print configured startup accounts"
+msgstr "Toon de ingestelde accounts die automatisch moeten worden geladen"
+
+#. TRANSLATORS: Description of the `--account` option for the command-line
+msgid "Open the window for the given account"
+msgstr "Open het venster met het opgegeven account"
+
 #, c-format
 msgid "Direct messages with %s"
 msgstr "Privégesprek met %s"
+
+msgid "Select Media"
+msgstr "Media kiezen"
+
+msgid "Open"
+msgstr "Openen"
+
+msgid "Cancel"
+msgstr "Annuleren"
+
+msgid "Selected file is not an image or video."
+msgstr "Het gekozen bestand is geen afbeelding of video."
+
+#, c-format
+msgid ""
+"The selected video is too big. The maximum file size per video is %'d MB"
+msgstr ""
+"De gekozen video is te groot. De maximale bestandsgrootte is %'d MB per "
+"video."
+
+#, c-format
+msgid ""
+"The selected image is too big. The maximum file size per image is %'d MB"
+msgstr ""
+"De gekozen afbeelding is te groot. De maximale bestandsgrootte is %'d MB per"
+" afbeelding."
+
+#, c-format
+msgid "The selected GIF is too big. The maximum file size per GIF is %'d MB"
+msgstr ""
+"Het gekozen gif-bestand is te groot. De maximale bestandsgrootte is %'d MB."
+
+msgid "Insert Emoji"
+msgstr "Emoji invoegen"
 
 msgid "Direct Conversation"
 msgstr "Privégesprek"
@@ -216,14 +281,14 @@ msgstr[0] "%d volger"
 msgstr[1] "%d volgers"
 
 msgid "No tweets found"
-msgstr "Geen tweets gevonden"
+msgstr "Er zijn geen tweets gevonden"
 
 msgid "No users found"
 msgstr "Er zijn geen gebruikers gevonden"
 
 #, c-format
 msgid "Users matching \"%s\""
-msgstr "Gebruikers die overeenkomen men \"%s\""
+msgstr "Gebruikers die overeenkomen met \"%s\""
 
 #, c-format
 msgid "Tweets matching \"%s\""
@@ -270,6 +335,9 @@ msgstr "Verwijderen"
 msgid "Retweeted by %s (@%s)"
 msgstr "Geretweet door %s (@%s)"
 
+msgid "Are you sure you want to delete this tweet?"
+msgstr "Weet je zeker dat je deze tweet wilt verwijderen?"
+
 #, c-format
 msgid "Block %s"
 msgstr "%s blokkeren"
@@ -294,8 +362,7 @@ msgstr "Deze gebruiker is tijdelijk verbannen."
 
 msgid "Your account is suspended and is not permitted to access this feature"
 msgstr ""
-"Je account is tijdelijk uitgeschakeld en kunt deze functie daarom niet "
-"gebruiken"
+"Je kunt deze functie niet gebruiken omdat je account tijdelijk verbannen is."
 
 msgid "Rate limit exceeded"
 msgstr "Gebruikspercentage overschreden"
@@ -379,7 +446,7 @@ msgstr "Je negeert de opgegeven gebruiker niet."
 
 msgid "Animated GIFs are not allowed when uploading multiple images."
 msgstr ""
-"Bewegende GIF's zijn niet toegestaan bij het uploaden van meerdere "
+"Bewegende gif's zijn niet toegestaan bij het uploaden van meerdere "
 "afbeeldingen."
 
 msgid "The validation of media ids failed."
@@ -426,6 +493,14 @@ msgid "The original Tweet author restricted who can reply to this Tweet."
 msgstr ""
 "De tweetauteur heeft een beperking ingesteld op het beantwoorden van deze "
 "tweet."
+
+msgid "Invalid media file"
+msgstr "Ongeldig mediabestand"
+
+#, c-format
+msgid "Unknown error code %lld during upload"
+msgstr ""
+"Er deed zich een onbekende fout met code '%lld' voor tijdens het uploaden"
 
 msgid "Now"
 msgstr "Nu"
@@ -495,13 +570,7 @@ msgid "Failed to retrieve access token"
 msgstr "De toegangssleutel kan niet worden opgehaald"
 
 msgid "Select Image"
-msgstr "Afbeelding selecteren"
-
-msgid "Open"
-msgstr "Openen"
-
-msgid "Cancel"
-msgstr "Annuleren"
+msgstr "Afbeelding kiezen"
 
 msgid "Unfollow"
 msgstr "Ontvolgen"
@@ -525,7 +594,7 @@ msgid "Save"
 msgstr "Opslaan"
 
 msgid "Select Banner Image"
-msgstr "Omslagfoto selecteren"
+msgstr "Omslagfoto kiezen"
 
 msgid "Image does not meet minimum size requirements:"
 msgstr "De afbeelding voldoet niet aan de minimumafmetingen:"
@@ -561,29 +630,32 @@ msgstr "%s: %s"
 msgid "Back"
 msgstr "Terug"
 
-msgid "Quote tweet"
-msgstr "Tweet citeren"
-
-msgid "Selected file is not an image."
-msgstr "Het geselecteerde bestand is geen afbeelding."
+#. TRANSLATORS: %s is the error message returned by Twitter (e.g. "Not Found")
+#, c-format
+msgid ""
+"Error fetching quoted tweet: %s\n"
+"\n"
+"Save unsent tweet?"
+msgstr ""
+"De tweet kan niet worden geciteerd: %s\n"
+"\n"
+"Wil je de onverstuurde tweet bewaren?"
 
 #, c-format
 msgid ""
-"The selected image is too big. The maximum file size per image is %'d MB"
+"Error fetching reply tweet: %s\n"
+"\n"
+"Save unsent tweet?"
 msgstr ""
-"De geselecteerde afbeelding is te groot. De maximale bestandsgrootte is %'d "
-"MB per afbeelding."
+"De tweet kan niet worden beantwoord: %s\n"
+"\n"
+"Wil je de onverstuurde tweet bewaren?"
 
-#, c-format
-msgid "The selected GIF is too big. The maximum file size per GIF is %'d MB"
-msgstr ""
-"Het gekozen gif-bestand is te groot. De maximale bestandsgrootte is %'d MB."
+msgid "Quote tweet"
+msgstr "Tweet citeren"
 
-msgid "Only one GIF file per tweet is allowed."
-msgstr "Per tweet wordt slechts één GIF-bestand toegestaan."
-
-msgid "Insert Emoji"
-msgstr "Emoji invoegen"
+msgid "Only one animated GIF file per tweet is allowed."
+msgstr "Er wordt slechts één gif-bestand per tweet toegestaan."
 
 #, c-format
 msgid "%d character remaining"
@@ -613,22 +685,22 @@ msgid "Modify Snippet"
 msgstr "Fragment bewerken"
 
 msgid "Snippet can't be empty"
-msgstr "Het fragment mag niet leeg worden gelaten"
+msgstr "Het fragment mag niet blanco zijn"
 
 msgid "Replacement can't be empty"
-msgstr "De vervanging mag niet leeg worden gelaten"
+msgstr "De vervanging mag niet blanco zijn"
 
 msgid "Snippet may not contain whitespace"
 msgstr "Het fragment mag geen witruimte bevatten"
 
 msgid "Snippet already exists"
-msgstr "Het fragment bestaat al"
+msgstr "Dit fragment bestaat al"
 
 msgid ""
 "Hey, check out this new #Cawbird version! \\ (•◡•) / #cool "
 "#newisalwaysbetter"
 msgstr ""
-"Hé! Kijk eens naar deze nieuwe #Cawbird-versie! \\ (•◡•) / #cool "
+"Hé, kijk eens naar deze nieuwe #Cawbird-versie! \\ (•◡•) / #cool "
 "#nieuwisaltijdbeter"
 
 msgid "Add to or Remove User From List"
@@ -720,7 +792,7 @@ msgid "Flags"
 msgstr "Vlaggen"
 
 msgid "No Results Found"
-msgstr "Geen resultaten gevonden"
+msgstr "Geen zoekresultaten"
 
 msgid "Try a different search"
 msgstr "Probeer een andere zoekopdracht"
@@ -728,8 +800,8 @@ msgstr "Probeer een andere zoekopdracht"
 msgid "Send"
 msgstr "Verzenden"
 
-msgid "Add Image"
-msgstr "Afbeelding toevoegen"
+msgid "Add Media"
+msgstr "Media toevoegen"
 
 msgid "Show favorite images"
 msgstr "Leuk gevonden afbeeldingen tonen"
@@ -858,13 +930,13 @@ msgid "Hide in timeline"
 msgstr "Verbergen op tijdlijn"
 
 msgid "Auto scroll on new tweets"
-msgstr "Automatisch scrollen bij nieuwe tweets"
+msgstr "Automatisch scrollen naar nieuwste tweets"
 
 msgid "Double-click activation"
 msgstr "Tweet openen door te dubbelklikken"
 
 msgid "Interface"
-msgstr "Uiterlijk"
+msgstr "Vormgeving"
 
 msgid "On New Tweets"
 msgstr "Bij nieuwe tweets"
@@ -916,7 +988,7 @@ msgstr "Je hebt geen fragmenten ingesteld."
 
 msgid "You can activate snippets by writing the keyword and pressing TAB."
 msgstr ""
-"Activeer fragmenten door het trefwoord te typen en daarna op de tabtoets te "
+"Activeer fragmenten door het trefwoord te typen en op de tabtoets te "
 "drukken."
 
 msgid "Snippets"
@@ -936,7 +1008,7 @@ msgstr "Accountinstellingen tonen"
 
 msgctxt "shortcuts window"
 msgid "Show Accounts Popover"
-msgstr "Accounts-snelmenu tonen"
+msgstr "Accountsmenu tonen"
 
 msgctxt "shortcuts window"
 msgid "Show Application Settings"
@@ -956,7 +1028,7 @@ msgstr "Vooruit"
 
 msgctxt "shortcuts window"
 msgid "Go to nth page"
-msgstr "Ga naar pagina n"
+msgstr "Ga naar pagina x"
 
 msgctxt "shortcuts window"
 msgid "Tweets"
@@ -1036,7 +1108,7 @@ msgid "Show settings of this account"
 msgstr "Accountinstellingen tonen"
 
 msgid "Open in new window"
-msgstr "Openen in een nieuw venster"
+msgstr "Openen in nieuw venster"
 
 msgid "Go to profile"
 msgstr "Ga naar profiel"
