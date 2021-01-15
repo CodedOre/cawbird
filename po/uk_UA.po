@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cawbird\n"
 "Report-Msgid-Bugs-To: https://github.com/ibboard/cawbird/issues/new\n"
-"POT-Creation-Date: 2020-12-26 11:56+0000\n"
+"POT-Creation-Date: 2021-01-03 20:31+0000\n"
 "PO-Revision-Date: 2017-10-22 10:08+0000\n"
 "Last-Translator: baedert <mail@baedert.org>\n"
 "Language-Team: Ukrainian (Ukraine) (http://www.transifex.com/cawbird/cawbird/"
@@ -47,6 +47,11 @@ msgid "Typical Twitter profile"
 msgstr ""
 
 msgid "Account settings can be configured"
+msgstr ""
+
+msgid ""
+"Cawbird in different themes (Adwaita, Adwaita dark variant, High Contrast "
+"and Adwaita Dark Green)"
 msgstr ""
 
 msgid "IBBoard"
@@ -262,6 +267,12 @@ msgid "%s following"
 msgstr "Читає"
 
 msgid "Protected Profile"
+msgstr ""
+
+msgid "User is blocked"
+msgstr ""
+
+msgid "User is muted"
 msgstr ""
 
 #, fuzzy, c-format
@@ -484,6 +495,10 @@ msgstr ""
 
 #, c-format
 msgid "Unknown error code %lld during upload"
+msgstr ""
+
+#, c-format
+msgid "Unknown error code %lld during upload: %s"
 msgstr ""
 
 msgid "Now"
@@ -917,11 +932,23 @@ msgstr "Активація при подвійному кліку"
 msgid "Interface"
 msgstr "Інтерфейс"
 
+msgid "Round avatars"
+msgstr "Круглі аватари"
+
+msgid "Remove trailing hashtags"
+msgstr "Прибрати хештеги наприкінці"
+
+msgid "Remove media links"
+msgstr "Прибрати посилання на медіа"
+
+msgid "Hide inappropriate content"
+msgstr "Сховати недопустимий контент"
+
 msgid "On New Tweets"
 msgstr "При отриманні нових твітів"
 
-msgid "Actions"
-msgstr "Дії"
+msgid "Notifications"
+msgstr "Сповіщення"
 
 msgid "On New Mentions"
 msgstr "При нових отриманні нових згадок"
@@ -946,21 +973,6 @@ msgstr "По 25"
 
 msgid "Stack 50"
 msgstr "По 50"
-
-msgid "Notifications"
-msgstr "Сповіщення"
-
-msgid "Round avatars"
-msgstr "Круглі аватари"
-
-msgid "Remove trailing hashtags"
-msgstr "Прибрати хештеги наприкінці"
-
-msgid "Remove media links"
-msgstr "Прибрати посилання на медіа"
-
-msgid "Hide inappropriate content"
-msgstr "Сховати недопустимий контент"
 
 msgid "No snippets configured."
 msgstr "Не сконфігуровано жодного сніпета"
@@ -1096,6 +1108,9 @@ msgstr "Створено"
 
 msgid "Subscribed to"
 msgstr "Підписано на"
+
+#~ msgid "Actions"
+#~ msgstr "Дії"
 
 #~ msgid "Add Image"
 #~ msgstr "Додати зображення"

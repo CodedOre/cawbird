@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cawbird\n"
 "Report-Msgid-Bugs-To: https://github.com/ibboard/cawbird/issues/new\n"
-"POT-Creation-Date: 2020-12-26 11:56+0000\n"
+"POT-Creation-Date: 2021-01-03 20:31+0000\n"
 "PO-Revision-Date: 2018-01-17 19:31+0000\n"
 "Last-Translator: HybridGlucose <a07051226@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/cawbird/cawbird/"
@@ -46,6 +46,11 @@ msgstr "典型的 Twitter 個人檔案"
 
 msgid "Account settings can be configured"
 msgstr "可以設定帳戶資料"
+
+msgid ""
+"Cawbird in different themes (Adwaita, Adwaita dark variant, High Contrast "
+"and Adwaita Dark Green)"
+msgstr ""
 
 msgid "IBBoard"
 msgstr "IBBoard"
@@ -254,6 +259,12 @@ msgstr "正在關注"
 
 msgid "Protected Profile"
 msgstr "受保護的個人檔案"
+
+msgid "User is blocked"
+msgstr ""
+
+msgid "User is muted"
+msgstr ""
 
 #, fuzzy, c-format
 msgid "%d follower"
@@ -472,6 +483,10 @@ msgstr ""
 
 #, c-format
 msgid "Unknown error code %lld during upload"
+msgstr ""
+
+#, c-format
+msgid "Unknown error code %lld during upload: %s"
 msgstr ""
 
 msgid "Now"
@@ -893,11 +908,23 @@ msgstr "雙擊操作"
 msgid "Interface"
 msgstr "界面"
 
+msgid "Round avatars"
+msgstr "圓形的大頭貼"
+
+msgid "Remove trailing hashtags"
+msgstr "移除貼文標籤"
+
+msgid "Remove media links"
+msgstr "移除媒體連結"
+
+msgid "Hide inappropriate content"
+msgstr "隱藏標示為敏感內容之推文"
+
 msgid "On New Tweets"
 msgstr "有新推文"
 
-msgid "Actions"
-msgstr "動作"
+msgid "Notifications"
+msgstr "通知"
 
 msgid "On New Mentions"
 msgstr "有新提及"
@@ -922,21 +949,6 @@ msgstr "每25個"
 
 msgid "Stack 50"
 msgstr "每50個"
-
-msgid "Notifications"
-msgstr "通知"
-
-msgid "Round avatars"
-msgstr "圓形的大頭貼"
-
-msgid "Remove trailing hashtags"
-msgstr "移除貼文標籤"
-
-msgid "Remove media links"
-msgstr "移除媒體連結"
-
-msgid "Hide inappropriate content"
-msgstr "隱藏標示為敏感內容之推文"
 
 msgid "No snippets configured."
 msgstr "沒有設定片語"
@@ -1072,6 +1084,9 @@ msgstr "建立"
 
 msgid "Subscribed to"
 msgstr "訂閱的"
+
+#~ msgid "Actions"
+#~ msgstr "動作"
 
 #~ msgid "Add Image"
 #~ msgstr "新增媒體"

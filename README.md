@@ -1,4 +1,4 @@
-# Cawbird 1.2.1
+# Cawbird 1.3.2
 
 <a href="https://ibboard.co.uk/cawbird/#screenshots"><img src="./screenshot1.jpg" style="float:right; margin-left: 1em;" /></a>
 
@@ -19,22 +19,23 @@ These packages are currently available for:
   * openSUSE Leap 15.1
   * openSUSE Leap 15.2
 * Fedora
-  * Fedora 31
   * Fedora 32
+  * Fedora 33
   * Fedora Rawhide
 * CentOS
   * CentOS 7
-  * CentOS 8
+  * CentOS 8 (including Streams)
 * Ubuntu
   * Ubuntu 18.04 (Bionic Beaver)
-  * Ubuntu 19.10 (Eoan Ermine)
   * Ubuntu 20.04 (Focal Fossa)
+  * Ubuntu 20.10 (Groovy Gorilla)
 * Debian
   * 10 (Buster)
   * Testing
   * Unstable
+  * Raspbian 10
 
-i586, x86_64 (amd64) and aarch64 (arm64) are available on most platforms (where supported by the distro).
+i586, x86_64 (amd64), aarch64 (arm64) and armv7l are available on most platforms (where supported by the distro).
 
 ### Official distro repositories
 
@@ -191,17 +192,17 @@ Cawbird installs its application icon into `/usr/share/icons/hicolor/`, so an ap
 * `gettext >= 0.19.7`
 * `vala >= 0.28` (makedep)
 * `meson` (makedep)
-* `gst-plugins-base-1.0` (for playbin, disable via --disable-video)
-* `gst-plugins-bad-1.0 >= 1.6` or `gst-plugins-good-1.0` (disable via --disable-video, default enabled)
+* `gst-plugins-base-1.0` (for playbin, disable by passing `-Dvideo=false` to Meson)
+* `gst-plugins-bad-1.0 >= 1.6` or `gst-plugins-good-1.0` (disable by passing `-Dvideo=false` to Meson, default enabled)
   * Requires the `element-gtksink` feature, provided by `gstreamer1.0-gtk` on Ubuntu-based systems,
     `gstreamer1-plugins-bad-free-gtk` on older RPM-based systems and `gstreamer1-plugins-good-gtk` on
     newer RPM-based systems
-* `gst-libav-1.0` (disable via --disable-video, default enabled)
-* `gspell-1 >= 1.2` (for spellchecking, disable via --disable-spellcheck, default enabled)
+* `gst-libav-1.0` (disable by passing `-Dvideo=false` to Meson, default enabled)
+* `gspell-1 >= 1.2` (for spellchecking, disable by passing `-Dspellcheck=false` to Meson, default enabled)
 
 Note that the above packages are just rough estimations, the actual package names on your distribution may vary and may require additional repositories (e.g. RPMFusion in Fedora, or Packman in openSUSE)
 
-If you pass `--disable-video` to the configure script, you don't need any gstreamer dependency but won't be able to view any videos.
+If you pass `-Dvideo=false` to the Meson script, you don't need any gstreamer dependency but won't be able to view any videos.
 
 ## Copyright
 

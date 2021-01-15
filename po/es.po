@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cawbird\n"
 "Report-Msgid-Bugs-To: https://github.com/ibboard/cawbird/issues/new\n"
-"POT-Creation-Date: 2020-12-26 11:56+0000\n"
+"POT-Creation-Date: 2021-01-03 20:31+0000\n"
 "PO-Revision-Date: 2017-10-22 10:08+0000\n"
 "Last-Translator: baedert <mail@baedert.org>\n"
 "Language-Team: Spanish (http://www.transifex.com/cawbird/cawbird/language/"
@@ -54,6 +54,11 @@ msgstr "Perfil de Twitter típico"
 
 msgid "Account settings can be configured"
 msgstr "Los ajustes de la cuenta pueden ser configurados"
+
+msgid ""
+"Cawbird in different themes (Adwaita, Adwaita dark variant, High Contrast "
+"and Adwaita Dark Green)"
+msgstr ""
 
 msgid "IBBoard"
 msgstr "IBBoard"
@@ -270,6 +275,12 @@ msgid "%s following"
 msgstr "Siguiendo"
 
 msgid "Protected Profile"
+msgstr ""
+
+msgid "User is blocked"
+msgstr ""
+
+msgid "User is muted"
 msgstr ""
 
 #, fuzzy, c-format
@@ -493,6 +504,10 @@ msgstr ""
 
 #, c-format
 msgid "Unknown error code %lld during upload"
+msgstr ""
+
+#, c-format
+msgid "Unknown error code %lld during upload: %s"
 msgstr ""
 
 msgid "Now"
@@ -922,11 +937,23 @@ msgstr "Activación Doble-click"
 msgid "Interface"
 msgstr "Interfaz"
 
+msgid "Round avatars"
+msgstr "Avatares Redondeados"
+
+msgid "Remove trailing hashtags"
+msgstr "Eliminar hashtags posteriores"
+
+msgid "Remove media links"
+msgstr "Eliminar enlaces"
+
+msgid "Hide inappropriate content"
+msgstr "Ocultar contenido que pueda herir la sensibilidad de algunas personas"
+
 msgid "On New Tweets"
 msgstr "Para tweets nuevos"
 
-msgid "Actions"
-msgstr "Acciones"
+msgid "Notifications"
+msgstr "Notificaciones"
 
 msgid "On New Mentions"
 msgstr "Para menciones nuevas"
@@ -951,21 +978,6 @@ msgstr "Cada 25"
 
 msgid "Stack 50"
 msgstr "Cada 50"
-
-msgid "Notifications"
-msgstr "Notificaciones"
-
-msgid "Round avatars"
-msgstr "Avatares Redondeados"
-
-msgid "Remove trailing hashtags"
-msgstr "Eliminar hashtags posteriores"
-
-msgid "Remove media links"
-msgstr "Eliminar enlaces"
-
-msgid "Hide inappropriate content"
-msgstr "Ocultar contenido que pueda herir la sensibilidad de algunas personas"
 
 msgid "No snippets configured."
 msgstr "No hay fragmentos configurados"
@@ -1101,6 +1113,9 @@ msgstr "Creada"
 
 msgid "Subscribed to"
 msgstr "Suscrito a"
+
+#~ msgid "Actions"
+#~ msgstr "Acciones"
 
 #~ msgid "Add Image"
 #~ msgstr "Añadir imagen"

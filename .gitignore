@@ -4,3 +4,4 @@ _build/
 libcorebird.vapi
 flatpak/_build
 flatpak/.flatpak-builder
+valgrind*

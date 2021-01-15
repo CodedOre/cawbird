@@ -17,17 +17,21 @@
   <url type="homepage">https://ibboard.co.uk/cawbird/</url>
   <launchable type="desktop-id">uk.co.ibboard.cawbird.desktop</launchable>
   <screenshots>
-    <screenshot height="450" width="800" type="default">
+    <screenshot height="1032" width="481" type="default">
       <image>https://ibboard.co.uk/cawbird/appdata/screenshot1.jpg</image>
       <caption>Generic timeline view when using Cawbird</caption>
     </screenshot>
-    <screenshot height="450" width="800">
+    <screenshot height="956" width="564">
       <image>https://ibboard.co.uk/cawbird/appdata/screenshot2.jpg</image>
       <caption>Typical Twitter profile</caption>
     </screenshot>
-    <screenshot height="450" width="800">
+    <screenshot height="956" width="564">
       <image>https://ibboard.co.uk/cawbird/appdata/screenshot3.jpg</image>
       <caption>Account settings can be configured</caption>
+    </screenshot>
+    <screenshot height="688" width="1283">
+      <image>https://ibboard.co.uk/cawbird/appdata/screenshot4.jpg</image>
+      <caption>Cawbird in different themes (Adwaita, Adwaita dark variant, High Contrast and Adwaita Dark Green)</caption>
     </screenshot>
   </screenshots>
   <kudos>
@@ -45,6 +49,104 @@
   <url type="translate">https://www.transifex.com/cawbird/cawbird/</url>
 
   <releases>
+    <release version="1.3.2" date="2021-01-11">
+      <p>Cawbird 1.3.2 is a maintenance release due to a privacy issue caused by third-party builds of Cawbird using "debug" builds.</p>
+      <p>Users of native distro packages and other packages that used release builds should not have been affected. We appologise for any inconvenience caused and continue to recommend that users use native packages where possible.</p>
+      <ul>
+        <li>Fixes:
+          <ul>
+            <li>Make it clearer to third-party packagers (e.g. Flatpak and Snap) when they are building debug builds instead of release builds, which log the plain text content of all tweets and DMs to the console, which is then captured in the system log (#274)</li>
+            <li>Make it possible to build Cawbird without GStreamer video support again (#273)</li>
+          </ul>
+        </li>
+        <li>Improvements:
+          <ul>
+            <li>Swapped out `g_print` statements for `g_debug` and generally tidied up some debug logging (relates to #274)</li>
+            <li>Make videos open the browser when GStreamer support is disabled (related to #273)</li>
+            <li>Updated Russian translation (thanks to Даниил Пронин)</li>
+          </ul>
+        </li>
+        <li>Developer:
+          <ul>
+            <li>Fixed intermittent crash of `inlinedownloader` tests</li>
+          </ul>
+        </li>
+      </ul>
+    </release>
+    <release version="1.3.1" date="2021-01-03">
+      <p>Cawbird 1.3.1 fixes several gaps in the block/mute behaviour so that your experience is controlled from the start, as well
+      as including some media upload and mobile fixes and improvements.</p>
+      <ul>
+        <li>Fixes:
+          <ul>
+            <li>Fix unblock and unmute wiping local cache of blocked/muted users</li>
+            <li>Load block/mute lists before downloading timeline/mentions to ensure we hide blocked/muted tweets at startup</li>
+            <li>Unblocking/unmuting now says "unblock" or "unmute" on the button instead of always saying "Unblock"</li>
+            <li>Fix media size checks so that videos don't fail because they're bigger than the image limit</li>
+            <li>Make a narrower user account list for narrow windows to avoid overflow and cropped "profile" button (#259)</li>
+            <li>Combine notification and tweet settings to allow narrower settings dialog for mobile</li>
+          </ul>
+        </li>
+        <li>Improvements:
+          <ul>
+            <li>Hide all tweets in profile view when blocking/muting a user (we shouldn't assume people won't look at the profile)</li>
+            <li>Backfill progressively larger batches of tweets for profiles in case Disable RTs is hiding too many tweets so that the view doesn't scroll</li>
+            <li>Provide a tooltip message for why a media upload failed (e.g. Twitter doesn't support video codec)</li>
+            <li>Updated Dutch, Danish and Italian translations</li>
+          </ul>
+        </li>
+      </ul>
+    </release>
+    <release version="1.3" date="2020-12-31">
+      <p>Cawbird version 1.3 is the "look after yourself" edition. We've got lots of features and fixes, but there are several key improvements to
+      managing your interactions that should have been implemented/fixed sooner. Our priority is making Cawbird accessible and letting users
+      control their experience on Twitter.</p>
+      <ul>
+        <li>Improvements:
+          <ul>
+            <li>Apply filtering across all feeds (including search)</li>
+            <li>Apply changes to filtering, muting, blocking and hiding RTs across all feeds instantly</li>
+            <li>Allow the filtering of mentioned @-handles</li>
+            <li>Load media in DMs and linkify users and hashtags (#12)</li>
+            <li>Added ability to send media in DMs (#14)</li>
+            <li>Added ability to delete DMs (#7)</li>
+            <li>Load older DMs (#3)</li>
+            <li>Add ability to upload videos and larger animated GIFs (#248)</li>
+            <li>Use HTTPS avatars throughout</li>
+            <li>Translations: Dutch and Danish (complete), Italian and French (updated)</li>
+          </ul>
+        </li>
+        <li>Design changes:
+          <ul>
+            <li>More accessible approach to loading "replied to" tweets (#164)</li>
+            <li>Improved user completion behaviour and interaction with user completion list</li>
+            <li>Added outline to media upload indicator to make it clearer on light images</li>
+            <li>Remove whitespace around tweets (e.g. when user has new lines and then a quoted URL or media that we're displaying)</li>
+            <li>Allow Compose view to shrink to narrower screens (e.g. for PinePhone) (#212)</li>
+          </ul>
+        </li>
+        <li>Fixes:
+          <ul>
+            <li>Fix DM load order</li>
+            <li>Fix missing "reply" icon by providing our own (#208)</li>
+            <li>Fixed crashes when playing video (#123)</li>
+            <li>Avoid a crash when returned JSON is invalid (#200)</li>
+            <li>Fixed widget height calculations for responsive and non-responsive views (#202)</li>
+            <li>Fixed layout when starting in responsive width</li>
+            <li>Avoid an unnecessary request for tweets when loading timelines</li>
+            <li>Fixed completion query for known users</li>
+            <li>Fixed various run-time and compiler warnings</li>
+            <li>Fixed handling of command-line parameters (#246)</li>
+          </ul>
+        </li>
+        <li>Developer:
+          <ul>
+            <li>Added "appdata" build config to allow building on platforms without AppStream (#35)</li>
+            <li>Changed Meson configuration and instructions to allow running dev version without installing</li>
+          </ul>
+        </li>
+      </ul>
+    </release>
     <release version="1.2.1" date="2020-09-20">
       <p>Changes in Cawbird 1.2.1:</p>
       <ul>

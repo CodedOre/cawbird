@@ -526,6 +526,7 @@ class ComposeTweetWindow : Gtk.ApplicationWindow {
 
 
     if (!is_image && !is_video) {
+      debug("%s has content type %s", filename, content_type);
       stack.visible_child = image_error_grid;
       image_error_label.label = _("Selected file is not an image or video.");
       cancel_button.label = _("Back");
@@ -536,13 +537,13 @@ class ComposeTweetWindow : Gtk.ApplicationWindow {
                                 .printf (Twitter.MAX_BYTES_PER_VIDEO / 1024 / 1024);
       cancel_button.label = _("Back");
       send_button.sensitive = false;      
-    } else if (!is_animated_gif && file_size > Twitter.MAX_BYTES_PER_IMAGE) {
+    } else if (is_image && !is_animated_gif && file_size > Twitter.MAX_BYTES_PER_IMAGE) {
       stack.visible_child = image_error_grid;
       image_error_label.label = _("The selected image is too big. The maximum file size per image is %'d MB")
                                 .printf (Twitter.MAX_BYTES_PER_IMAGE / 1024 / 1024);
       cancel_button.label = _("Back");
       send_button.sensitive = false;
-    } else if (is_animated_gif && file_size > Twitter.MAX_BYTES_PER_GIF) {
+    } else if (is_image && is_animated_gif && file_size > Twitter.MAX_BYTES_PER_GIF) {
       stack.visible_child = image_error_grid;
       image_error_label.label = _("The selected GIF is too big. The maximum file size per GIF is %'d MB")
                                 .printf (Twitter.MAX_BYTES_PER_GIF / 1024 / 1024);

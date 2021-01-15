@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cawbird\n"
 "Report-Msgid-Bugs-To: https://github.com/ibboard/cawbird/issues/new\n"
-"POT-Creation-Date: 2020-12-26 11:56+0000\n"
+"POT-Creation-Date: 2021-01-03 20:31+0000\n"
 "PO-Revision-Date: 2017-10-22 10:08+0000\n"
 "Last-Translator: baedert <mail@baedert.org>\n"
 "Language-Team: Indonesian (Indonesia) (http://www.transifex.com/cawbird/"
@@ -49,6 +49,11 @@ msgstr "Khas Profil Twitter"
 
 msgid "Account settings can be configured"
 msgstr "Setelan akun dapat dikonfigurasi"
+
+msgid ""
+"Cawbird in different themes (Adwaita, Adwaita dark variant, High Contrast "
+"and Adwaita Dark Green)"
+msgstr ""
 
 msgid "IBBoard"
 msgstr "IBBoard"
@@ -261,6 +266,12 @@ msgid "%s following"
 msgstr "Mengikuti"
 
 msgid "Protected Profile"
+msgstr ""
+
+msgid "User is blocked"
+msgstr ""
+
+msgid "User is muted"
 msgstr ""
 
 #, fuzzy, c-format
@@ -480,6 +491,10 @@ msgstr ""
 
 #, c-format
 msgid "Unknown error code %lld during upload"
+msgstr ""
+
+#, c-format
+msgid "Unknown error code %lld during upload: %s"
 msgstr ""
 
 msgid "Now"
@@ -905,11 +920,23 @@ msgstr "Aktivasi klik-ganda"
 msgid "Interface"
 msgstr "Antarmuka"
 
+msgid "Round avatars"
+msgstr "Avatar bulat"
+
+msgid "Remove trailing hashtags"
+msgstr "Hapus hastag sisa"
+
+msgid "Remove media links"
+msgstr "Hapus tautan media"
+
+msgid "Hide inappropriate content"
+msgstr "Sembunyikan konten yang tidak sesuai"
+
 msgid "On New Tweets"
 msgstr "Pada Tweets Baru"
 
-msgid "Actions"
-msgstr "Aksi"
+msgid "Notifications"
+msgstr "Notifikasi"
 
 msgid "On New Mentions"
 msgstr "Pada Menyebutkan Baru"
@@ -934,21 +961,6 @@ msgstr "Stack 25"
 
 msgid "Stack 50"
 msgstr "Stack 50"
-
-msgid "Notifications"
-msgstr "Notifikasi"
-
-msgid "Round avatars"
-msgstr "Avatar bulat"
-
-msgid "Remove trailing hashtags"
-msgstr "Hapus hastag sisa"
-
-msgid "Remove media links"
-msgstr "Hapus tautan media"
-
-msgid "Hide inappropriate content"
-msgstr "Sembunyikan konten yang tidak sesuai"
 
 msgid "No snippets configured."
 msgstr "Tidak ada potongan yang terkonfigurasi."
@@ -1086,6 +1098,9 @@ msgstr "Dibuat"
 
 msgid "Subscribed to"
 msgstr "Berlangganan ke"
+
+#~ msgid "Actions"
+#~ msgstr "Aksi"
 
 #~ msgid "Add Image"
 #~ msgstr "Tambah Gambar"

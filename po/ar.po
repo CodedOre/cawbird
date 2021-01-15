@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cawbird\n"
 "Report-Msgid-Bugs-To: https://github.com/ibboard/cawbird/issues/new\n"
-"POT-Creation-Date: 2020-12-26 11:56+0000\n"
+"POT-Creation-Date: 2021-01-03 20:31+0000\n"
 "PO-Revision-Date: 2020-02-05 20:32+0000\n"
 "Last-Translator: Ammar K <ak.bahassan@gmail.com>, 2020\n"
 "Language-Team: Arabic (http://www.transifex.com/cawbird/cawbird/language/"
@@ -53,6 +53,11 @@ msgstr ""
 
 msgid "Account settings can be configured"
 msgstr "يمكن ضبط (تهيئه) إعدادات الحساب "
+
+msgid ""
+"Cawbird in different themes (Adwaita, Adwaita dark variant, High Contrast "
+"and Adwaita Dark Green)"
+msgstr ""
 
 msgid "IBBoard"
 msgstr "IBBoard"
@@ -281,6 +286,12 @@ msgstr "يتتبع"
 msgid "Protected Profile"
 msgstr "الحساب محمي "
 
+msgid "User is blocked"
+msgstr ""
+
+msgid "User is muted"
+msgstr ""
+
 #, fuzzy, c-format
 msgid "%d follower"
 msgid_plural "%d followers"
@@ -504,6 +515,10 @@ msgstr ""
 
 #, c-format
 msgid "Unknown error code %lld during upload"
+msgstr ""
+
+#, c-format
+msgid "Unknown error code %lld during upload: %s"
 msgstr ""
 
 msgid "Now"
@@ -962,11 +977,23 @@ msgstr ""
 msgid "Interface"
 msgstr "الواجهة"
 
+msgid "Round avatars"
+msgstr "صور رمزية مستديرة"
+
+msgid "Remove trailing hashtags"
+msgstr "إزالة الهاشتقات الزائدة"
+
+msgid "Remove media links"
+msgstr "إزالة روابط الوسائط"
+
+msgid "Hide inappropriate content"
+msgstr "اخفي المحتوى الغير لائق"
+
 msgid "On New Tweets"
 msgstr ""
 
-msgid "Actions"
-msgstr "العمليات"
+msgid "Notifications"
+msgstr "الإشعارات"
 
 msgid "On New Mentions"
 msgstr ""
@@ -991,21 +1018,6 @@ msgstr "تجميع 25"
 
 msgid "Stack 50"
 msgstr "تجميع 50"
-
-msgid "Notifications"
-msgstr "الإشعارات"
-
-msgid "Round avatars"
-msgstr "صور رمزية مستديرة"
-
-msgid "Remove trailing hashtags"
-msgstr "إزالة الهاشتقات الزائدة"
-
-msgid "Remove media links"
-msgstr "إزالة روابط الوسائط"
-
-msgid "Hide inappropriate content"
-msgstr "اخفي المحتوى الغير لائق"
 
 msgid "No snippets configured."
 msgstr ""
@@ -1141,6 +1153,9 @@ msgstr "تم الإنشاء"
 
 msgid "Subscribed to"
 msgstr "مشترك في"
+
+#~ msgid "Actions"
+#~ msgstr "العمليات"
 
 #~ msgid "Add Image"
 #~ msgstr "إضافة صورة "

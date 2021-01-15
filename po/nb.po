@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cawbird\n"
 "Report-Msgid-Bugs-To: https://github.com/ibboard/cawbird/issues/new\n"
-"POT-Creation-Date: 2020-12-26 11:56+0000\n"
+"POT-Creation-Date: 2021-01-03 20:31+0000\n"
 "PO-Revision-Date: 2018-02-09 06:34+0000\n"
 "Last-Translator: Kim Malmo <berencamlost@msn.com>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/cawbird/cawbird/"
@@ -48,6 +48,11 @@ msgstr "Typisk Twitter-profil"
 
 msgid "Account settings can be configured"
 msgstr "Kontoinnstillinger kan endres"
+
+msgid ""
+"Cawbird in different themes (Adwaita, Adwaita dark variant, High Contrast "
+"and Adwaita Dark Green)"
+msgstr ""
 
 msgid "IBBoard"
 msgstr "IBBoard"
@@ -260,6 +265,12 @@ msgstr "Følger"
 
 msgid "Protected Profile"
 msgstr "Beskyttet profil"
+
+msgid "User is blocked"
+msgstr ""
+
+msgid "User is muted"
+msgstr ""
 
 #, fuzzy, c-format
 msgid "%d follower"
@@ -480,6 +491,10 @@ msgstr ""
 
 #, c-format
 msgid "Unknown error code %lld during upload"
+msgstr ""
+
+#, c-format
+msgid "Unknown error code %lld during upload: %s"
 msgstr ""
 
 msgid "Now"
@@ -910,11 +925,23 @@ msgstr "Dobbeltklikk-trigging"
 msgid "Interface"
 msgstr "Grensesnitt"
 
+msgid "Round avatars"
+msgstr "Runde profilbilder"
+
+msgid "Remove trailing hashtags"
+msgstr "Fjern avsluttende hasjtagger"
+
+msgid "Remove media links"
+msgstr "Fjern medielenker"
+
+msgid "Hide inappropriate content"
+msgstr "Skjul upassende innhold"
+
 msgid "On New Tweets"
 msgstr "Ved nye tweets"
 
-msgid "Actions"
-msgstr "Handlinger"
+msgid "Notifications"
+msgstr "Varslinger"
 
 msgid "On New Mentions"
 msgstr "Ved nye nevnelser"
@@ -939,21 +966,6 @@ msgstr "Stabel 25"
 
 msgid "Stack 50"
 msgstr "Stabel 50"
-
-msgid "Notifications"
-msgstr "Varslinger"
-
-msgid "Round avatars"
-msgstr "Runde profilbilder"
-
-msgid "Remove trailing hashtags"
-msgstr "Fjern avsluttende hasjtagger"
-
-msgid "Remove media links"
-msgstr "Fjern medielenker"
-
-msgid "Hide inappropriate content"
-msgstr "Skjul upassende innhold"
 
 msgid "No snippets configured."
 msgstr "Ingen kodesnutter satt opp."
@@ -1089,6 +1101,9 @@ msgstr "Laget"
 
 msgid "Subscribed to"
 msgstr "Abonnert på"
+
+#~ msgid "Actions"
+#~ msgstr "Handlinger"
 
 #~ msgid "Add Image"
 #~ msgstr "Legg til bild"

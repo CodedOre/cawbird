@@ -19,7 +19,8 @@ const uint FRIENDSHIP_FOLLOWED_BY   = 1 << 0;
 const uint FRIENDSHIP_FOLLOWING     = 1 << 1;
 const uint FRIENDSHIP_WANT_RETWEETS = 1 << 2;
 const uint FRIENDSHIP_BLOCKING      = 1 << 3;
-const uint FRIENDSHIP_CAN_DM        = 1 << 4;
+const uint FRIENDSHIP_MUTING        = 1 << 4;
+const uint FRIENDSHIP_CAN_DM        = 1 << 5;
 
 struct JsonCursor {
   int64 next_cursor;
@@ -69,6 +70,9 @@ namespace UserUtils {
 
     if (source.get_boolean_member ("blocking"))
       friendship |= FRIENDSHIP_BLOCKING;
+    
+    if (source.get_boolean_member ("muting"))
+      friendship |= FRIENDSHIP_MUTING;
 
     if (source.get_boolean_member ("can_dm"))
       friendship |= FRIENDSHIP_CAN_DM;
@@ -167,6 +171,12 @@ namespace UserUtils {
     call.invoke_async.begin (null, (obj, res) => {
       try {
         call.invoke_async.end (res);
+        if (setting) {
+          TweetUtils.inject_user_mute(call.get_payload(), account);
+        }
+        else {
+          TweetUtils.inject_user_unmute(call.get_payload(), account);
+        }
       } catch (GLib.Error e) {
         var tmp_err = TweetUtils.failed_request_to_error (call, e);
 
@@ -196,11 +206,19 @@ namespace UserUtils {
     }
 
     call.add_param ("user_id", to_block.to_string ());
+    call.add_param ("include_entities", "false");
+    call.add_param ("skip_status", "true");
     GLib.Error? err = null;
     
     call.invoke_async.begin (null, (obj, res) => {
       try {
         call.invoke_async.end (res);
+        if (setting) {
+          TweetUtils.inject_user_block(call.get_payload(), account);
+        }
+        else {
+          TweetUtils.inject_user_unblock(call.get_payload(), account);
+        }
       } catch (GLib.Error e) {
         var tmp_err = TweetUtils.failed_request_to_error (call, e);
         debug("Error: %s", tmp_err.message);

@@ -610,25 +610,29 @@ namespace TweetUtils {
     account.user_stream.inject_tweet(Cb.StreamMessageType.TWEET, json);
   }
 
-  private void inject_user_action (int64 user_id, Account account, Cb.StreamMessageType action) {
-    var message = @"{ \"target\": { \"id\":$(user_id) } }";
+  private void inject_user_action_json (string user_json, Account account, Cb.StreamMessageType action) {
+    var message = @"{ \"target\": $(user_json) }";
     account.user_stream.inject_tweet(action, message);
   }
 
-  public void inject_user_mute (int64 user_id, Account account) {
-    inject_user_action(user_id, account, Cb.StreamMessageType.EVENT_MUTE);
+  private void inject_user_action (int64 user_id, Account account, Cb.StreamMessageType action) {
+    inject_user_action_json(@"{ \"id\":$(user_id) }", account, action);
   }
 
-  public void inject_user_unmute (int64 user_id, Account account) {
-    inject_user_action(user_id, account, Cb.StreamMessageType.EVENT_UNMUTE);
+  public void inject_user_mute (string user_json, Account account) {
+    inject_user_action_json(user_json, account, Cb.StreamMessageType.EVENT_MUTE);
   }
 
-  public void inject_user_block (int64 user_id, Account account) {
-    inject_user_action(user_id, account, Cb.StreamMessageType.EVENT_BLOCK);
+  public void inject_user_unmute (string user_json, Account account) {
+    inject_user_action_json(user_json, account, Cb.StreamMessageType.EVENT_UNMUTE);
   }
 
-  public void inject_user_unblock (int64 user_id, Account account) {
-    inject_user_action(user_id, account, Cb.StreamMessageType.EVENT_UNBLOCK);
+  public void inject_user_block (string user_json, Account account) {
+    inject_user_action_json(user_json, account, Cb.StreamMessageType.EVENT_BLOCK);
+  }
+
+  public void inject_user_unblock (string user_json, Account account) {
+    inject_user_action_json(user_json, account, Cb.StreamMessageType.EVENT_UNBLOCK);
   }
 
   public void inject_user_follow (int64 user_id, Account account) {
@@ -788,13 +792,24 @@ namespace TweetUtils {
         break;
       }
       else if (state == "failed") {
-        var error_code = processing_info.get_object_member("error").get_int_member("code");
+        var error = processing_info.get_object_member("error");
+        var error_code = error.get_int_member("code");
         string message;
         if (error_code == 1) {
           message = _("Invalid media file");
         }
+        // TODO: Add error code 3 - seen as "unsupported codec MPEG4" but could be more
         else {
-          message = _("Unknown error code %lld during upload").printf(error_code);
+          if (error.has_member("message")) {
+            message = error.get_string_member("message");
+          }
+          else if (error.has_member("name")) {
+            var error_name = error.get_string_member("name");            
+            message = _("Unknown error code %lld during upload: %s").printf(error_code, error_name);
+          }
+          else {
+            message = _("Unknown error code %lld during upload").printf(error_code);
+          }
         }
         media_upload.progress_complete(new GLib.Error.literal(TweetUtils.get_error_domain(), 0, message));
         return false;
@@ -946,6 +961,18 @@ namespace TweetUtils {
   public void handle_media_click (Cb.Media[] media,
                                   MainWindow window,
                                   int        index) {
+#if ! VIDEO
+    if (media.length == 1 && media[0].is_video()) {
+      var url = media[0].url;
+      try {
+        Gtk.show_uri_on_window(window, url, Gdk.CURRENT_TIME);
+      }
+      catch (GLib.Error e) {
+        warning ("Unable to open %s: %s", url, e.message);
+      }
+      return;
+    }
+#endif
     Gdk.Display default_display = Gdk.Display.get_default();
     Gdk.Monitor current_monitor = default_display.get_monitor_at_window(window.get_window());
     Gdk.Rectangle workarea = current_monitor.get_workarea();
@@ -992,5 +1019,43 @@ namespace TweetUtils {
         message ("Media: %p", m);
       }
     }
+  }
+
+  public int rerun_filters (TweetListBox tweet_list, Account account) {
+    Cb.TweetModel tm = tweet_list.model;
+    // Count how many unseen tweets we've hidden
+    var hidden_unseen = 0;
+
+    for (uint i = 0; i < tm.get_n_items (); i ++) {
+      var tweet = (Cb.Tweet) tm.get_object (i);
+      if (account.filter_matches (tweet)) {
+        if (tm.set_tweet_flag (tweet, Cb.TweetState.HIDDEN_FILTERED)) {
+          i --;
+        }
+
+        if (!tweet.get_seen ()) {
+          hidden_unseen++;
+          tweet.set_seen (true);
+        }
+      } else {
+        if (tm.unset_tweet_flag (tweet, Cb.TweetState.HIDDEN_FILTERED)) {
+          i --;
+        }
+      }
+
+    }
+
+    // Same thing for invisible tweets...
+    for (uint i = 0; i < tm.hidden_tweets.length; i ++) {
+      var tweet =  tm.hidden_tweets.get (i);
+      if (tweet.is_flag_set (Cb.TweetState.HIDDEN_FILTERED)) {
+        if (!account.filter_matches (tweet)) {
+          tm.unset_tweet_flag (tweet, Cb.TweetState.HIDDEN_FILTERED);
+          i --;
+        }
+      }
+    }
+
+    return hidden_unseen;
   }
 }

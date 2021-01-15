@@ -34,9 +34,6 @@ public class Cawbird : Gtk.Application {
     {"show-window",       show_window,              "x"    },
     {"mark-read",         mark_read_activated,      "(xx)" },
     {"reply-to-tweet",    reply_to_tweet_activated, "(xx)" },
-#if DEBUG
-    {"post-json",         post_json,                "(ss)" },
-#endif
   };
 
 
@@ -480,8 +477,9 @@ public class Cawbird : Gtk.Application {
     }
 
     acc.init_proxy ();
-    acc.user_stream.start ();
-    acc.init_information.begin ();
+    acc.init_information.begin (() => {
+      acc.user_stream.start ();
+    });
 
     this.active_accounts.add (acc);
   }
@@ -580,22 +578,4 @@ public class Cawbird : Gtk.Application {
       main_window.present ();
     }
   }
-
-#if DEBUG
-  private void post_json (GLib.SimpleAction a, GLib.Variant? value) {
-    string screen_name = value.get_child_value (0).get_string ();
-    string json = value.get_child_value (1).get_string ();
-    json += "\r\n";
-
-    for (int i = 0; i < this.active_accounts.length; i ++) {
-      var acc = this.active_accounts.get (i);
-      if (acc.screen_name == screen_name) {
-        acc.user_stream.push_data (json);
-        return;
-      }
-    }
-
-    error ("Account @%s is not active.", screen_name);
-  }
-#endif
 }
