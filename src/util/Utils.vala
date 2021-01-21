@@ -661,4 +661,25 @@ namespace Utils {
       return false;
     }
   }
+
+  public string get_user_language() {
+    var langs = GLib.Intl.get_language_names();
+    var lang = langs[0];
+    // Remove any country information (e.g. en_GB → en)
+    var user_lang = lang.split("_", 2)[0];
+    if (user_lang.length < 2) {
+      // User probably had "C", so assume English
+      user_lang = "en";
+    }
+    return user_lang;
+  }
+
+  public string create_translate_url(Cb.Tweet tweet) {
+    return "translate-%s:%s".printf(tweet.get_language(), GLib.Markup.escape_text(tweet.get_real_text()));
+  }
+
+  public bool needs_translating (Cb.Tweet tweet) {
+    var tweet_language = tweet.get_language();
+    return tweet_language != null && tweet_language != get_user_language();
+  }
 }

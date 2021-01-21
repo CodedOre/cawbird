@@ -162,6 +162,8 @@ namespace Cb {
       public unowned string get_screen_name ();
       public unowned string get_user_name ();
 
+      public unowned string get_language ();
+
       public bool has_inline_media ();
       public bool has_quoted_inline_media ();
       public void load_from_json (Json.Node node, int64 account_id, GLib.DateTime now);
@@ -419,7 +421,7 @@ namespace Cb {
   [CCode (cprefix = "CbUserStream_", lower_case_cprefix = "cb_user_stream_", cheader_filename =
           "CbUserStream.h")]
   public class UserStream : GLib.Object {
-    public UserStream (string name, bool b);
+    public UserStream (string name, Rest.OAuthProxy proxy);
     public void register (MessageReceiver r);
     public void unregister (MessageReceiver r);
     public void push_data (string data);

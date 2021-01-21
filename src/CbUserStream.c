@@ -138,22 +138,6 @@ cb_user_stream_init (CbUserStream *self)
   self->receivers = g_ptr_array_new ();
   self->restarting = FALSE;
   self->state = STATE_STOPPED;
-
-  if (self->stresstest)
-    {
-      self->proxy = oauth_proxy_new ("Vf9torDW2ZOw32DfhUtI9csL8",
-                                     "18BEr1mdDH46cJhw5mUMwHe2TiBExOopEDxFbPzfJrlnFuvZJ2",
-                                     "https://api.twitter.com/",
-                                     FALSE);
-    }
-  else
-    {
-      /* TODO: We should be getting these from the settings */
-      self->proxy = oauth_proxy_new ("Vf9torDW2ZOw32DfhUtI9csL8",
-                                     "18BEr1mdDH46cJhw5mUMwHe2TiBExOopEDxFbPzfJrlnFuvZJ2",
-                                     "https://api.twitter.com/",
-                                     FALSE);
-    }
   self->proxy_data_set = FALSE;
 
   self->network_monitor = g_network_monitor_get_default ();
@@ -189,12 +173,11 @@ cb_user_stream_class_init (CbUserStreamClass *klass)
 }
 
 CbUserStream *
-cb_user_stream_new (const char *account_name,
-                    gboolean    stresstest)
+cb_user_stream_new (const char *account_name, OAuthProxy *proxy)
 {
   CbUserStream *self = CB_USER_STREAM (g_object_new (CB_TYPE_USER_STREAM, NULL));
   self->account_name = g_strdup (account_name);
-  self->stresstest = stresstest;
+  self->proxy = REST_PROXY(proxy);
 
   g_debug ("Creating stream for %s", account_name);
 
@@ -207,20 +190,18 @@ stream_tweet (CbUserStream *self,
               JsonNode            *node) {
   guint i;
 
-  if (message_type == CB_STREAM_MESSAGE_UNSUPPORTED) {
-    g_debug ("Skipped unsupported message on stream @%s\n", self->account_name);
-    return;
-  }
-
 #if DEBUG
-  g_print ("Message with type %d on stream @%s\n", message_type, self->account_name);
-
   JsonGenerator *gen = json_generator_new ();
   json_generator_set_root (gen, node);
   json_generator_set_pretty (gen, FALSE);
   gchar *json_dump = json_generator_to_data (gen, NULL);
-  g_print ("%s\n", json_dump);
+  g_debug ("Message with type %d on stream @%s: %s", message_type, self->account_name, json_dump);
 #endif
+
+  if (message_type == CB_STREAM_MESSAGE_UNSUPPORTED) {
+    g_debug ("Skipped unsupported message on stream @%s\n", self->account_name);
+    return;
+  }
 
   for (i = 0; i < self->receivers->len; i++) {
     cb_message_receiver_stream_message_received (g_ptr_array_index (self->receivers, i),
@@ -582,16 +563,6 @@ load_dm_tweets_done  (GObject *source_object,
       return;
     }
 
-#if DEBUG
-  g_print ("DMs on @%s\n", self->account_name);
-
-  JsonGenerator *gen = json_generator_new ();
-  json_generator_set_root (gen, root_node);
-  json_generator_set_pretty (gen, FALSE);
-  gchar *json_dump = json_generator_to_data (gen, NULL);
-  g_print ("%s\n", json_dump);
-#endif
-
   root_obj = json_node_get_object (root_node);
   root_arr = json_object_get_array_member(root_obj, "events");
   len = json_array_get_length (root_arr);
@@ -634,7 +605,7 @@ load_dm_tweets_done  (GObject *source_object,
         self->new_last_dm_id = id;
       }
     }
-    g_debug("New DM with type: %s", type);
+
     stream_tweet (self, message_type, node);
   }
 
@@ -748,8 +719,8 @@ cb_user_stream_set_proxy_data (CbUserStream *self,
                                const char   *token,
                                const char   *token_secret)
 {
-  oauth_proxy_set_token (OAUTH_PROXY (self->proxy), token);
-  oauth_proxy_set_token_secret (OAUTH_PROXY (self->proxy), token_secret);
+//  oauth_proxy_set_token (OAUTH_PROXY (self->proxy), token);
+//  oauth_proxy_set_token_secret (OAUTH_PROXY (self->proxy), token_secret);
 
   self->proxy_data_set = TRUE;
 }

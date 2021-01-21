@@ -924,6 +924,24 @@ namespace TweetUtils {
         return true;
       }
     }
+    else if (uri.has_prefix ("translate-")) {
+      var parts = uri.substring(10).split(":", 2);
+      var src_lang = parts[0];
+      if (src_lang == "und") {
+        src_lang = "auto";
+      }
+      var content = GLib.Uri.escape_string(parts[1]);
+      var target_lang = Utils.get_user_language();
+      var url = Settings.get_translation_service_url();
+      url = url.replace("{SOURCE_LANG}", src_lang).replace("{TARGET_LANG}", target_lang).replace("{CONTENT}", content);
+      try {
+        Gtk.show_uri_on_window(window, url, Gdk.CURRENT_TIME);
+        return true;
+      }
+      catch (Error e) {
+        Utils.show_error_dialog(e, window);
+      }
+    }
     return false;
   }
 

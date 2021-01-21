@@ -207,7 +207,13 @@ private class MediaButton : Gtk.Widget {
       ct.save ();
       ct.rectangle (0, 0, widget_width, widget_height);
       ct.scale (scale, scale);
-      double draw_y = -Math.floor(((_media.thumb_height * scale) - draw_height) / 2);
+      double draw_y;
+      if (draw_height <= widget_height) {
+        draw_y = widget_height - draw_height;
+      }
+      else {
+        draw_y = -Math.floor(((_media.thumb_height * scale) - draw_height) / 2);
+      }
       ct.set_source_surface (media.surface, draw_x / scale, draw_y / scale);
       ct.paint_with_alpha (this.media_alpha);
       ct.restore ();
@@ -243,9 +249,9 @@ private class MediaButton : Gtk.Widget {
 
       if (media.alt_text != null && media.alt_text != "") {
         Gtk.IconTheme icon_theme = Gtk.IconTheme.get_default();
-        int icon_size = 32;
+        int icon_size = 24;
         try {
-          Gdk.Pixbuf pixbuf = icon_theme.load_icon_for_scale ("info", icon_size, this.get_scale_factor(), Gtk.IconLookupFlags.USE_BUILTIN);
+          Gdk.Pixbuf pixbuf = icon_theme.load_icon_for_scale ("dialog-information", icon_size, this.get_scale_factor(), Gtk.IconLookupFlags.USE_BUILTIN);
           var icon = Gdk.cairo_surface_create_from_pixbuf (pixbuf, this.get_scale_factor(), null);
           ct.set_source_surface (icon, draw_x / scale, widget_height - icon_size * this.get_scale_factor());
           ct.paint();
@@ -476,7 +482,8 @@ private class MediaButton : Gtk.Widget {
     if (this.get_realized ()) {
       this.get_draw_size (out draw_width, out draw_height, out scale);
       int draw_x = (alloc.width / 2) - (draw_width / 2);
-      this.event_window.move_resize (alloc.x + draw_x,     alloc.y,
+      int draw_y = alloc.height - draw_height;
+      this.event_window.move_resize (alloc.x + draw_x, alloc.y + draw_y,
                                      draw_width, draw_height);
     }
   }

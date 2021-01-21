@@ -29,6 +29,7 @@ public class MultiMediaWidget : Gtk.Box {
   construct {
     this.orientation = Gtk.Orientation.HORIZONTAL;
     this.homogeneous = true;
+    this.spacing = 2;
   }
 
   public MultiMediaWidget () {
@@ -74,6 +75,7 @@ public class MultiMediaWidget : Gtk.Box {
     var button = new MediaButton (null, this.restrict_height);
     button.set_data ("pos", index);
     button.window = this.window;
+    button.valign = Gtk.Align.END;
     media_buttons[index] = button;
 
     if (media.loaded) {

@@ -217,8 +217,12 @@ public class TweetListEntry : Cb.TwitterItem, Gtk.ListBoxRow {
 
     var quote_action = new GLib.SimpleAction("quote", null);
     quote_action.activate.connect(quote_activated);
+    var translate_action = new GLib.SimpleAction("translate", null);
+    translate_action.activate.connect(translate_activated);
+    translate_action.set_enabled(Utils.needs_translating(tweet));
     var non_destructive_actions = new GLib.SimpleActionGroup ();
     non_destructive_actions.add_action (quote_action);
+    non_destructive_actions.add_action (translate_action);
     this.insert_action_group ("tweet", non_destructive_actions);
     var delete_action = new GLib.SimpleAction("delete", null);
     delete_action.activate.connect(delete_activated);
@@ -253,10 +257,12 @@ public class TweetListEntry : Cb.TwitterItem, Gtk.ListBoxRow {
     values_set = true;
 
     set_tweet_text();
+    set_tweet_text_scale();
     update_time_delta ();
 
     // TODO All these settings signal connections with lots of tweets could be costly...
     Settings.get ().changed["text-transform-flags"].connect (set_tweet_text);
+    Settings.get ().changed["tweet-scale"].connect (set_tweet_text_scale);
   }
 
   ~TweetListEntry () {
@@ -319,6 +325,21 @@ public class TweetListEntry : Cb.TwitterItem, Gtk.ListBoxRow {
         scroller.show();
       }
     }
+  }
+
+  private void set_tweet_text_scale () {
+    var scale = Settings.get_tweet_scale();
+    set_scale_attribute(text_label, scale);
+    if (tweet.quoted_tweet != null) {
+      set_scale_attribute(quote_label, scale);
+    }
+  }
+
+  private void set_scale_attribute (Gtk.Label label, double scale) {
+    var new_attribs = new Pango.AttrList();
+    var scale_attr = Pango.attr_scale_new(scale);
+    new_attribs.insert((owned)scale_attr);
+    label.set_attributes(new_attribs);
   }
 
   private void hide_nsfw_content_changed_cb () {
@@ -471,6 +492,13 @@ public class TweetListEntry : Cb.TwitterItem, Gtk.ListBoxRow {
 
     if (shows_actions)
       toggle_mode ();
+  }
+
+  private void translate_activated () {
+    TweetUtils.activate_link(Utils.create_translate_url(tweet), main_window);
+    if (shows_actions) {
+      toggle_mode ();
+    }
   }
 
   private void reply_tweet_activated () {

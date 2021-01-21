@@ -66,6 +66,10 @@ class TweetInfoPage : IPage, ScrollWidget, Cb.MessageReceiver {
   [GtkChild]
   private AvatarWidget avatar_image;
   [GtkChild]
+  private Gtk.Box translate_box;
+  [GtkChild]
+  private Gtk.Label translate_label;
+  [GtkChild]
   private Gtk.Label rt_label;
   [GtkChild]
   private Gtk.Image rt_image;
@@ -209,7 +213,10 @@ class TweetInfoPage : IPage, ScrollWidget, Cb.MessageReceiver {
     this.insert_action_group ("tweet", this.actions);
 
     Settings.get ().changed["media-visibility"].connect (media_visiblity_changed_cb);
+    Settings.get ().changed["tweet-scale"].connect (set_tweet_text_scale);
     this.mm_widget.visible = (Settings.get_media_visiblity () != MediaVisibility.HIDE);
+
+    set_tweet_text_scale();
   }
 
   private void scroll_past_top(Gtk.ScrolledWindow parent, Gtk.ListBox list_box, int over_scroll) {
@@ -297,6 +304,16 @@ class TweetInfoPage : IPage, ScrollWidget, Cb.MessageReceiver {
     }
 
     query_tweet_info ();
+  }
+
+  private void set_tweet_text_scale () {
+    // Use the larger of the old scale and the user's scale
+    // We don't multiply because 1.5 * XX-Large would be HUGE!
+    var scale = double.max(Settings.get_tweet_scale(), 1.5);
+    var new_attribs = new Pango.AttrList();
+    var scale_attr = Pango.attr_scale_new(scale);
+    new_attribs.insert((owned)scale_attr);
+    text_label.set_attributes(new_attribs);
   }
 
   private void load_user_avatar (string url) {
@@ -812,6 +829,21 @@ class TweetInfoPage : IPage, ScrollWidget, Cb.MessageReceiver {
     screen_name_label.tooltip_text = screen_name;
 
     load_user_avatar (tweet.avatar_url);
+
+    if (Utils.needs_translating(tweet)) {
+      translate_box.show();
+      var buff = new StringBuilder ();
+      buff.append ("<span underline='none'><a href=\"")
+          .append (Utils.create_translate_url(tweet))
+          .append ("\">")
+          // TRANSLATORS: Insert your *actual* language here instead of English - e.g. "Ins Deutsche übersetzen" or "Traduire en français"
+          .append (_("Translate to English"))
+          .append ("</a></span>");
+      translate_label.label = buff.str;
+    }
+    else {
+      translate_box.hide();
+    }
 
     if (tweet.retweeted_tweet != null) {
       rt_label.show ();
